@@ -1,88 +1,237 @@
-// micro animation douce des sections (respiration)
-const flowers = document.querySelectorAll('.step');
+@import url("https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Infant:wght@400;500;600&display=swap");
 
-flowers.forEach(step => {
-  step.animate(
-    [
-      { transform: "scale(1)" },
-      { transform: "scale(1.01)" },
-      { transform: "scale(1)" }
-    ],
-    {
-      duration: 8000,
-      iterations: Infinity
-    }
-  );
-});
-const stem = document.getElementById("plantStem");
-const leaves = document.querySelectorAll(".leaf");
-const waterBtn = document.getElementById("waterBtn");
-const plantMessage = document.getElementById("plantMessage");
+/* ===============================
+   BASE
+================================ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-let height = 40;
-let lastClick = 0;
+body {
+  background-color: #e7f0ea;
+  font-family: "Cormorant Infant", serif;
+  color: #2f3e34;
+  overflow-x: hidden;
+}
 
-waterBtn.addEventListener("click", () => {
-  const now = Date.now();
+/* ===============================
+   FEUILLAGE CONTOUR
+================================ */
+.leaf-frame {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+  opacity: 0.7;
+  z-index: 0;
+}
 
-  // clic trop rapide → message
-  if (now - lastClick < 1200) {
-    plantMessage.textContent =
-      "Ce n’est pas en forçant les choses que ça ira plus vite.";
-    return;
-  }
+/* ===============================
+   PAGE
+================================ */
+.care-page {
+  position: relative;
+  z-index: 2;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
-  lastClick = now;
+/* ===============================
+   TITRES
+================================ */
+.garden-title {
+  text-align: center;
+  margin-top: 120px;
+  margin-bottom: 60px;
+  padding: 0 20px;
+}
 
-  if (height >= 90) return;
+.signature-title {
+  font-family: "Great Vibes", cursive;
+  font-size: clamp(4rem, 8vw, 5.5rem);
+  color: #2f3e34;
+}
 
-  height += 6;
-  stem.style.height = height + "px";
+.signature-subtitle {
+  font-family: "Great Vibes", cursive;
+  font-size: clamp(2.2rem, 4vw, 3rem);
+  color: #4b6b57;
+}
 
-  // les feuilles grandissent avec la plante
-  leaves.forEach(leaf => {
-    leaf.style.top = height / 2 + "px";
-    leaf.style.transform = leaf.classList.contains("left")
-      ? "rotate(-20deg) scale(1)"
-      : "rotate(20deg) scale(1)";
-  }); plantMessage.textContent = "Tu peux prendre ton temps.";
-});
-const cloudBtn = document.getElementById("cloudBtn");
-const cloudInput = document.getElementById("cloudInput");
-const cloudArea = document.querySelector(".cloud-area");
+/* ===============================
+   INTRO
+================================ */
+.care-intro {
+  max-width: 720px;
+  text-align: center;
+  margin-bottom: 90px;
+  padding: 0 24px;
+}
 
-cloudBtn.addEventListener("click", () => {
-  const text = cloudInput.value.trim();
-  if (!text) return;
+.care-intro p {
+  font-size: 1.2rem;
+  line-height: 1.9;
+  opacity: 0.85;
+}
 
-  const cloud = document.createElement("div");
-  cloud.classList.add("cloud");
-  cloud.textContent = text;
-  cloudArea.appendChild(cloud);
-  cloudInput.value = "";
+/* ===============================
+   CARTES
+================================ */
+.care-cards {
+  width: 100%;
+  max-width: 900px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 26px;
+  padding: 0 24px 160px;
+  margin: 0 auto;
+}
 
-  // ✨ libérer la poudre d’étoiles
-  const sparkleInterval = setInterval(() => {
-    createStar(cloud);
-  }, 120);
+/* ===============================
+   CARTE
+================================ */
+.care-card {
+  background: rgba(255, 255, 255, 0.82);
+  border-radius: 22px;
+  padding: 26px 22px;
+  text-align: center;
+  cursor: pointer;
+  box-shadow: 0 10px 26px rgba(0,0,0,0.06);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
 
-  // arrêter les étoiles + supprimer le nuage
-  setTimeout(() => {
-    clearInterval(sparkleInterval);
-    cloud.remove();
-  }, 8000);
-});
+.care-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 32px rgba(0,0,0,0.08);
+}
 
-function createStar(cloud) {
-  const star = document.createElement("div");
-  star.classList.add("star");
+.care-card::before {
+  content: "❀";
+  display: block;
+  font-size: 2rem;
+  margin-bottom: 10px;
+  color: #7fa38c;
+}
 
-  const rect = cloud.getBoundingClientRect();
+.care-card h3 {
+  font-family: "Great Vibes", cursive;
+  font-size: 2rem;
+  color: #2f5d46;
+  margin-bottom: 6px;
+}
 
-  star.style.left = rect.left + Math.random() * rect.width + "px";
-  star.style.top = rect.top + rect.height * 0.6 + "px";
+.care-card p {
+  font-size: 1rem;
+  opacity: 0.85;
+}
 
-  document.body.appendChild(star);
+/* ===============================
+   MODE FOCUS
+   → on cache les cartes
+================================ */
+/* ===============================
+   MODE FOCUS — CORRIGÉ
+   (on cache visuellement, sans casser la page)
+================================ */
+.care-cards.focus-mode {
+  opacity: 0;
+  pointer-events: none;
+}
 
-  setTimeout(() => star.remove(), 2500);
+/* ===============================
+   DÉTAIL — LECTURE
+================================ */
+.care-detail {
+  width: 100%;
+  max-width: 900px;
+  padding: 40px 24px 120px;
+}
+
+.care-detail.hidden {
+  display: none;
+}
+
+.care-text {
+  max-width: 680px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.care-text h3 {
+  font-family: "Great Vibes", cursive;
+  font-size: 3rem;
+  margin-bottom: 30px;
+  color: #2f5d46;
+}
+
+.care-text p {
+  font-size: 1.2rem;
+  line-height: 2;
+  margin-bottom: 18px;
+}
+/* ===============================
+   FOOTER IMMOBILE (VRAI BAS DE PAGE)
+================================ */
+.garden-footer {
+  width: 100%;
+  padding: 60px 0 40px;
+  display: flex;
+  justify-content: center;
+}
+
+/* bouton accueil */
+.back-home {
+  font-family: "Great Vibes", cursive;
+  font-size: 1.6rem;
+  color: #2f5d46;
+  text-decoration: none;
+  opacity: 0.75;
+  transition: opacity 0.3s ease;
+}
+
+.back-home:hover {
+  opacity: 1;
+}
+/* ===============================
+   BOUTON "REVENIR DOUCEMENT"
+   Signature Safe Garden 🌿
+================================ */
+
+/* bouton caché par défaut */
+.soft-return {
+  display: none;
+
+  margin: 80px auto 40px; /* posé à la fin de la lecture */
+  background: transparent;
+  border: none;
+
+  font-family: "Great Vibes", cursive; /* 🔒 on ne touche PAS */
+  font-size: 2.2rem;
+  color: #4b6b57;
+
+  cursor: pointer;
+
+  opacity: 0.85;
+  letter-spacing: 0.04em;
+
+  transition:
+    opacity 0.4s ease,
+    transform 0.4s ease;
+}
+
+/* visible uniquement quand le JS ajoute .visible */
+.soft-return.visible {
+  display: block;
+}
+
+/* hover très doux, cohérent avec le jardin */
+.soft-return:hover {
+  opacity: 1;
+  transform: translateY(-2px);
 }
