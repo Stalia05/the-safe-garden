@@ -172,3 +172,280 @@ body {
 /* ===============================
    PAGE CONSEILS
 ================================ */
+// micro animation douce des sections (respiration)
+const flowers = document.querySelectorAll('.step');
+
+flowers.forEach(step => {
+  step.animate(
+    [
+      { transform: "scale(1)" },
+      { transform: "scale(1.01)" },
+      { transform: "scale(1)" }
+    ],
+    {
+      duration: 8000,
+      iterations: Infinity
+    }
+  );
+});
+const stem = document.getElementById("plantStem");
+const leaves = document.querySelectorAll(".leaf");
+const waterBtn = document.getElementById("waterBtn");
+const plantMessage = document.getElementById("plantMessage");
+
+let height = 40;
+let lastClick = 0;
+
+waterBtn.addEventListener("click", () => {
+  const now = Date.now();
+
+  // clic trop rapide → message
+  if (now - lastClick < 1200) {
+    plantMessage.textContent =
+      "Ce n’est pas en forçant les choses que ça ira plus vite.";
+    return;
+  }
+
+  lastClick = now;
+
+  if (height >= 90) return;
+
+  height += 6;
+  stem.style.height = height + "px";
+
+  // les feuilles grandissent avec la plante
+  leaves.forEach(leaf => {
+    leaf.style.top = height / 2 + "px";
+    leaf.style.transform = leaf.classList.contains("left")
+      ? "rotate(-20deg) scale(1)"
+      : "rotate(20deg) scale(1)";
+  }); plantMessage.textContent = "Tu peux prendre ton temps.";
+});
+const cloudBtn = document.getElementById("cloudBtn");
+const cloudInput = document.getElementById("cloudInput");
+const cloudArea = document.querySelector(".cloud-area");
+
+cloudBtn.addEventListener("click", () => {
+  const text = cloudInput.value.trim();
+  if (!text) return;
+
+  const cloud = document.createElement("div");
+  cloud.classList.add("cloud");
+  cloud.textContent = text;
+  cloudArea.appendChild(cloud);
+  cloudInput.value = "";
+
+  // ✨ libérer la poudre d’étoiles
+  const sparkleInterval = setInterval(() => {
+    createStar(cloud);
+  }, 120);
+
+  // arrêter les étoiles + supprimer le nuage
+  setTimeout(() => {
+    clearInterval(sparkleInterval);
+    cloud.remove();
+  }, 8000);
+});
+
+function createStar(cloud) {
+  const star = document.createElement("div");
+  star.classList.add("star");
+
+  const rect = cloud.getBoundingClientRect();
+
+  star.style.left = rect.left + Math.random() * rect.width + "px";
+  star.style.top = rect.top + rect.height * 0.6 + "px";
+
+  document.body.appendChild(star);
+
+  setTimeout(() => star.remove(), 2500);
+}
+/* ===============================
+   PAGE BILAN
+================================ */
+   @import url("https://fonts.googleapis.com/css2?family=Cormorant+Infant:wght@400;500;600&family=Great+Vibes&display=swap");
+
+/* =========================
+   RESET
+========================= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* =========================
+   BODY – FOND FINAL
+========================= */
+body {
+  font-family: "Cormorant Infant", serif;
+  min-height: 100vh;
+  line-height: 1.8;
+  color: #2f3e34;
+  overflow-x: hidden;
+
+  /* 🌿 VERT SAUGE SIGNATURE */
+  background-color: #e7f0ea;
+
+  /* 🌿 PLANTES EN FOND */
+  background-image:
+    url("https://i.ibb.co/XfGtSbqT/IMG-5402.png"), /* gauche */
+    url("https://i.ibb.co/YBYjvPSM/IMG-5401.png"); /* bas */
+
+  background-repeat:
+    no-repeat,
+    no-repeat;
+
+  /* 📍 POSITION */
+  background-position:
+    left center,
+    bottom center;
+
+  /* 🔑 ALLONGÉES, PAS ZOOMÉES */
+  background-size:
+    auto 100%,   /* gauche = toute la hauteur */
+    100% auto;   /* bas = toute la largeur */
+
+  /* 🌱 EFFET "JAILLISSEMENT" */
+  background-position:
+    -6vw center,  /* avance la plante gauche */
+    center 105%;  /* avance la plante bas */
+}
+
+/* =========================
+   CONTENEUR PRINCIPAL
+========================= */
+.garden {
+  position: relative;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 90px 20px 260px; /* espace pour la plante du bas */
+}
+
+/* =========================
+   TITRES
+========================= */
+.garden-title {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.signature-title {
+  font-family: "Great Vibes", cursive;
+  font-size: clamp(4rem, 8vw, 5.5rem);
+  font-weight: 400;
+  color: #2f3e34;
+  margin-bottom: 12px;
+  letter-spacing: 1px;
+}
+
+.signature-subtitle {
+  font-size: 22px;
+  font-weight: 500;
+  opacity: 0.75;
+}
+
+/* =========================
+   INTRO
+========================= */
+.intro {
+  text-align: center;
+  margin-bottom: 70px;
+}
+
+.intro-text {
+  font-size: 20px;
+  font-weight: 500;
+  opacity: 0.9;
+}
+
+/* =========================
+   QUIZ
+========================= */
+.quiz {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.question {
+  width: 100%;
+  text-align: center;
+}
+
+.question-text {
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 30px;
+}
+
+/* =========================
+   RÉPONSES
+========================= */
+.answers {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 40px;
+}
+
+.answers button {
+  background: rgba(255, 255, 255, 0.75);
+  border: none;
+  border-radius: 30px;
+  padding: 14px 22px;
+  font-family: "Cormorant Infant", serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: #2f3e34;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.answers button:hover {
+  background: rgba(255, 255, 255, 0.95);
+  transform: translateY(-2px);
+}
+
+/* =========================
+   BOUTON RETOUR
+========================= */
+.soft-back {
+  margin-top: 10px;
+  font-size: 15px;
+  font-weight: 500;
+  opacity: 0.7;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+  text-align: center;
+}
+
+.soft-back:hover {
+  opacity: 1;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+@media (max-width: 768px) {
+  body {
+    background-position:
+      -12vw center,
+      center 108%;
+    background-size:
+      auto 100%,
+      100% auto;
+  }
+
+  .signature-title {
+    font-size: clamp(3.2rem, 9vw, 4.5rem);
+  }
+
+  .question-text {
+    font-size: 20px;
+  }
+
+  .answers button {
+    font-size: 17px;
+  }
+}
