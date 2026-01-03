@@ -3,105 +3,100 @@ document.addEventListener("DOMContentLoaded", () => {
   const textarea = document.getElementById("chatInput");
   const button = document.getElementById("sendMessage");
   const envelope = document.getElementById("envelope");
-  const responsesZone = document.getElementById("chatResponses");
+  const responsesContainer = document.getElementById("chatResponses");
 
-  if (!textarea || !button || !envelope || !responsesZone) return;
-
-  /* ===============================
-     FILTRE GROSSES INSULTES
-  =============================== */
-  const forbiddenWords = [
-    "pute","salope","connard","connasse",
-    "fdp","enculé","fuck","bitch","asshole"
-  ];
-
-  function containsForbidden(text) {
-    return forbiddenWords.some(word =>
-      text.toLowerCase().includes(word)
-    );
-  }
+  if (!textarea || !button || !envelope || !responsesContainer) return;
 
   /* ===============================
-     RÉPONSES SELON L’HEURE
+     MESSAGES SELON L’HEURE
   =============================== */
-  function getResponses() {
+  function getTimeResponses() {
     const hour = new Date().getHours();
 
-    if (hour >= 22 || hour < 6) {
+    if (hour >= 5 && hour < 12) {
       return [
-        "La nuit rend les choses plus lourdes… merci de l’avoir déposé ici 🌙",
-        "Tu peux laisser ça ici avant de dormir.",
-        "Même la nuit, tu n’es pas seul·e."
+        "Tu peux commencer la journée doucement 🌱",
+        "Rien ne presse ce matin.",
+        "Ce que tu ressens a le droit d’exister dès maintenant."
       ];
     }
 
-    if (hour < 12) {
+    if (hour >= 12 && hour < 18) {
       return [
-        "Merci d’avoir commencé ta journée ici 🌿",
-        "Tu peux avancer doucement aujourd’hui."
+        "Tu peux faire une pause, même au milieu de la journée 🌿",
+        "Tu n’as pas besoin d’aller vite pour aller bien.",
+        "Déposer ici, c’est déjà prendre soin de toi."
       ];
     }
 
-    if (hour < 18) {
+    if (hour >= 18 && hour < 23) {
       return [
-        "Tu as bien fait de t’arrêter un instant.",
-        "Respirer ici compte."
+        "Ce soir, tu peux poser ce qui pèse 🌙",
+        "La journée peut s’arrêter ici.",
+        "Tu n’as rien à régler maintenant."
       ];
     }
 
     return [
-      "La journée a été longue… tu peux poser ça ici.",
-      "Tu peux ralentir maintenant."
+      "Il est tard… merci d’avoir déposé ici 🌌",
+      "Même la nuit, tu n’es pas seul·e.",
+      "Tu peux laisser ça ici et te reposer."
     ];
   }
 
-  function randomFrom(arr) {
-    return arr[Math.floor(Math.random() * arr.length)];
+  function randomFrom(array) {
+    return array[Math.floor(Math.random() * array.length)];
   }
 
   /* ===============================
-     ENVOI MESSAGE — RITUEL ✉️
+     ACTION : DÉPOSER
   =============================== */
   button.addEventListener("click", () => {
     const text = textarea.value.trim();
-    if (!text) return;
 
-    // ⛔ langage violent
+    if (text === "") {
+      showResponse("Tu peux écrire même un seul mot 🌱");
+      return;
+    }
+
     if (containsForbidden(text)) {
-      responsesZone.innerHTML =
-        `<p class="chat-response">Ici, on parle sans se faire violence 🤍</p>`;
+      showResponse("Ici, on parle sans se faire violence 🤍");
       textarea.value = "";
       return;
     }
 
-    // 📝 plier le texte
+    // ✉️ animation lettre
     textarea.classList.add("fold");
-
-    // ✉️ afficher enveloppe
     envelope.classList.remove("hidden");
 
-    // vider
-    textarea.value = "";
-
-    // 🌿 réponse douce
-    const reply = randomFrom(getResponses());
-
-    setTimeout(() => {
-      responsesZone.innerHTML =
-        `<p class="chat-response">${reply}</p>`;
-    }, 1000);
-
-    // ✉️ fermer enveloppe
     setTimeout(() => {
       envelope.classList.add("fold");
-    }, 1600);
+    }, 800);
 
-    // 🔁 reset complet
+    // message doux
     setTimeout(() => {
+      const responses = getTimeResponses();
+      showResponse(randomFrom(responses));
+
+      // reset visuel
       envelope.classList.add("hidden");
       envelope.classList.remove("fold");
       textarea.classList.remove("fold");
-    }, 2600);
+      textarea.value = "";
+    }, 1600);
   });
+
+  /* ===============================
+     AFFICHER MESSAGE
+  =============================== */
+  function showResponse(text) {
+    responsesContainer.innerHTML = "";
+
+    const p = document.createElement("p");
+    p.className = "chat-response";
+    p.textContent = text;
+
+    responsesContainer.appendChild(p);
+  }
 
 });
