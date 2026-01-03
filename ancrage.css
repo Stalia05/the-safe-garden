@@ -1,0 +1,169 @@
+@import url("https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Infant:wght@400;500;600&display=swap");
+
+/* ===============================
+   RESET
+================================ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ===============================
+   BODY — FOND SAUGE + IMAGE FIXE
+================================ */
+body {
+  min-height: 100vh;
+
+  /* vert sauge signature */
+  background-color: #e7f0ea;
+
+  /* image de fond FIXE */
+  background-image: url("https://i.postimg.cc/t4xH2qjY/IMG-5472.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center 60%;
+  background-attachment: fixed;
+
+  font-family: "Cormorant Infant", serif;
+  color: #2f3e34;
+  text-align: center;
+
+  overflow-x: hidden;
+}
+
+/* ===============================
+   BOUTON RETOUR (IMMOBILE)
+================================ */
+.back {
+  position: absolute ;
+  top: 12px;
+  left: 16px;
+
+  font-family: "Great Vibes", cursive;
+  font-size: 1.8rem;
+  color: #2f5d46;
+  text-decoration: none;
+
+  opacity: 0.9;
+  z-index: 20;
+  transition: opacity 0.3s ease;
+}
+
+.back:hover {
+  opacity: 1;
+}
+/* ===============================
+   TITRE SIGNATURE SAFE GARDEN
+================================ */
+.signature-title {
+  font-family: "Great Vibes", cursive;
+  font-size: clamp(3.6rem, 7vw, 4.6rem);
+  margin-bottom: 6px;
+  color: #2f3e34;
+  text-align: center;
+  z-index: 2;
+}
+
+/* titre de la page */
+.page-title {
+  font-family: "Great Vibes", cursive;
+  font-size: clamp(2.4rem, 4vw, 3rem);
+  margin-bottom: 20px;
+  color: #3f5f4a;
+  text-align: center;
+}
+/* ===============================
+   CONTENEUR PRINCIPAL
+================================ */
+.container {
+  max-width: 620px;
+  margin: 0 auto;
+  padding: 120px 24px 80px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ===============================
+   TITRES
+================================ */
+h1 {
+  font-family: "Great Vibes", cursive;
+  font-size: clamp(3.2rem, 6vw, 4.2rem);
+  margin-bottom: 10px;
+}
+
+.intro {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  opacity: 0.9;
+  margin-bottom: 40px;
+}
+
+/* ===============================
+   CARTES D’ANCRAGE
+================================ */
+.card {
+  width: 100%;
+  margin-bottom: 24px;
+  padding: 22px 20px;
+
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 22px;
+
+  box-shadow: 0 14px 32px rgba(0,0,0,0.08);
+}
+
+.card h3 {
+  font-size: 1.25rem;
+  margin-bottom: 14px;
+}
+
+/* ===============================
+   INPUTS
+================================ */
+input {
+  width: 100%;
+  padding: 12px 14px;
+  margin: 8px 0;
+
+  border-radius: 14px;
+  border: 1px solid #ddd;
+
+  font-size: 1rem;
+  font-family: "Cormorant Infant", serif;
+}
+
+/* ===============================
+   BOUTON VALIDER
+================================ */
+.btn {
+  margin-top: 20px;
+  padding: 14px 30px;
+
+  border-radius: 999px;
+  border: none;
+
+  background: #6f8b77;
+  color: white;
+
+  font-size: 1rem;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+
+.btn:hover {
+  opacity: 0.9;
+}
+
+/* ===============================
+   MESSAGE FINAL
+================================ */
+.message {
+  margin-top: 24px;
+  font-size: 1.1rem;
+  min-height: 32px;
+  opacity: 0.9;
+}
