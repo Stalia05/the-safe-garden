@@ -1,35 +1,135 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8">
-  <title>The Safe Garden</title>
-</head>
+/* ===============================
+   POLICES
+================================ */
+@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap');
 
-<body>
+/* ===============================
+   RESET
+================================ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-  <!-- Étoiles -->
-  <div class="star-field"></div>
+/* ===============================
+   BASE HTML / BODY
+================================ */
+html, body {
+  width: 100%;
+  height: 100%;
+}
 
-  <!-- PAGE DE GARDE -->
-  <main class="cover">
+body {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  background: #fbf8f3;
+  color: #2f2f2f;
+  overflow: hidden;
+  position: relative;
+}
 
-    <h1>The Safe Garden</h1>
+/* ===============================
+   ÉTOILES DOUCES (FOND)
+================================ */
+.star-field {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
 
-    <p class="cover-text">
-      Un espace pour ralentir.<br>
-      Pour déposer ce qui pèse.<br>
-      Même quand on ne sait pas encore mettre des mots.
-    </p>
+.star-field::before,
+.star-field::after {
+  content: "✦ ✦ ✦ ✦ ✦ ✦ ✦ ✦";
+  position: absolute;
+  top: -15%;
+  left: -10%;
+  width: 120%;
+  font-size: 14px;
+  letter-spacing: 90px;
+  color: rgba(201,162,77,0.18);
+  animation: starsFall 35s linear infinite;
+}
 
-    <p class="cover-whisper">
-      Ici, tu peux juste être là.
-    </p>
+.star-field::after {
+  font-size: 12px;
+  opacity: 0.12;
+  animation-duration: 50s;
+}
 
-    <a href="https://codepen.io/Stalia05/pen/XJKmaKR" class="enter-btn">
-      Entrer dans le jardin 🌿
-    </a>
+@keyframes starsFall {
+  to {
+    transform: translateY(130vh);
+  }
+}
 
-  </main>
+/* ===============================
+   PAGE DE GARDE
+================================ */
+.cover {
+  position: relative;
+  z-index: 1;
 
-</body>
-</html>
+  min-height: 100vh;
+  padding: 80px 20px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+/* ===============================
+   TITRE
+================================ */
+.cover h1 {
+  font-family: "Great Vibes", cursive;
+  font-size: clamp(4rem, 8vw, 5.6rem);
+  margin-bottom: 30px;
+  color: #2f5d46;
+}
+
+/* ===============================
+   TEXTE PRINCIPAL
+================================ */
+.cover-text {
+  max-width: 520px;
+  font-size: 1.1rem;
+  line-height: 1.7;
+  opacity: 0.85;
+  margin-bottom: 24px;
+}
+
+/* ===============================
+   PHRASE CHUCHOTÉE
+================================ */
+.cover-whisper {
+  font-size: 0.95rem;
+  font-style: italic;
+  opacity: 0.6;
+  margin-bottom: 50px;
+}
+
+/* ===============================
+   BOUTON ENTRÉE
+================================ */
+.enter-btn {
+  display: inline-block;
+  padding: 14px 38px;
+
+  border-radius: 999px;
+  background: linear-gradient(135deg, #6f8b77, #a9c3a6);
+
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 500;
+
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.enter-btn:hover {
+  transform: translateY(-2px) scale(1.04);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+}
