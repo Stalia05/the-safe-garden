@@ -1,0 +1,203 @@
+@import url("https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Infant:wght@400;500;600&display=swap");
+
+/* ===============================
+   RESET
+================================ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ===============================
+   BASE
+================================ */
+body {
+  min-height: 100vh;
+  font-family: "Cormorant Infant", serif;
+  color: #2f3e34;
+  background-color: #e7f0ea;
+  overflow-x: hidden;
+}
+
+/* ===============================
+   BACKGROUND CHAT 🌿
+================================ */
+.chat-background {
+  position: fixed;
+  inset: 0;
+
+  background-image: url("https://i.postimg.cc/9X1xMhY7/IMG-5494.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+
+  opacity: 0.75; /* lisible mais présent */
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* voile doux pour lisibilité */
+.chat-background::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(231, 240, 234, 0.65);
+}
+
+/* ===============================
+   CONTENEUR PRINCIPAL
+================================ */
+.chat-container {
+  position: relative;
+  z-index: 2;
+
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 120px 24px 80px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+/* ===============================
+   TITRES
+================================ */
+.chat-header {
+  margin-bottom: 60px;
+}
+
+.signature-title {
+  font-family: "Great Vibes", cursive;
+  font-size: clamp(3.8rem, 7vw, 5rem);
+  color: #2f5d46;
+  margin-bottom: 6px;
+}
+
+.signature-subtitle {
+  font-family: "Great Vibes", cursive;
+  font-size: clamp(2.2rem, 4vw, 3rem);
+  color: #4b7a60;
+  opacity: 0.9;
+}
+
+/* ===============================
+   INTRO & RÈGLES
+================================ */
+.chat-intro,
+.chat-rules {
+  max-width: 560px;
+  margin-bottom: 40px;
+}
+
+.chat-intro p,
+.chat-rules p {
+  font-size: 1.1rem;
+  line-height: 1.9;
+  opacity: 0.9;
+  margin-bottom: 18px;
+}
+
+/* ===============================
+   ZONE D’ÉCRITURE
+================================ */
+.chat-box {
+  width: 100%;
+  max-width: 520px;
+  margin-top: 30px;
+}
+
+.chat-box textarea {
+  width: 100%;
+  min-height: 140px;
+  padding: 18px 20px;
+
+  border-radius: 22px;
+  border: none;
+
+  font-family: "Cormorant Infant", serif;
+  font-size: 1.05rem;
+  line-height: 1.7;
+
+  background: rgba(255, 255, 255, 0.85);
+  box-shadow: 0 16px 36px rgba(0,0,0,0.08);
+
+  resize: none;
+  outline: none;
+}
+
+/* ===============================
+   BOUTON
+================================ */
+.chat-btn {
+  margin-top: 20px;
+  padding: 14px 32px;
+
+  border-radius: 999px;
+  border: none;
+
+  background: #6f9f88;
+  color: white;
+
+  font-family: "Cormorant Infant", serif;
+  font-size: 1rem;
+  cursor: pointer;
+
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.chat-btn:hover {
+  background: #5b8c74;
+  transform: translateY(-1px);
+}
+
+/* ===============================
+   MESSAGE DE RETOUR
+================================ */
+.chat-feedback {
+  margin-top: 24px;
+  font-size: 1.05rem;
+  min-height: 28px;
+  opacity: 0.85;
+}
+
+/* ===============================
+   FOOTER
+================================ */
+.chat-footer {
+  position: relative
+  z-index: 3;
+  text-align: center;
+  padding-bottom: 40px;
+}
+
+.back-home {
+  font-family: "Great Vibes", cursive;
+  font-size: 1.8rem;
+  color: #2f5d46;
+  text-decoration: none;
+  opacity: 0.8;
+}
+
+.back-home:hover {
+  opacity: 1;
+}
+
+/* ===============================
+   RESPONSIVE
+================================ */
+@media (max-width: 500px) {
+  .chat-container {
+    padding-top: 100px;
+  }
+
+  .signature-title {
+    font-size: 3.2rem;
+  }
+
+  .signature-subtitle {
+    font-size: 2.2rem;
+  }
+}
