@@ -227,3 +227,10 @@ body {
 .care-page section:first-of-type {
   margin-top: -80px;
 }
+/* ===============================
+   CORRECTION SCROLL
+   évite les gros espaces au clic
+================================ */
+.step {
+  scroll-margin-top: 180px;
+}
