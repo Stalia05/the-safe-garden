@@ -1,0 +1,100 @@
+@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap');
+
+:root {
+  --cream: #fbf8f3;
+  --sage: #6f8b77;
+  --sage-light: #a9c3a6;
+  --gold: #c9a24d;
+  --ink: #2f2f2f;
+}
+
+/* 🔑 BASE CORRIGÉE */
+body {
+  margin: 0;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  background: var(--cream);
+  color: var(--ink);
+  line-height: 1.7;
+}
+
+/* ⭐ ÉTOILES (NE BLOQUENT PLUS LE SCROLL) */
+.star-field {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.star-field::before,
+.star-field::after {
+  content: "✦ ✦ ✦ ✦ ✦ ✦ ✦ ✦";
+  position: absolute;
+  top: -10%;
+  left: -5%;
+  width: 110%;
+  color: rgba(201,162,77,0.18);
+  font-size: 13px;
+  letter-spacing: 90px;
+  animation: fall 30s linear infinite;
+}
+
+.star-field::after {
+  font-size: 11px;
+  opacity: 0.15;
+  animation-duration: 45s;
+}
+
+@keyframes fall {
+  to { transform: translateY(120vh); }
+}
+
+/* 🌿 PAGE DE GARDE — SCROLL FRIENDLY */
+.cover {
+  position: relative;
+  z-index: 1;
+  min-height: 100svh; /* 🔥 important */
+  padding: 80px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+/* TITRE */
+.cover h1 {
+  font-family: "Great Vibes", cursive;
+  font-size: clamp(4rem, 8vw, 5.5rem);
+  margin-bottom: 30px;
+}
+
+/* TEXTE */
+.cover-text {
+  max-width: 520px;
+  font-size: 1.1rem;
+  opacity: 0.85;
+  margin-bottom: 20px;
+}
+
+/* PHRASE DOUCE */
+.cover-whisper {
+  font-size: 0.95rem;
+  opacity: 0.6;
+  margin-bottom: 50px;
+  font-style: italic;
+}
+
+/* BOUTON */
+.enter-btn {
+  padding: 14px 36px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--sage), var(--sage-light));
+  color: white;
+  font-size: 1rem;
+  text-decoration: none;
+  transition: transform 0.3s ease;
+}
+
+.enter-btn:hover {
+  transform: scale(1.05);
+}
