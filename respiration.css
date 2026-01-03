@@ -1,0 +1,52 @@
+document.addEventListener("DOMContentLoaded", () => {
+
+  const circle = document.getElementById("circle");
+  const instruction = document.getElementById("instruction");
+  const startBtn = document.getElementById("start");
+
+  let isRunning = false;
+  let cycleInterval;
+  let totalTimer;
+
+  function startBreathing() {
+    if (isRunning) return;
+    isRunning = true;
+
+    startBtn.disabled = true;
+    startBtn.style.opacity = "0.6";
+
+    instruction.textContent = "Inspire doucement…";
+    circle.classList.add("expand");
+
+    // 🔁 cycle respiration (4s inspire / 4s expire)
+    cycleInterval = setInterval(() => {
+      if (circle.classList.contains("expand")) {
+        circle.classList.remove("expand");
+        instruction.textContent = "Expire lentement…";
+      } else {
+        circle.classList.add("expand");
+        instruction.textContent = "Inspire doucement…";
+      }
+    }, 4000);
+
+    // ⏱️ arrêt automatique après 30 secondes
+    totalTimer = setTimeout(stopBreathing, 30000);
+  }
+
+  function stopBreathing() {
+    clearInterval(cycleInterval);
+    clearTimeout(totalTimer);
+
+    circle.classList.remove("expand");
+    instruction.textContent = "C’est terminé. Tu peux rester encore un instant.";
+
+    startBtn.disabled = false;
+    startBtn.style.opacity = "1";
+    startBtn.textContent = "Recommencer";
+
+    isRunning = false;
+  }
+
+  startBtn.addEventListener("click", startBreathing);
+
+});
