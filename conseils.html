@@ -11,7 +11,7 @@
   <link rel="stylesheet" href="style.css">
 </head>
 
-<body class="page-conseils">
+<body>
 
   <!-- 🦋 PAPILLONS -->
   <img src="https://i.ibb.co/MkXd3nPM/IMG-5395.png" class="butterfly b1" alt="">
@@ -23,27 +23,31 @@
 
   <main class="garden">
 
-    <!-- TITRE -->
+    <!-- 🌿 TITRE -->
     <header class="garden-title">
       <h1>The Safe Garden</h1>
       <p>Un espace pour ralentir, comprendre, respirer.</p>
     </header>
 
-    <!-- INTRO -->
+    <!-- 🌱 INTRO -->
     <section class="step">
-      <p>Si tu es ici, ce n’est probablement pas par hasard.</p>
-      <p>Des mots pour comprendre ce qui se passe à l’intérieur.</p>
+      <p>
+        Si tu es ici, ce n’est probablement pas par hasard.<br>
+        Des mots pour comprendre ce qui se passe à l’intérieur.
+      </p>
     </section>
 
-    <!-- 🐱 CHAT -->
+    <!-- 🐱 EXPÉRIENCE CHAT -->
     <section class="experience-chat">
       <div class="chat-container visible">
         <img src="https://i.ibb.co/xqCqgGxS/IMG-5397.png" class="chat" alt="">
-        <div class="chat-bubble" id="chatBubble">Tu peux aller doucement…</div>
+        <div class="chat-bubble" id="chatBubble">
+          Tu peux aller doucement…
+        </div>
       </div>
     </section>
 
-    <!-- 🌱 PLANTE -->
+    <!-- 🌱 EXPÉRIENCE PLANTE -->
     <section class="experience-plant">
       <div class="plant-pot">
         <div class="plant-stem" id="plantStem">
@@ -56,19 +60,34 @@
       <p class="plant-message" id="plantMessage"></p>
     </section>
 
-    <!-- ☁️ NUAGE -->
+    <!-- ☁️ EXPÉRIENCE NUAGE -->
     <section class="experience-cloud">
-      <p class="cloud-intro">Tu peux déposer ici ce qui pèse.</p>
+      <p class="cloud-intro">
+        Tu peux déposer ici ce qui pèse.
+      </p>
 
-      <textarea id="cloudInput" class="cloud-input"></textarea>
-      <button id="cloudBtn" class="cloud-btn">Déposer</button>
+      <textarea
+        id="cloudInput"
+        class="cloud-input"
+        placeholder="Un mot, une pensée, une émotion…"
+      ></textarea>
+
+      <button id="cloudBtn" class="cloud-btn">
+        Déposer
+      </button>
 
       <div class="cloud-area"></div>
     </section>
 
   </main>
 
-  <!-- JS À LA FIN -->
+  <!-- 🌿 NAVIGATION BAS DE PAGE -->
+  <nav class="garden-nav">
+    <a href="accueil.html" class="nav-link left">← Retour à l’accueil</a>
+    <a href="bilan.html" class="nav-link right">Bilan personnalisé →</a>
+  </nav>
+
+  <!-- JS -->
   <script src="script.js"></script>
 
 </body>
