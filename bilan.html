@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>The Safe Garden – Bilan personnalisé</title>
+
+  <!-- 🌿 Polices signature -->
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Infant:wght@400;500;600&family=Playfair+Script&display=swap" rel="stylesheet">
+
+  <!-- 🎨 CSS du bilan -->
+  <link rel="stylesheet" href="bilan.css">
+</head>
+
+<body>
+
+  <!-- 🔙 RETOUR ACCUEIL -->
+  <a href="accueil.html" class="back-home">
+    ← Retour à l’accueil
+  </a>
+
+  <main class="garden">
+
+    <!-- 🌿 TITRE -->
+    <header class="garden-title">
+      <h1 class="signature-title">The Safe Garden</h1>
+      <h2 class="signature-subtitle">Le bilan personnalisé</h2>
+    </header>
+
+    <!-- 🌱 INTRODUCTION -->
+    <section class="intro">
+      <p class="intro-text">
+        Il n’y a pas de bonnes ou de mauvaises réponses.<br>
+        Réponds avec ce qui te ressemble aujourd’hui,<br>
+        pas avec ce que tu devrais ressentir.
+      </p>
+    </section>
+
+    <!-- 🌱 QUESTIONNAIRE -->
+    <section class="quiz">
+
+      <div class="question">
+        <p class="question-text" id="questionText"></p>
+        <div class="answers" id="answers"></div>
+      </div>
+
+      <button class="soft-back" id="backBtn" type="button">
+        ↺ Revenir doucement (tu as le droit de te tromper)
+      </button>
+
+    </section>
+
+  </main>
+
+  <!-- 🧠 JS du bilan -->
+  <script src="bilan.js"></script>
+
+</body>
+</html>
