@@ -7,12 +7,7 @@ const detailSection = document.getElementById("careDetail");
 const careText = document.getElementById("careText");
 const softReturnBtn = document.getElementById("softReturn");
 const backHomeBtn = document.querySelector(".back-home");
-/* ===============================
-   CORRECTION SCROLL — CONSEILS
-================================ */
-.step {
-  scroll-margin-top: 180px;
-}
+
 // ===============================
 // TEXTE TEST (SAFE)
 // ===============================
