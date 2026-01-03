@@ -17,48 +17,59 @@ document.addEventListener("touchmove", e => {
 document.addEventListener("DOMContentLoaded", () => {
 
   const canvas = document.getElementById("snakeGame");
-  if (!canvas) return;
+  const scoreEl = document.getElementById("snakeScore");
+  if (!canvas || !scoreEl) return;
 
   const ctx = canvas.getContext("2d");
 
   /* ===============================
-     RESPONSIVE CANVAS
+     CANVAS RECTANGULAIRE RESPONSIVE
   ================================ */
   function resizeCanvas() {
-    const size = Math.min(window.innerWidth * 0.92, 440);
-    canvas.width = size;
-    canvas.height = size;
+    const width = Math.min(window.innerWidth * 0.96, 520);
+    const height = Math.min(window.innerHeight * 0.55, 320);
+
+    canvas.width = width;
+    canvas.height = height;
   }
 
   resizeCanvas();
   window.addEventListener("resize", resizeCanvas);
 
   const tileSize = 20;
-  let tiles;
+  let tilesX, tilesY;
 
   /* ===============================
      ÉTAT DU JEU
   ================================ */
-  let snake;
-  let food;
-  let dx;
-  let dy;
+  let snake, food, dx, dy;
   let respirations = 0;
 
   function resetGame() {
-    tiles = Math.floor(canvas.width / tileSize);
-    snake = [{ x: Math.floor(tiles / 2), y: Math.floor(tiles / 2) }];
+    tilesX = Math.floor(canvas.width / tileSize);
+    tilesY = Math.floor(canvas.height / tileSize);
+
+    snake = [{
+      x: Math.floor(tilesX / 2),
+      y: Math.floor(tilesY / 2)
+    }];
+
     dx = 0;
     dy = 0;
-    food = randomFood();
     respirations = 0;
+    updateScore();
+    food = randomFood();
   }
 
   function randomFood() {
     return {
-      x: Math.floor(Math.random() * tiles),
-      y: Math.floor(Math.random() * tiles)
+      x: Math.floor(Math.random() * tilesX),
+      y: Math.floor(Math.random() * tilesY)
     };
+  }
+
+  function updateScore() {
+    scoreEl.textContent = `🌿 respirations : ${respirations}`;
   }
 
   resetGame();
@@ -82,12 +93,6 @@ document.addEventListener("DOMContentLoaded", () => {
     /* fond */
     ctx.fillStyle = "#e7f0ea";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-    /* score zen */
-    ctx.fillStyle = "#4b6b57";
-    ctx.font = "18px Cormorant Infant";
-    ctx.textAlign = "center";
-    ctx.fillText(`🌿 respirations : ${respirations}`, canvas.width / 2, 26);
 
     /* nourriture */
     ctx.fillStyle = "#c9a24d";
@@ -130,8 +135,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (head.x === food.x && head.y === food.y) {
       food = randomFood();
       respirations++;
+      updateScore();
 
-      // vibration douce 🌿
       if (navigator.vibrate) {
         navigator.vibrate(25);
       }
@@ -143,8 +148,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (
       head.x < 0 ||
       head.y < 0 ||
-      head.x >= tiles ||
-      head.y >= tiles ||
+      head.x >= tilesX ||
+      head.y >= tilesY ||
       snake.slice(1).some(p => p.x === head.x && p.y === head.y)
     ) {
       resetGame();
@@ -155,18 +160,10 @@ document.addEventListener("DOMContentLoaded", () => {
      CLAVIER
   ================================ */
   document.addEventListener("keydown", e => {
-    if (e.key === "ArrowUp" && dy === 0) {
-      dx = 0; dy = -1;
-    }
-    if (e.key === "ArrowDown" && dy === 0) {
-      dx = 0; dy = 1;
-    }
-    if (e.key === "ArrowLeft" && dx === 0) {
-      dx = -1; dy = 0;
-    }
-    if (e.key === "ArrowRight" && dx === 0) {
-      dx = 1; dy = 0;
-    }
+    if (e.key === "ArrowUp" && dy === 0) { dx = 0; dy = -1; }
+    if (e.key === "ArrowDown" && dy === 0) { dx = 0; dy = 1; }
+    if (e.key === "ArrowLeft" && dx === 0) { dx = -1; dy = 0; }
+    if (e.key === "ArrowRight" && dx === 0) { dx = 1; dy = 0; }
   });
 
   /* ===============================
@@ -198,5 +195,5 @@ document.addEventListener("DOMContentLoaded", () => {
   /* ===============================
      LANCEMENT
   ================================ */
-  setInterval(draw, 140);
+  setInterval(draw, 130);
 });
