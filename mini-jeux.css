@@ -165,7 +165,7 @@ p {
    FIXE — CENTRÉ — CALLIGRAPHIQUE
 ================================ */
 .back-home {
-  position: fixed;
+  position: absolute ;
   bottom: 26px;
   left: 50%;
   transform: translateX(-50%);
