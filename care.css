@@ -29,12 +29,7 @@ body {
   opacity: 0.7;
   z-index: 0;
 }
-/* ===============================
-   CORRECTION SCROLL — CONSEILS
-================================ */
-.step {
-  scroll-margin-top: 180px;
-}
+
 /* ===============================
    PAGE
 ================================ */
@@ -53,7 +48,7 @@ body {
 .garden-title {
   text-align: center;
   margin-top: 120px;
-  margin-bottom: 60px;
+  margin-bottom: 180px; /* ✅ RÉDUIT (avant trop grand) */
   padding: 0 20px;
 }
 
@@ -138,11 +133,6 @@ body {
 
 /* ===============================
    MODE FOCUS
-   → on cache les cartes
-================================ */
-/* ===============================
-   MODE FOCUS — CORRIGÉ
-   (on cache visuellement, sans casser la page)
 ================================ */
 .care-cards.focus-mode {
   opacity: 0;
@@ -180,8 +170,9 @@ body {
   line-height: 2;
   margin-bottom: 18px;
 }
+
 /* ===============================
-   FOOTER IMMOBILE (VRAI BAS DE PAGE)
+   FOOTER IMMOBILE
 ================================ */
 .garden-footer {
   width: 100%;
@@ -190,7 +181,6 @@ body {
   justify-content: center;
 }
 
-/* bouton accueil */
 .back-home {
   font-family: "Great Vibes", cursive;
   font-size: 1.6rem;
@@ -203,40 +193,37 @@ body {
 .back-home:hover {
   opacity: 1;
 }
+
 /* ===============================
    BOUTON "REVENIR DOUCEMENT"
-   Signature Safe Garden 🌿
 ================================ */
-
-/* bouton caché par défaut */
 .soft-return {
   display: none;
-
-  margin: 80px auto 40px; /* posé à la fin de la lecture */
+  margin: 80px auto 40px;
   background: transparent;
   border: none;
-
-  font-family: "Great Vibes", cursive; /* 🔒 on ne touche PAS */
+  font-family: "Great Vibes", cursive;
   font-size: 2.2rem;
   color: #4b6b57;
-
   cursor: pointer;
-
   opacity: 0.85;
   letter-spacing: 0.04em;
-
-  transition:
-    opacity 0.4s ease,
-    transform 0.4s ease;
+  transition: opacity 0.4s ease, transform 0.4s ease;
 }
 
-/* visible uniquement quand le JS ajoute .visible */
 .soft-return.visible {
   display: block;
 }
 
-/* hover très doux, cohérent avec le jardin */
 .soft-return:hover {
   opacity: 1;
   transform: translateY(-2px);
+}
+
+/* ===============================
+   🔑 CORRECTION DU GROS ESPACE
+   (SECTION QUI ARRIVE TROP BAS)
+================================ */
+.care-page section:first-of-type {
+  margin-top: -80px;
 }
