@@ -1,9 +1,9 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-  /* 🌸 respiration douce des sections */
-  const flowers = document.querySelectorAll('.step');
+  /* 🌸 RESPIRATION DOUCE DES SECTIONS */
+  const steps = document.querySelectorAll(".step");
 
-  flowers.forEach(step => {
+  steps.forEach(step => {
     step.animate(
       [
         { transform: "scale(1)" },
@@ -11,88 +11,77 @@ document.addEventListener("DOMContentLoaded", () => {
         { transform: "scale(1)" }
       ],
       {
-        duration: 8000,
+        duration: 9000,
         iterations: Infinity
       }
     );
   });
 
-  /* 🌱 PLANTE */
-  const stem = document.getElementById("plantStem");
-  const leaves = document.querySelectorAll(".leaf");
+  /* ===============================
+     🌱 PLANTE VIVANTE
+  =============================== */
+  const plant = document.querySelector(".plant");
   const waterBtn = document.getElementById("waterBtn");
   const plantMessage = document.getElementById("plantMessage");
 
-  let height = 40;
-  let lastClick = 0;
+  let level = 0;
+  let lastWater = 0;
 
-  if (waterBtn) {
+  const messages = {
+    0: "La graine a juste besoin de temps.",
+    1: "Quelque chose commence à pousser.",
+    2: "Les feuilles prennent leur place.",
+    3: "La plante fleurit 🌸"
+  };
+
+  if (waterBtn && plant) {
     waterBtn.addEventListener("click", () => {
       const now = Date.now();
 
-      if (now - lastClick < 1200) {
+      /* ⏳ anti-spam doux */
+      if (now - lastWater < 1200) {
         plantMessage.textContent =
-          "Ce n’est pas en forçant les choses que ça ira plus vite.";
+          "On n’arrose pas une plante en la pressant 🤍";
         return;
       }
 
-      lastClick = now;
+      lastWater = now;
 
-      if (height >= 90) return;
-
-      height += 6;
-      stem.style.height = height + "px";
-
-      leaves.forEach(leaf => {
-        leaf.style.top = height / 2 + "px";
-        leaf.style.transform = leaf.classList.contains("left")
-          ? "rotate(-20deg) scale(1)"
-          : "rotate(20deg) scale(1)";
-      });
-
-      plantMessage.textContent = "Tu peux prendre ton temps.";
+      /* 🌿 croissance */
+      if (level < 3) {
+        level++;
+        plant.className = `plant level-${level}`;
+        plantMessage.textContent = messages[level];
+      } else {
+        plantMessage.textContent =
+          "La plante est en fleurs. Tu peux juste l’observer.";
+      }
     });
   }
 
-  /* ☁️ NUAGE */
+  /* ===============================
+     ☁️ NUAGE – DÉPOSER
+  =============================== */
   const cloudBtn = document.getElementById("cloudBtn");
   const cloudInput = document.getElementById("cloudInput");
   const cloudArea = document.querySelector(".cloud-area");
 
-  if (cloudBtn) {
+  if (cloudBtn && cloudInput && cloudArea) {
     cloudBtn.addEventListener("click", () => {
       const text = cloudInput.value.trim();
       if (!text) return;
 
       const cloud = document.createElement("div");
-      cloud.classList.add("cloud");
+      cloud.className = "cloud";
       cloud.textContent = text;
+
       cloudArea.appendChild(cloud);
       cloudInput.value = "";
 
-      const sparkleInterval = setInterval(() => {
-        createStar(cloud);
-      }, 120);
-
       setTimeout(() => {
-        clearInterval(sparkleInterval);
         cloud.remove();
       }, 8000);
     });
-  }
-
-  function createStar(cloud) {
-    const star = document.createElement("div");
-    star.classList.add("star");
-
-    const rect = cloud.getBoundingClientRect();
-
-    star.style.left = rect.left + Math.random() * rect.width + "px";
-    star.style.top = rect.top + rect.height * 0.6 + "px";
-
-    document.body.appendChild(star);
-
-    setTimeout(() => star.remove(), 2500);
   }
 
 });
