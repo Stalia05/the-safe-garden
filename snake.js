@@ -1,37 +1,42 @@
 /* ===============================
-   SNAKE RÉTRO — SAFE GARDEN 🌿
-   Style Nokia 3310
+   BLOQUER LE SCROLL PENDANT LE JEU
 ================================ */
+window.addEventListener(
+  "keydown",
+  e => {
+    if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", " "].includes(e.key)) {
+      e.preventDefault();
+    }
+  },
+  { passive: false }
+);
 
+document.addEventListener(
+  "touchmove",
+  e => {
+    e.preventDefault();
+  },
+  { passive: false }
+);
+
+/* ===============================
+   SNAKE NOKIA 3310 🌿
+================================ */
 document.addEventListener("DOMContentLoaded", () => {
-
   const canvas = document.getElementById("snakeGame");
   const scoreEl = document.getElementById("snakeScore");
-  if (!canvas) return;
+  if (!canvas || !scoreEl) return;
 
   const ctx = canvas.getContext("2d");
 
   /* ===============================
-     BLOQUER LE SCROLL (ordi + mobile)
-  =============================== */
-  window.addEventListener("keydown", e => {
-    if (["ArrowUp","ArrowDown","ArrowLeft","ArrowRight"," "].includes(e.key)) {
-      e.preventDefault();
-    }
-  }, { passive: false });
-
-  canvas.addEventListener("touchmove", e => {
-    e.preventDefault();
-  }, { passive: false });
-
-  /* ===============================
-     CANVAS RÉTRO
-  =============================== */
+     CANVAS RESPONSIVE RECTANGLE
+  ================================ */
   const tileSize = 20;
 
   function resizeCanvas() {
-    const width = Math.min(window.innerWidth * 0.96, 520);
-    const height = Math.min(window.innerHeight * 0.6, 360);
+    const width = Math.min(window.innerWidth * 0.96, 560);
+    const height = Math.min(window.innerHeight * 0.55, 360);
 
     canvas.width = Math.floor(width / tileSize) * tileSize;
     canvas.height = Math.floor(height / tileSize) * tileSize;
@@ -40,18 +45,13 @@ document.addEventListener("DOMContentLoaded", () => {
   resizeCanvas();
   window.addEventListener("resize", resizeCanvas);
 
-  let tilesX = canvas.width / tileSize;
-  let tilesY = canvas.height / tileSize;
-
-  /* ===============================
-     ÉTAT DU JEU
-  =============================== */
-  let snake;
-  let food;
-  let dx;
-  let dy;
+  let tilesX, tilesY;
+  let snake, food, dx, dy;
   let respirations = 0;
 
+  /* ===============================
+     INIT / RESET
+  ================================ */
   function resetGame() {
     tilesX = canvas.width / tileSize;
     tilesY = canvas.height / tileSize;
@@ -63,7 +63,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     ];
 
-    dx = 1;
+    dx = 1; // démarre doucement
     dy = 0;
 
     respirations = 0;
@@ -79,33 +79,39 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function updateScore() {
-    if (scoreEl) {
-      scoreEl.textContent = `🌿 respirations : ${respirations}`;
-    }
+    scoreEl.textContent = `🌿 respirations : ${respirations}`;
   }
 
   resetGame();
 
   /* ===============================
-     DESSIN RÉTRO
-  =============================== */
+     DRAW
+  ================================ */
   function draw() {
-
-    /* fond écran Nokia */
+    /* fond */
     ctx.fillStyle = "#e7f0ea";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    /* pomme (carrée) */
-    ctx.fillStyle = "#6f9f88";
-    ctx.fillRect(
-      food.x * tileSize,
-      food.y * tileSize,
-      tileSize,
-      tileSize
-    );
+    /* 🍎 POMME ROUGE */
+    const cx = food.x * tileSize + tileSize / 2;
+    const cy = food.y * tileSize + tileSize / 2;
 
-    /* serpent (carré, brut) */
-    ctx.fillStyle = "#2f5d46";
+    // corps pomme
+    ctx.fillStyle = "#d84c4c";
+    ctx.beginPath();
+    ctx.arc(cx, cy, tileSize / 2.2, 0, Math.PI * 2);
+    ctx.fill();
+
+    // tige verte
+    ctx.strokeStyle = "#4b7a60";
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.moveTo(cx, cy - tileSize / 2.2);
+    ctx.lineTo(cx, cy - tileSize / 1.3);
+    ctx.stroke();
+
+    /* 🟩 SERPENT CARRÉ NOKIA */
+    ctx.fillStyle = "#6f9f88";
     snake.forEach(part => {
       ctx.fillRect(
         part.x * tileSize,
@@ -115,7 +121,7 @@ document.addEventListener("DOMContentLoaded", () => {
       );
     });
 
-    /* déplacement */
+    /* mouvement */
     const head = {
       x: snake[0].x + dx,
       y: snake[0].y + dy
@@ -125,14 +131,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
     /* manger */
     if (head.x === food.x && head.y === food.y) {
+      food = randomFood();
       respirations++;
       updateScore();
-      food = randomFood();
+
+      if (navigator.vibrate) {
+        navigator.vibrate(20);
+      }
     } else {
       snake.pop();
     }
 
-    /* collision = reset */
+    /* collision = reset zen */
     if (
       head.x < 0 ||
       head.y < 0 ||
@@ -145,18 +155,26 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* ===============================
-     CONTRÔLES CLAVIER
-  =============================== */
+     CLAVIER (ORDI)
+  ================================ */
   document.addEventListener("keydown", e => {
-    if (e.key === "ArrowUp" && dy === 0) { dx = 0; dy = -1; }
-    if (e.key === "ArrowDown" && dy === 0) { dx = 0; dy = 1; }
-    if (e.key === "ArrowLeft" && dx === 0) { dx = -1; dy = 0; }
-    if (e.key === "ArrowRight" && dx === 0) { dx = 1; dy = 0; }
+    if (e.key === "ArrowUp" && dy === 0) {
+      dx = 0; dy = -1;
+    }
+    if (e.key === "ArrowDown" && dy === 0) {
+      dx = 0; dy = 1;
+    }
+    if (e.key === "ArrowLeft" && dx === 0) {
+      dx = -1; dy = 0;
+    }
+    if (e.key === "ArrowRight" && dx === 0) {
+      dx = 1; dy = 0;
+    }
   });
 
   /* ===============================
-     CONTRÔLES TACTILES
-  =============================== */
+     TOUCH (MOBILE)
+  ================================ */
   let startX = 0;
   let startY = 0;
 
@@ -164,7 +182,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const t = e.touches[0];
     startX = t.clientX;
     startY = t.clientY;
-  });
+  }, { passive: true });
 
   canvas.addEventListener("touchend", e => {
     const t = e.changedTouches[0];
@@ -178,11 +196,10 @@ document.addEventListener("DOMContentLoaded", () => {
       if (dyT > 0 && dy === 0) { dx = 0; dy = 1; }
       if (dyT < 0 && dy === 0) { dx = 0; dy = -1; }
     }
-  });
+  }, { passive: true });
 
   /* ===============================
      LANCEMENT
-  =============================== */
-  setInterval(draw, 150); // vitesse rétro
+  ================================ */
+  setInterval(draw, 140); // vitesse douce 🌿
 });
-
