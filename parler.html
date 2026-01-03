@@ -2,45 +2,82 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>The Safe Garden – Parler</title>
+  <title>The Safe Garden — Parler</title>
 
-  <!-- Polices -->
+  <!-- Polices Safe Garden -->
   <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Infant:wght@400;500;600&display=swap" rel="stylesheet">
 
-  <!-- CSS -->
+  <!-- CSS DE LA PAGE -->
   <link rel="stylesheet" href="parler.css">
 </head>
 
 <body>
 
-  <!-- 🔙 RETOUR -->
-  <a href="accueil.html" class="back">
-    ← Retour au jardin
-  </a>
+  <!-- 🌿 BACKGROUND SIGNATURE -->
+  <div class="chat-background"></div>
 
-  <main class="parler-page">
+  <!-- 🌿 CONTENU PRINCIPAL -->
+  <main class="chat-container">
 
-    <!-- 🌿 TITRES -->
-    <header class="parler-header">
+    <!-- 🌸 TITRE -->
+    <header class="chat-header">
       <h1 class="signature-title">The Safe Garden</h1>
-      <h2 class="signature-subtitle">Parler</h2>
+      <h2 class="signature-subtitle">Parler, déposer, respirer</h2>
     </header>
 
-    <!-- 🐱 ESPACE DE PAROLE -->
-    <section class="parler-area">
-      <img
-        src="https://i.ibb.co/xqCqgGxS/IMG-5397.png"
-        alt="Chat apaisant"
-        class="parler-chat"
-        id="chat"
-      >
+    <!-- 🌱 TEXTE D’ACCUEIL -->
+    <section class="chat-intro">
+      <p>
+        Cet espace est là pour écrire.<br>
+        Pas pour expliquer.<br>
+        Pas pour convaincre.
+      </p>
 
-      <div class="parler-bubble" id="chatBubble">
-        Tu peux dire ce que tu veux.
-      </div>
+      <p>
+        Tu peux poser des mots ici,<br>
+        même s’ils sont flous,<br>
+        même s’ils ne sont pas finis.
+      </p>
+    </section>
+
+    <!-- 📜 RÈGLES DOUCES -->
+    <section class="chat-rules">
+      <p>
+        Ici, rien n’est jugé.<br>
+        Rien n’est analysé.<br>
+        Rien n’est corrigé.
+      </p>
+
+      <p>
+        Tu peux écrire lentement.<br>
+        Tu peux t’arrêter quand tu veux.
+      </p>
+    </section>
+
+    <!-- 💬 ZONE D’ÉCRITURE -->
+    <section class="chat-box">
+      <textarea
+        id="chatInput"
+        placeholder="Écris ici ce que tu veux déposer…"
+        rows="6"
+      ></textarea>
+
+      <button id="sendMessage" class="chat-btn">
+        Déposer 🌿
+      </button>
+
+      <!-- 🌿 MESSAGE DE RETOUR (JS) -->
+      <p id="chatFeedback" class="chat-feedback"></p>
     </section>
 
   </main>
+
+  <!-- 🌿 NAVIGATION -->
+  <footer class="chat-footer">
+    <a href="accueil.html" class="back-home">
+      ← Revenir à l’accueil
+    </a>
+  </footer>
 
   <!-- JS -->
   <script src="parler.js"></script>
