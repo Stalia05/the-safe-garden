@@ -2,16 +2,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const textarea = document.getElementById("chatInput");
   const button = document.getElementById("sendMessage");
-  const feedback = document.getElementById("chatFeedback");
+  const envelope = document.getElementById("envelope");
+  const responsesZone = document.getElementById("chatResponses");
 
-  if (!textarea || !button || !feedback) return;
+  if (!textarea || !button || !envelope || !responsesZone) return;
 
   /* ===============================
-     FILTRE INSULTES
+     FILTRE GROSSES INSULTES
   =============================== */
   const forbiddenWords = [
-    "pute","salope","connard","connasse","nique",
-    "fdp","enculé","fuck","bitch","asshole","suicide"
+    "pute","salope","connard","connasse",
+    "fdp","enculé","fuck","bitch","asshole"
   ];
 
   function containsForbidden(text) {
@@ -23,14 +24,14 @@ document.addEventListener("DOMContentLoaded", () => {
   /* ===============================
      RÉPONSES SELON L’HEURE
   =============================== */
-  function getResponsesByTime() {
+  function getResponses() {
     const hour = new Date().getHours();
 
     if (hour >= 22 || hour < 6) {
       return [
         "La nuit rend les choses plus lourdes… merci de l’avoir déposé ici 🌙",
         "Tu peux laisser ça ici avant de dormir.",
-        "Même la nuit, tu peux respirer ici."
+        "Même la nuit, tu n’es pas seul·e."
       ];
     }
 
@@ -54,54 +55,53 @@ document.addEventListener("DOMContentLoaded", () => {
     ];
   }
 
-  const gentleBase = [
-    "Merci de l’avoir déposé ici 🌿",
-    "Tu n’as rien à prouver.",
-    "Ce que tu ressens a sa place.",
-    "Je t’entends.",
-    "Tu peux rester un moment."
-  ];
-
   function randomFrom(arr) {
     return arr[Math.floor(Math.random() * arr.length)];
   }
 
   /* ===============================
-     ENVOI + ANIMATION
+     ENVOI MESSAGE — RITUEL ✉️
   =============================== */
   button.addEventListener("click", () => {
     const text = textarea.value.trim();
+    if (!text) return;
 
-    if (!text) {
-      feedback.textContent = "Tu peux écrire même un seul mot 🌱";
-      return;
-    }
-
+    // ⛔ langage violent
     if (containsForbidden(text)) {
-      feedback.textContent = "Ici, on se parle sans se faire violence 🤍";
+      responsesZone.innerHTML =
+        `<p class="chat-response">Ici, on parle sans se faire violence 🤍</p>`;
       textarea.value = "";
       return;
     }
 
-    // ✉️ animation pliage
+    // 📝 plier le texte
     textarea.classList.add("fold");
 
+    // ✉️ afficher enveloppe
+    envelope.classList.remove("hidden");
+
+    // vider
+    textarea.value = "";
+
+    // 🌿 réponse douce
+    const reply = randomFrom(getResponses());
+
     setTimeout(() => {
-      textarea.value = "";
+      responsesZone.innerHTML =
+        `<p class="chat-response">${reply}</p>`;
+    }, 1000);
+
+    // ✉️ fermer enveloppe
+    setTimeout(() => {
+      envelope.classList.add("fold");
+    }, 1600);
+
+    // 🔁 reset complet
+    setTimeout(() => {
+      envelope.classList.add("hidden");
+      envelope.classList.remove("fold");
       textarea.classList.remove("fold");
-    }, 700);
-
-    const responses = [...gentleBase, ...getResponsesByTime()];
-    feedback.textContent = randomFrom(responses);
-
-    // animation réponse
-    feedback.style.opacity = "0";
-    feedback.style.transform = "translateY(6px)";
-
-    setTimeout(() => {
-      feedback.style.opacity = "1";
-      feedback.style.transform = "translateY(0)";
-    }, 150);
+    }, 2600);
   });
 
 });
