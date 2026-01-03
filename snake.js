@@ -1,5 +1,5 @@
 /* ===============================
-   BLOQUER LE SCROLL (CLAVIER + MOBILE)
+   BLOQUER SCROLL (CLAVIER + MOBILE)
 ================================ */
 window.addEventListener("keydown", e => {
   if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", " "].includes(e.key)) {
@@ -12,7 +12,7 @@ document.addEventListener("touchmove", e => {
 }, { passive: false });
 
 /* ===============================
-   JEU SNAKE
+   SNAKE SAFE GARDEN 🌿
 ================================ */
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -22,13 +22,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const ctx = canvas.getContext("2d");
 
   /* ===============================
-     ADAPTATION RESPONSIVE
+     RESPONSIVE CANVAS
   ================================ */
   function resizeCanvas() {
-    const size = Math.min(
-      window.innerWidth * 0.92,
-      420
-    );
+    const size = Math.min(window.innerWidth * 0.92, 440);
     canvas.width = size;
     canvas.height = size;
   }
@@ -37,7 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
   window.addEventListener("resize", resizeCanvas);
 
   const tileSize = 20;
-  let tiles = Math.floor(canvas.width / tileSize);
+  let tiles;
 
   /* ===============================
      ÉTAT DU JEU
@@ -46,6 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let food;
   let dx;
   let dy;
+  let respirations = 0;
 
   function resetGame() {
     tiles = Math.floor(canvas.width / tileSize);
@@ -53,6 +51,7 @@ document.addEventListener("DOMContentLoaded", () => {
     dx = 0;
     dy = 0;
     food = randomFood();
+    respirations = 0;
   }
 
   function randomFood() {
@@ -67,11 +66,28 @@ document.addEventListener("DOMContentLoaded", () => {
   /* ===============================
      DESSIN
   ================================ */
+  function drawRoundedRect(x, y, size, radius) {
+    ctx.beginPath();
+    ctx.moveTo(x + radius, y);
+    ctx.arcTo(x + size, y, x + size, y + size, radius);
+    ctx.arcTo(x + size, y + size, x, y + size, radius);
+    ctx.arcTo(x, y + size, x, y, radius);
+    ctx.arcTo(x, y, x + size, y, radius);
+    ctx.closePath();
+    ctx.fill();
+  }
+
   function draw() {
 
     /* fond */
     ctx.fillStyle = "#e7f0ea";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    /* score zen */
+    ctx.fillStyle = "#4b6b57";
+    ctx.font = "18px Cormorant Infant";
+    ctx.textAlign = "center";
+    ctx.fillText(`🌿 respirations : ${respirations}`, canvas.width / 2, 26);
 
     /* nourriture */
     ctx.fillStyle = "#c9a24d";
@@ -85,14 +101,20 @@ document.addEventListener("DOMContentLoaded", () => {
     );
     ctx.fill();
 
-    /* serpent */
-    ctx.fillStyle = "#6f8b77";
+    /* serpent dégradé */
     snake.forEach((part, index) => {
-      ctx.fillRect(
+      const t = index / snake.length;
+      ctx.fillStyle = `rgb(
+        ${90 + t * 30},
+        ${140 + t * 30},
+        ${115 + t * 20}
+      )`;
+
+      drawRoundedRect(
         part.x * tileSize,
         part.y * tileSize,
         tileSize - 2,
-        tileSize - 2
+        8
       );
     });
 
@@ -107,11 +129,17 @@ document.addEventListener("DOMContentLoaded", () => {
     /* manger */
     if (head.x === food.x && head.y === food.y) {
       food = randomFood();
+      respirations++;
+
+      // vibration douce 🌿
+      if (navigator.vibrate) {
+        navigator.vibrate(25);
+      }
     } else {
       snake.pop();
     }
 
-    /* collision → reset doux */
+    /* collision → reset zen */
     if (
       head.x < 0 ||
       head.y < 0 ||
@@ -124,7 +152,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* ===============================
-     CLAVIER (ORDI)
+     CLAVIER
   ================================ */
   document.addEventListener("keydown", e => {
     if (e.key === "ArrowUp" && dy === 0) {
@@ -144,37 +172,31 @@ document.addEventListener("DOMContentLoaded", () => {
   /* ===============================
      TOUCH (MOBILE)
   ================================ */
-  let touchStartX = 0;
-  let touchStartY = 0;
+  let startX = 0;
+  let startY = 0;
 
   canvas.addEventListener("touchstart", e => {
     const t = e.touches[0];
-    touchStartX = t.clientX;
-    touchStartY = t.clientY;
+    startX = t.clientX;
+    startY = t.clientY;
   }, { passive: true });
 
   canvas.addEventListener("touchend", e => {
     const t = e.changedTouches[0];
-    const dxTouch = t.clientX - touchStartX;
-    const dyTouch = t.clientY - touchStartY;
+    const dxT = t.clientX - startX;
+    const dyT = t.clientY - startY;
 
-    if (Math.abs(dxTouch) > Math.abs(dyTouch)) {
-      if (dxTouch > 0 && dx === 0) {
-        dx = 1; dy = 0;
-      } else if (dxTouch < 0 && dx === 0) {
-        dx = -1; dy = 0;
-      }
+    if (Math.abs(dxT) > Math.abs(dyT)) {
+      if (dxT > 0 && dx === 0) { dx = 1; dy = 0; }
+      if (dxT < 0 && dx === 0) { dx = -1; dy = 0; }
     } else {
-      if (dyTouch > 0 && dy === 0) {
-        dx = 0; dy = 1;
-      } else if (dyTouch < 0 && dy === 0) {
-        dx = 0; dy = -1;
-      }
+      if (dyT > 0 && dy === 0) { dx = 0; dy = 1; }
+      if (dyT < 0 && dy === 0) { dx = 0; dy = -1; }
     }
   }, { passive: true });
 
   /* ===============================
      LANCEMENT
   ================================ */
-  setInterval(draw, 140); // vitesse douce 🌿
+  setInterval(draw, 140);
 });
