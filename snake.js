@@ -1,3 +1,11 @@
+// 🔒 Bloquer le scroll avec les flèches pendant le jeu
+window.addEventListener("keydown", function (e) {
+  const keys = ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"];
+
+  if (keys.includes(e.key)) {
+    e.preventDefault();
+  }
+});
 document.addEventListener("DOMContentLoaded", () => {
 
   /* ===============================
