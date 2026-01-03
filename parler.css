@@ -10,53 +10,47 @@
 }
 
 /* ===============================
-   BASE
+   BASE — FOND SAUGE
 ================================ */
 body {
   min-height: 100vh;
   font-family: "Cormorant Infant", serif;
   color: #2f3e34;
+  background-color: #e7f0ea; /* 🌿 base sauge */
   overflow-x: hidden;
+  position: relative;
 }
 
 /* ===============================
-   FOND VERT SAUGE (COUCHE 0)
+   IMAGE CHAT — AU MILIEU
+   (ENTIÈRE, NON COUPÉE)
 ================================ */
-.sauge-bg {
-  position: fixed;
-  inset: 0;
-  background-color: #e7f0ea;
-  z-index: 0;
-}
-
-/* ===============================
-   IMAGE CHAT — ENTIÈRE (COUCHE 1)
-================================ */
-.chat-illustration {
+.chat-background {
   position: fixed;
   inset: 0;
 
-  width: 100%;
-  height: 100%;
+  background-image: url("https://i.postimg.cc/9X1xMhY7/IMG-5494.png");
+  background-repeat: no-repeat;
 
-  object-fit: contain;        /* 🔑 GARDE TOUT LE CONTOUR */
-  object-position: center;
-
+  /* 🔑 LE POINT IMPORTANT */
+  background-size: contain;   /* garde toute l’image */
+  background-position: center;
+  
   z-index: 1;
   pointer-events: none;
-  opacity: 1;
 }
 
-/* voile doux pour lisibilité */
-.chat-illustration::after {
+/* voile sauge PAR-DESSUS l’image */
+.chat-background::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: rgba(231, 240, 234, 0.55);
+
+  background: rgba(231, 240, 234, 0.6);
 }
 
 /* ===============================
-   CONTENU PRINCIPAL (COUCHE 2)
+   CONTENU AU-DESSUS
 ================================ */
 .chat-container {
   position: relative;
@@ -111,7 +105,7 @@ body {
 }
 
 /* ===============================
-   NOTE CONFIDENTIALITÉ
+   NOTE
 ================================ */
 .chat-note {
   font-size: 0.95rem;
@@ -140,7 +134,7 @@ body {
   font-size: 1.05rem;
   line-height: 1.7;
 
-  background: rgba(255, 255, 255, 0.92);
+  background: rgba(255, 255, 255, 0.9);
   box-shadow: 0 18px 38px rgba(0,0,0,0.12);
 
   resize: none;
@@ -156,12 +150,11 @@ body {
 }
 
 /* ===============================
-   BOUTON DÉPOSER
+   BOUTON
 ================================ */
 .chat-btn {
   margin-top: 22px;
   padding: 14px 34px;
-
   border-radius: 999px;
   border: none;
 
@@ -181,7 +174,7 @@ body {
 }
 
 /* ===============================
-   ENVELOPPE ✉️ (STYLE RÉEL)
+   ENVELOPPE ✉️
 ================================ */
 .envelope {
   position: relative;
@@ -204,29 +197,26 @@ body {
 .envelope::before {
   content: "";
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: #e8e1d6;
+  inset: 0;
   clip-path: polygon(0 0, 100% 0, 50% 55%);
+  background: #e6ded2;
   z-index: 3;
 }
 
-/* petit emoji discret */
+/* emoji enveloppe */
 .envelope::after {
   content: "✉️";
   position: absolute;
   bottom: 10px;
   right: 14px;
   font-size: 1.2rem;
-  opacity: 0.35;
+  opacity: 0.4;
 }
 
 /* lettre */
 .letter {
   position: absolute;
-  inset: 14px;
+  inset: 12px;
   background: white;
   border-radius: 6px;
 
@@ -240,7 +230,7 @@ body {
 }
 
 /* ===============================
-   RÉPONSES SAFE GARDEN
+   RÉPONSES
 ================================ */
 .chat-responses {
   max-width: 520px;
@@ -280,14 +270,11 @@ body {
    ANIMATIONS
 ================================ */
 @keyframes letterIn {
-  to {
-    transform: translateY(0);
-  }
+  to { transform: translateY(0); }
 }
 
 @keyframes foldEnvelope {
   0% { transform: scale(1); opacity: 1; }
-  70% { transform: scale(0.95); }
   100% { transform: scale(0.9); opacity: 0; }
 }
 
@@ -309,9 +296,5 @@ body {
 
   .signature-subtitle {
     font-size: 2.1rem;
-  }
-
-  .chat-box textarea {
-    min-height: 130px;
   }
 }
