@@ -21,7 +21,9 @@ body {
 }
 
 /* ===============================
-   BACKGROUND CHAT 🌿
+   BACKGROUND JARDIN IMMERSIF 🌿
+   → PAS ZOOMÉ
+   → PLANTES AUX BORDS
 ================================ */
 .chat-background {
   position: fixed;
@@ -29,20 +31,28 @@ body {
 
   background-image: url("https://i.postimg.cc/9X1xMhY7/IMG-5494.png");
   background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
 
-  opacity: 0.75; /* lisible mais présent */
+  /* 🔑 CLÉ ICI */
+  background-size: 100% 100%; /* épouse l’écran */
+  background-position: center;
+  
   z-index: 0;
   pointer-events: none;
 }
 
-/* voile doux pour lisibilité */
+/* voile central pour lisibilité */
 .chat-background::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: rgba(231, 240, 234, 0.65);
+
+  background: radial-gradient(
+    circle at center,
+    rgba(231, 240, 234, 0.85) 0%,
+    rgba(231, 240, 234, 0.65) 45%,
+    rgba(231, 240, 234, 0.4) 70%,
+    rgba(231, 240, 234, 0.2) 100%
+  );
 }
 
 /* ===============================
@@ -52,9 +62,9 @@ body {
   position: relative;
   z-index: 2;
 
-  max-width: 700px;
+  max-width: 720px;
   margin: 0 auto;
-  padding: 120px 24px 80px;
+  padding: 120px 24px 90px;
 
   display: flex;
   flex-direction: column;
@@ -71,14 +81,14 @@ body {
 
 .signature-title {
   font-family: "Great Vibes", cursive;
-  font-size: clamp(3.8rem, 7vw, 5rem);
+  font-size: clamp(3.6rem, 7vw, 4.8rem);
   color: #2f5d46;
-  margin-bottom: 6px;
+  margin-bottom: 8px;
 }
 
 .signature-subtitle {
   font-family: "Great Vibes", cursive;
-  font-size: clamp(2.2rem, 4vw, 3rem);
+  font-size: clamp(2.1rem, 4vw, 2.8rem);
   color: #4b7a60;
   opacity: 0.9;
 }
@@ -101,39 +111,48 @@ body {
 }
 
 /* ===============================
+   NOTE CONFIDENTIALITÉ
+================================ */
+.chat-note {
+  font-size: 0.95rem;
+  opacity: 0.7;
+  margin-bottom: 30px;
+}
+
+/* ===============================
    ZONE D’ÉCRITURE
 ================================ */
 .chat-box {
   width: 100%;
   max-width: 520px;
-  margin-top: 30px;
+  margin-top: 20px;
 }
 
 .chat-box textarea {
   width: 100%;
-  min-height: 140px;
+  min-height: 150px;
   padding: 18px 20px;
 
-  border-radius: 22px;
+  border-radius: 24px;
   border: none;
 
   font-family: "Cormorant Infant", serif;
   font-size: 1.05rem;
   line-height: 1.7;
 
-  background: rgba(255, 255, 255, 0.85);
-  box-shadow: 0 16px 36px rgba(0,0,0,0.08);
+  background: rgba(255, 255, 255, 0.88);
+  box-shadow: 0 18px 38px rgba(0,0,0,0.12);
 
   resize: none;
   outline: none;
 }
 
 /* ===============================
-   BOUTON
+   BOUTON DÉPOSER 🌿
 ================================ */
 .chat-btn {
-  margin-top: 20px;
-  padding: 14px 32px;
+  margin-top: 22px;
+  padding: 14px 34px;
 
   border-radius: 999px;
   border: none;
@@ -154,20 +173,70 @@ body {
 }
 
 /* ===============================
-   MESSAGE DE RETOUR
+   FEEDBACK TEXTE
 ================================ */
 .chat-feedback {
-  margin-top: 24px;
+  margin-top: 26px;
   font-size: 1.05rem;
   min-height: 28px;
   opacity: 0.85;
 }
 
 /* ===============================
+   ENVELOPPE ✉️
+================================ */
+.envelope {
+  position: relative;
+  width: 220px;
+  height: 140px;
+  margin: 60px auto 10px;
+
+  background: #f6f3ee;
+  border-radius: 14px;
+
+  box-shadow: 0 18px 40px rgba(0,0,0,0.18);
+  overflow: hidden;
+}
+
+.envelope.hidden {
+  display: none;
+}
+
+/* lettre */
+.letter {
+  position: absolute;
+  inset: 0;
+  background: white;
+
+  transform: translateY(100%);
+  animation: letterIn 1.2s ease forwards;
+}
+
+/* fermeture */
+.envelope.fold {
+  animation: foldEnvelope 1.2s ease forwards;
+}
+
+/* ===============================
+   RÉPONSES SAFE GARDEN
+================================ */
+.chat-responses {
+  max-width: 520px;
+  margin-top: 30px;
+}
+
+.chat-response {
+  font-size: 1.15rem;
+  line-height: 1.9;
+  opacity: 0;
+  animation: fadeIn 1.2s ease forwards;
+}
+
+/* ===============================
    FOOTER
 ================================ */
 .chat-footer {
-  position: relative
+  position: relative;
   z-index: 3;
   text-align: center;
   padding-bottom: 40px;
@@ -186,6 +255,35 @@ body {
 }
 
 /* ===============================
+   ANIMATIONS
+================================ */
+@keyframes letterIn {
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes foldEnvelope {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  70% {
+    transform: scale(0.95);
+  }
+  100% {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+/* ===============================
    RESPONSIVE
 ================================ */
 @media (max-width: 500px) {
@@ -194,10 +292,14 @@ body {
   }
 
   .signature-title {
-    font-size: 3.2rem;
+    font-size: 3.1rem;
   }
 
   .signature-subtitle {
-    font-size: 2.2rem;
+    font-size: 2.1rem;
+  }
+
+  .chat-box textarea {
+    min-height: 130px;
   }
 }
