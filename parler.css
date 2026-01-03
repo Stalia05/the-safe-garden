@@ -21,9 +21,8 @@ body {
 }
 
 /* ===============================
-   BACKGROUND JARDIN IMMERSIF 🌿
-   → PAS ZOOMÉ
-   → PLANTES AUX BORDS
+   BACKGROUND JARDIN 🌿
+   image entière + voile vert sauge
 ================================ */
 .chat-background {
   position: fixed;
@@ -31,28 +30,18 @@ body {
 
   background-image: url("https://i.postimg.cc/9X1xMhY7/IMG-5494.png");
   background-repeat: no-repeat;
-
-  /* 🔑 CLÉ ICI */
-  background-size: 100% 100%; /* épouse l’écran */
   background-position: center;
-  
+  background-size: cover;
+
   z-index: 0;
   pointer-events: none;
 }
 
-/* voile central pour lisibilité */
 .chat-background::after {
   content: "";
   position: absolute;
   inset: 0;
-
-  background: radial-gradient(
-    circle at center,
-    rgba(231, 240, 234, 0.85) 0%,
-    rgba(231, 240, 234, 0.65) 45%,
-    rgba(231, 240, 234, 0.4) 70%,
-    rgba(231, 240, 234, 0.2) 100%
-  );
+  background: rgba(231, 240, 234, 0.72);
 }
 
 /* ===============================
@@ -140,11 +129,19 @@ body {
   font-size: 1.05rem;
   line-height: 1.7;
 
-  background: rgba(255, 255, 255, 0.88);
+  background: rgba(255, 255, 255, 0.9);
   box-shadow: 0 18px 38px rgba(0,0,0,0.12);
 
   resize: none;
   outline: none;
+
+  transform-origin: top;
+  transition: transform 0.6s ease, opacity 0.5s ease;
+}
+
+.chat-box textarea.fold {
+  transform: scaleY(0);
+  opacity: 0;
 }
 
 /* ===============================
@@ -173,28 +170,18 @@ body {
 }
 
 /* ===============================
-   FEEDBACK TEXTE
-================================ */
-.chat-feedback {
-  margin-top: 26px;
-  font-size: 1.05rem;
-  min-height: 28px;
-  opacity: 0.85;
-}
-
-/* ===============================
    ENVELOPPE ✉️
 ================================ */
 .envelope {
   position: relative;
-  width: 220px;
-  height: 140px;
+  width: 240px;
+  height: 160px;
   margin: 60px auto 10px;
 
-  background: #f6f3ee;
+  background: #fdfaf5;
   border-radius: 14px;
 
-  box-shadow: 0 18px 40px rgba(0,0,0,0.18);
+  box-shadow: 0 20px 45px rgba(0,0,0,0.18);
   overflow: hidden;
 }
 
@@ -202,13 +189,38 @@ body {
   display: none;
 }
 
+/* rabat */
+.envelope::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom right,
+    transparent 50%,
+    #e8e1d6 50%
+  );
+  clip-path: polygon(0 0, 100% 0, 50% 55%);
+  z-index: 3;
+}
+
+/* emoji enveloppe */
+.envelope::after {
+  content: "✉️";
+  position: absolute;
+  bottom: 10px;
+  right: 14px;
+  font-size: 1.2rem;
+  opacity: 0.4;
+}
+
 /* lettre */
 .letter {
   position: absolute;
-  inset: 0;
+  inset: 12px;
   background: white;
+  border-radius: 6px;
 
-  transform: translateY(100%);
+  transform: translateY(120%);
   animation: letterIn 1.2s ease forwards;
 }
 
@@ -302,19 +314,4 @@ body {
   .chat-box textarea {
     min-height: 130px;
   }
-}
-/* ===============================
-   ANIMATION "LETTRE QUI SE PLIE"
-================================ */
-
-.chat-box textarea {
-  transform-origin: top;
-  transition:
-    transform 0.6s ease,
-    opacity 0.5s ease;
-}
-
-.chat-box textarea.fold {
-  transform: scaleY(0);
-  opacity: 0;
 }
