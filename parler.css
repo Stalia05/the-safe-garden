@@ -303,3 +303,18 @@ body {
     min-height: 130px;
   }
 }
+/* ===============================
+   ANIMATION "LETTRE QUI SE PLIE"
+================================ */
+
+.chat-box textarea {
+  transform-origin: top;
+  transition:
+    transform 0.6s ease,
+    opacity 0.5s ease;
+}
+
+.chat-box textarea.fold {
+  transform: scaleY(0);
+  opacity: 0;
+}
