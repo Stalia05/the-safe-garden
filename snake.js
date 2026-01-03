@@ -1,47 +1,67 @@
 /* ===============================
-   SNAKE SAFE GARDEN 🌿
+   🔒 BLOQUER SCROLL (CLAVIER + MOBILE)
+================================ */
+window.addEventListener("keydown", e => {
+  if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", " "].includes(e.key)) {
+    e.preventDefault();
+  }
+}, { passive: false });
+
+document.addEventListener("touchmove", e => {
+  e.preventDefault();
+}, { passive: false });
+
+/* ===============================
+   🐍 SNAKE SAFE GARDEN 🌿
 ================================ */
 document.addEventListener("DOMContentLoaded", () => {
 
   const canvas = document.getElementById("snakeGame");
   const scoreEl = document.getElementById("snakeScore");
-  if (!canvas || !scoreEl) return;
+
+  if (!canvas || !scoreEl) {
+    console.error("Canvas ou score introuvable");
+    return;
+  }
 
   const ctx = canvas.getContext("2d");
 
   /* ===============================
-     CANVAS RECTANGULAIRE RESPONSIVE
+     🎨 PARAMÈTRES
+  ================================ */
+  const tileSize = 20;
+  const speed = 140;
+
+  let tilesX, tilesY;
+  let snake, food, dx, dy;
+  let respirations = 0;
+
+  /* ===============================
+     📐 CANVAS RESPONSIVE RECTANGULAIRE
   ================================ */
   function resizeCanvas() {
-    const width = Math.min(window.innerWidth * 0.96, 560);
-    const height = Math.min(window.innerHeight * 0.55, 360);
+    const width = Math.min(window.innerWidth * 0.96, 720);
+    const height = Math.min(window.innerHeight * 0.55, 380);
 
-    canvas.width = Math.floor(width / 20) * 20;
-    canvas.height = Math.floor(height / 20) * 20;
+    canvas.width = Math.floor(width / tileSize) * tileSize;
+    canvas.height = Math.floor(height / tileSize) * tileSize;
+
+    tilesX = canvas.width / tileSize;
+    tilesY = canvas.height / tileSize;
   }
 
   resizeCanvas();
   window.addEventListener("resize", resizeCanvas);
 
-  const tileSize = 20;
-  let tilesX, tilesY;
-
   /* ===============================
-     ÉTAT DU JEU
+     🔄 RESET DOUX
   ================================ */
-  let snake, food, dx, dy;
-  let respirations = 0;
-
   function resetGame() {
-    tilesX = canvas.width / tileSize;
-    tilesY = canvas.height / tileSize;
-
     snake = [{
       x: Math.floor(tilesX / 2),
       y: Math.floor(tilesY / 2)
     }];
 
-    // 🌿 direction douce par défaut
     dx = 1;
     dy = 0;
 
@@ -64,7 +84,7 @@ document.addEventListener("DOMContentLoaded", () => {
   resetGame();
 
   /* ===============================
-     DESSIN
+     🎨 DESSINS
   ================================ */
   function drawRoundedRect(x, y, size, radius) {
     ctx.beginPath();
@@ -78,6 +98,8 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function draw() {
+
+    /* fond */
     ctx.fillStyle = "#e7f0ea";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -93,10 +115,14 @@ document.addEventListener("DOMContentLoaded", () => {
     );
     ctx.fill();
 
-    /* serpent */
+    /* serpent (dégradé doux) */
     snake.forEach((part, index) => {
       const t = index / snake.length;
-      ctx.fillStyle = `rgb(${90 + t * 30}, ${140 + t * 30}, ${115 + t * 20})`;
+      ctx.fillStyle = `rgb(
+        ${90 + t * 30},
+        ${140 + t * 30},
+        ${115 + t * 20}
+      )`;
 
       drawRoundedRect(
         part.x * tileSize,
@@ -106,6 +132,7 @@ document.addEventListener("DOMContentLoaded", () => {
       );
     });
 
+    /* mouvement */
     const head = {
       x: snake[0].x + dx,
       y: snake[0].y + dy
@@ -113,15 +140,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
     snake.unshift(head);
 
+    /* manger */
     if (head.x === food.x && head.y === food.y) {
       food = randomFood();
       respirations++;
       updateScore();
-      navigator.vibrate?.(20);
+
+      // 🫧 vibration douce
+      if (navigator.vibrate) {
+        navigator.vibrate(20);
+      }
     } else {
       snake.pop();
     }
 
+    /* collision → reset zen */
     if (
       head.x < 0 ||
       head.y < 0 ||
@@ -134,7 +167,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* ===============================
-     CLAVIER
+     ⌨️ CLAVIER
   ================================ */
   document.addEventListener("keydown", e => {
     if (e.key === "ArrowUp" && dy === 0) { dx = 0; dy = -1; }
@@ -144,7 +177,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   /* ===============================
-     TOUCH (MOBILE)
+     📱 TOUCH (MOBILE)
   ================================ */
   let startX = 0;
   let startY = 0;
@@ -170,7 +203,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }, { passive: true });
 
   /* ===============================
-     LANCEMENT
+     🚀 LANCEMENT
   ================================ */
-  setInterval(draw, 140);
+  setInterval(draw, speed);
 });
