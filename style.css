@@ -1,5 +1,18 @@
+@import url("https://fonts.googleapis.com/css2?family=Great+Vibes&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap");
+
 /* ===============================
-   RESET
+   VARIABLES SAFE GARDEN
+================================ */
+:root {
+  --cream: #fbf8f3;
+  --sage: #6f8b77;
+  --sage-light: #a9c3a6;
+  --gold: #c9a24d;
+  --ink: #2f2f2f;
+}
+
+/* ===============================
+   RESET LÉGER
 ================================ */
 * {
   margin: 0;
@@ -8,106 +21,125 @@
 }
 
 /* ===============================
-   BLOQUER SCROLL PAGE SNAKE
+   BASE — SCROLL AUTORISÉ
 ================================ */
-html, body {
-  width: 100%;
-  height: 100%;
-  overflow: hidden; /* 🔑 PLUS DE SCROLL */
-}
-
-/* ===============================
-   BASE
-================================ */
+html,
 body {
-  font-family: "Cormorant Infant", serif;
-  background: #e7f0ea;
-  color: #2f3e34;
+  width: 100%;
+}
+
+body {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  background: var(--cream);
+  color: var(--ink);
+  line-height: 1.7;
+  overflow-x: hidden; /* ok */
+  /* ⚠️ PAS DE overflow: hidden ICI */
 }
 
 /* ===============================
-   BOUTON RETOUR
+   ⭐ ÉTOILES DOUCES (FOND)
+   → N’EMPÊCHENT PAS LE SCROLL
 ================================ */
-.back-mini-games {
+.star-field {
   position: fixed;
-  top: 16px;
-  left: 16px;
-  font-family: "Great Vibes", cursive;
-  font-size: 1.8rem;
-  color: #2f5d46;
-  text-decoration: none;
-  z-index: 100;
-  opacity: 0.85;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.star-field::before,
+.star-field::after {
+  content: "✦ ✦ ✦ ✦ ✦ ✦ ✦ ✦";
+  position: absolute;
+  top: -10%;
+  left: -5%;
+  width: 110%;
+  font-size: 13px;
+  letter-spacing: 90px;
+  color: rgba(201, 162, 77, 0.18);
+  animation: starsFall 30s linear infinite;
+}
+
+.star-field::after {
+  font-size: 11px;
+  opacity: 0.15;
+  animation-duration: 45s;
+}
+
+@keyframes starsFall {
+  to {
+    transform: translateY(120vh);
+  }
 }
 
 /* ===============================
-   PAGE SNAKE
+   🌿 PAGE DE GARDE (accueil.html)
 ================================ */
-.snake-page {
-  height: 100vh;
+.cover {
+  position: relative;
+  z-index: 1;
+
+  min-height: 100svh; /* 🔑 mobile safe */
+  padding: 80px 20px;
+
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  padding-top: 80px;
-}
-
-/* ===============================
-   TITRES
-================================ */
-.signature-title {
-  font-family: "Great Vibes", cursive;
-  font-size: 3.8rem;
-}
-
-.signature-subtitle {
-  font-family: "Great Vibes", cursive;
-  font-size: 2.6rem;
-  opacity: 0.85;
-  margin-bottom: 16px;
-}
-
-/* ===============================
-   SCORE ZEN
-================================ */
-.snake-score {
-  margin: 12px 0 18px;
-  font-size: 1.2rem;
-  opacity: 0.85;
-}
-
-/* ===============================
-   CONTAINER JEU
-================================ */
-.snake-container {
-  width: 100%;
-  flex: 1;
-  display: flex;
   justify-content: center;
   align-items: center;
+
+  text-align: center;
 }
 
 /* ===============================
-   CANVAS (ZONE DE JEU)
+   TITRE
 ================================ */
-#snakeGame {
-  width: 96vw;              /* 🔥 LARGE */
-  height: 60vh;             /* 🔥 RECTANGLE */
-  max-width: 900px;
-  max-height: 420px;
-
-  background: rgba(255,255,255,0.9);
-  border-radius: 22px;
-  box-shadow: 0 20px 45px rgba(0,0,0,0.18);
-
-  touch-action: none; /* 🔑 bloque scroll tactile */
+.cover h1 {
+  font-family: "Great Vibes", cursive;
+  font-size: clamp(4rem, 8vw, 5.6rem);
+  margin-bottom: 30px;
+  color: #2f5d46;
 }
 
 /* ===============================
-   MOBILE
+   TEXTE PRINCIPAL
 ================================ */
-@media (max-width: 600px) {
-  #snakeGame {
-    height: 65vh;   /* plus grand sur tel */
-  }
+.cover-text {
+  max-width: 520px;
+  font-size: 1.1rem;
+  opacity: 0.85;
+  margin-bottom: 22px;
+}
+
+/* ===============================
+   PHRASE CHUCHOTÉE
+================================ */
+.cover-whisper {
+  font-size: 0.95rem;
+  font-style: italic;
+  opacity: 0.6;
+  margin-bottom: 50px;
+}
+
+/* ===============================
+   🌿 BOUTON "ENTRER DANS LE JARDIN"
+   → mène vers accueil.html
+================================ */
+.enter-btn {
+  display: inline-block;
+  padding: 14px 38px;
+  border-radius: 999px;
+
+  background: linear-gradient(135deg, var(--sage), var(--sage-light));
+  color: white;
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 500;
+
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.enter-btn:hover {
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
 }
