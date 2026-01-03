@@ -7,115 +7,101 @@ document.addEventListener("DOMContentLoaded", () => {
   if (!textarea || !button || !feedback) return;
 
   /* ===============================
-     FILTRE INSULTES (GROSSES)
+     FILTRE INSULTES
   =============================== */
   const forbiddenWords = [
-    "pute", "salope", "connard", "connasse",
-    "nique", "nique ta", "fdp", "enculé",
-    "merde", "fuck", "bitch", "asshole",
-    "suicide", "me tuer", "me buter"
+    "pute","salope","connard","connasse","nique",
+    "fdp","enculé","fuck","bitch","asshole","suicide"
   ];
 
   function containsForbidden(text) {
-    const lower = text.toLowerCase();
-    return forbiddenWords.some(word => lower.includes(word));
+    return forbiddenWords.some(word =>
+      text.toLowerCase().includes(word)
+    );
   }
 
   /* ===============================
-     RÉPONSES SELON L’HEURE 🌙🌤️
+     RÉPONSES SELON L’HEURE
   =============================== */
-  function getTimeResponses() {
+  function getResponsesByTime() {
     const hour = new Date().getHours();
 
     if (hour >= 22 || hour < 6) {
       return [
         "La nuit rend les choses plus lourdes… merci de l’avoir déposé ici 🌙",
         "Tu peux laisser ça ici avant de dormir.",
-        "Même la nuit, tu n’es pas seul·e.",
-        "Tu peux fermer les yeux après ça."
+        "Même la nuit, tu peux respirer ici."
       ];
     }
 
-    if (hour >= 6 && hour < 12) {
+    if (hour < 12) {
       return [
-        "Merci de commencer la journée en déposant ça ici 🌿",
-        "Tu peux avancer doucement aujourd’hui.",
-        "Ce que tu ressens a sa place, même le matin.",
+        "Merci d’avoir commencé ta journée ici 🌿",
+        "Tu peux avancer doucement aujourd’hui."
       ];
     }
 
-    if (hour >= 12 && hour < 18) {
+    if (hour < 18) {
       return [
-        "Merci de prendre un moment pour toi.",
-        "Tu peux faire une pause ici.",
-        "Respirer un peu change déjà les choses.",
+        "Tu as bien fait de t’arrêter un instant.",
+        "Respirer ici compte."
       ];
     }
 
-    // soir
     return [
       "La journée a été longue… tu peux poser ça ici.",
-      "Merci de t’être arrêté·e un instant.",
-      "Tu peux ralentir maintenant.",
+      "Tu peux ralentir maintenant."
     ];
   }
 
-  const gentleResponsesBase = [
+  const gentleBase = [
     "Merci de l’avoir déposé ici 🌿",
-    "Tu peux écrire sans te censurer.",
-    "Ce que tu ressens mérite de l’espace.",
-    "Tu n’as rien à prouver ici.",
+    "Tu n’as rien à prouver.",
+    "Ce que tu ressens a sa place.",
     "Je t’entends.",
-    "Tu peux ralentir.",
-    "Ici, on respire avant de répondre.",
     "Tu peux rester un moment."
   ];
 
-  const boundaryResponses = [
-    "Ici, on parle sans se faire violence 🤍",
-    "Je comprends la colère, mais pas les insultes.",
-    "On peut dire les choses autrement ici.",
-    "Ta colère a le droit d’exister, pas de blesser.",
-    "Respire un instant… reformule quand tu veux."
-  ];
-
-  function randomFrom(array) {
-    return array[Math.floor(Math.random() * array.length)];
+  function randomFrom(arr) {
+    return arr[Math.floor(Math.random() * arr.length)];
   }
 
   /* ===============================
-     ENVOI DU MESSAGE 🌿
+     ENVOI + ANIMATION
   =============================== */
   button.addEventListener("click", () => {
     const text = textarea.value.trim();
 
-    if (text === "") {
+    if (!text) {
       feedback.textContent = "Tu peux écrire même un seul mot 🌱";
       return;
     }
 
-    // ⛔ insultes / mots violents
     if (containsForbidden(text)) {
-      feedback.textContent = randomFrom(boundaryResponses);
+      feedback.textContent = "Ici, on se parle sans se faire violence 🤍";
       textarea.value = "";
       return;
     }
 
-    // 🌿 réponse douce + heure
-    const timeResponses = getTimeResponses();
-    const allResponses = [...gentleResponsesBase, ...timeResponses];
+    // ✉️ animation pliage
+    textarea.classList.add("fold");
 
-    feedback.textContent = randomFrom(allResponses);
-    textarea.value = "";
+    setTimeout(() => {
+      textarea.value = "";
+      textarea.classList.remove("fold");
+    }, 700);
 
-    // animation douce
+    const responses = [...gentleBase, ...getResponsesByTime()];
+    feedback.textContent = randomFrom(responses);
+
+    // animation réponse
     feedback.style.opacity = "0";
     feedback.style.transform = "translateY(6px)";
 
     setTimeout(() => {
       feedback.style.opacity = "1";
       feedback.style.transform = "translateY(0)";
-    }, 120);
+    }, 150);
   });
 
 });
