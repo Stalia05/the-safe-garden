@@ -1,45 +1,60 @@
+/* ===============================
+   BLOQUER LE SCROLL (CLAVIER + MOBILE)
+================================ */
+window.addEventListener("keydown", e => {
+  if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", " "].includes(e.key)) {
+    e.preventDefault();
+  }
+}, { passive: false });
+
+document.addEventListener("touchmove", e => {
+  e.preventDefault();
+}, { passive: false });
+
+/* ===============================
+   JEU SNAKE
+================================ */
 document.addEventListener("DOMContentLoaded", () => {
 
-  /* ===============================
-     ACTIVER MODE JEU (ANTI SCROLL)
-  ================================ */
-  document.body.classList.add("snake-active");
-
-  /* ===============================
-     CANVAS SETUP
-  ================================ */
   const canvas = document.getElementById("snakeGame");
-  if (!canvas) {
-    console.error("❌ Canvas introuvable");
-    return;
-  }
+  if (!canvas) return;
 
   const ctx = canvas.getContext("2d");
 
+  /* ===============================
+     ADAPTATION RESPONSIVE
+  ================================ */
+  function resizeCanvas() {
+    const size = Math.min(
+      window.innerWidth * 0.92,
+      420
+    );
+    canvas.width = size;
+    canvas.height = size;
+  }
+
+  resizeCanvas();
+  window.addEventListener("resize", resizeCanvas);
+
   const tileSize = 20;
-  const tiles = canvas.width / tileSize;
+  let tiles = Math.floor(canvas.width / tileSize);
 
   /* ===============================
      ÉTAT DU JEU
   ================================ */
-  let snake = [{ x: 10, y: 10 }];
-  let food = randomFood();
-  let dx = 0;
-  let dy = 0;
+  let snake;
+  let food;
+  let dx;
+  let dy;
 
-  /* ===============================
-     BLOQUER SCROLL CLAVIER
-  ================================ */
-  window.addEventListener("keydown", e => {
-    const keys = ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"];
-    if (keys.includes(e.key)) {
-      e.preventDefault();
-    }
-  }, { passive: false });
+  function resetGame() {
+    tiles = Math.floor(canvas.width / tileSize);
+    snake = [{ x: Math.floor(tiles / 2), y: Math.floor(tiles / 2) }];
+    dx = 0;
+    dy = 0;
+    food = randomFood();
+  }
 
-  /* ===============================
-     UTILITAIRES
-  ================================ */
   function randomFood() {
     return {
       x: Math.floor(Math.random() * tiles),
@@ -47,15 +62,10 @@ document.addEventListener("DOMContentLoaded", () => {
     };
   }
 
-  function resetGame() {
-    snake = [{ x: 10, y: 10 }];
-    dx = 0;
-    dy = 0;
-    food = randomFood();
-  }
+  resetGame();
 
   /* ===============================
-     DRAW
+     DESSIN
   ================================ */
   function draw() {
 
@@ -69,7 +79,7 @@ document.addEventListener("DOMContentLoaded", () => {
     ctx.arc(
       food.x * tileSize + tileSize / 2,
       food.y * tileSize + tileSize / 2,
-      6,
+      tileSize / 3,
       0,
       Math.PI * 2
     );
@@ -77,7 +87,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     /* serpent */
     ctx.fillStyle = "#6f8b77";
-    snake.forEach(part => {
+    snake.forEach((part, index) => {
       ctx.fillRect(
         part.x * tileSize,
         part.y * tileSize,
@@ -86,7 +96,7 @@ document.addEventListener("DOMContentLoaded", () => {
       );
     });
 
-    /* déplacement */
+    /* mouvement */
     const head = {
       x: snake[0].x + dx,
       y: snake[0].y + dy
@@ -132,23 +142,21 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   /* ===============================
-     TOUCH (MOBILE 📱)
+     TOUCH (MOBILE)
   ================================ */
   let touchStartX = 0;
   let touchStartY = 0;
 
   canvas.addEventListener("touchstart", e => {
-    e.preventDefault();
-    const touch = e.touches[0];
-    touchStartX = touch.clientX;
-    touchStartY = touch.clientY;
-  }, { passive: false });
+    const t = e.touches[0];
+    touchStartX = t.clientX;
+    touchStartY = t.clientY;
+  }, { passive: true });
 
   canvas.addEventListener("touchend", e => {
-    e.preventDefault();
-    const touch = e.changedTouches[0];
-    const dxTouch = touch.clientX - touchStartX;
-    const dyTouch = touch.clientY - touchStartY;
+    const t = e.changedTouches[0];
+    const dxTouch = t.clientX - touchStartX;
+    const dyTouch = t.clientY - touchStartY;
 
     if (Math.abs(dxTouch) > Math.abs(dyTouch)) {
       if (dxTouch > 0 && dx === 0) {
@@ -163,10 +171,10 @@ document.addEventListener("DOMContentLoaded", () => {
         dx = 0; dy = -1;
       }
     }
-  }, { passive: false });
+  }, { passive: true });
 
   /* ===============================
      LANCEMENT
   ================================ */
-  setInterval(draw, 150); // vitesse douce 🌿
+  setInterval(draw, 140); // vitesse douce 🌿
 });
