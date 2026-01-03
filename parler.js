@@ -7,32 +7,6 @@ document.addEventListener("DOMContentLoaded", () => {
   if (!textarea || !button || !feedback) return;
 
   /* ===============================
-     MOTS SENSIBLES & INSULTES
-  =============================== */
-
-  const forbiddenWords = [
-    // auto-agression / violence
-    "suicide", "me tuer", "mourir", "crever",
-    "je veux mourir", "me faire du mal",
-    "mutiler", "auto destruction",
-
-    // insultes lourdes
-    "pute", "salope", "connard", "connasse",
-    "fdp", "fils de pute",
-    "enculé", "bâtard",
-    "nique ta", "ta gueule",
-    "abruti", "sale con",
-    "merde humaine",
-    "va te pendre",
-    "va crever"
-  ];
-
-  function containsForbidden(text) {
-    const lowered = text.toLowerCase();
-    return forbiddenWords.some(word => lowered.includes(word));
-  }
-
-  /* ===============================
      RÉPONSES SAFE GARDEN
   =============================== */
 
