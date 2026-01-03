@@ -8,16 +8,26 @@
   --ink: #2f2f2f;
 }
 
-/* 🔑 BASE CORRIGÉE */
-body {
+/* ===============================
+   BASE
+================================ */
+* {
   margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
   font-family: "Plus Jakarta Sans", sans-serif;
   background: var(--cream);
   color: var(--ink);
   line-height: 1.7;
+  overflow-x: hidden;
 }
 
-/* ⭐ ÉTOILES (NE BLOQUENT PLUS LE SCROLL) */
+/* ===============================
+   ÉTOILES DOUCES EN FOND
+================================ */
 .star-field {
   position: fixed;
   inset: 0;
@@ -45,15 +55,20 @@ body {
 }
 
 @keyframes fall {
-  to { transform: translateY(120vh); }
+  to {
+    transform: translateY(120vh);
+  }
 }
 
-/* 🌿 PAGE DE GARDE — SCROLL FRIENDLY */
+/* ===============================
+   PAGE DE GARDE
+================================ */
 .cover {
   position: relative;
   z-index: 1;
-  min-height: 100svh; /* 🔥 important */
+  min-height: 100svh;
   padding: 80px 20px;
+
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -61,14 +76,14 @@ body {
   text-align: center;
 }
 
-/* TITRE */
+/* TITRE PRINCIPAL */
 .cover h1 {
   font-family: "Great Vibes", cursive;
   font-size: clamp(4rem, 8vw, 5.5rem);
   margin-bottom: 30px;
 }
 
-/* TEXTE */
+/* TEXTE PRINCIPAL */
 .cover-text {
   max-width: 520px;
   font-size: 1.1rem;
@@ -76,7 +91,7 @@ body {
   margin-bottom: 20px;
 }
 
-/* PHRASE DOUCE */
+/* PHRASE CHUCHOTÉE */
 .cover-whisper {
   font-size: 0.95rem;
   opacity: 0.6;
@@ -84,7 +99,7 @@ body {
   font-style: italic;
 }
 
-/* BOUTON */
+/* BOUTON ENTRER */
 .enter-btn {
   padding: 14px 36px;
   border-radius: 999px;
