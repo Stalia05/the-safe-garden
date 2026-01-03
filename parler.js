@@ -1,15 +1,19 @@
 document.addEventListener("DOMContentLoaded", () => {
 
+  console.log("🌿 Parler.js chargé");
+
   const textarea = document.getElementById("chatInput");
   const button = document.getElementById("sendMessage");
   const envelope = document.getElementById("envelope");
   const responsesContainer = document.getElementById("chatResponses");
 
-  if (!textarea || !button || !envelope || !responsesContainer) return;
-
+  if (!textarea || !button || !envelope || !responsesContainer) {
+    console.warn("❌ Un élément est manquant dans le HTML");
+    return;
+  }
 
   /* ===============================
-     MESSAGES SELON L’HEURE
+     PHRASES SELON L’HEURE
   =============================== */
   function getTimeResponses() {
     const hour = new Date().getHours();
@@ -18,7 +22,8 @@ document.addEventListener("DOMContentLoaded", () => {
       return [
         "Tu peux commencer la journée doucement 🌱",
         "Rien ne presse ce matin.",
-        "Ce que tu ressens a le droit d’exister dès maintenant."
+        "Ce que tu ressens a le droit d’exister dès maintenant.",
+        "Tu n’as pas besoin d’aller vite aujourd’hui."
       ];
     }
 
@@ -26,7 +31,8 @@ document.addEventListener("DOMContentLoaded", () => {
       return [
         "Tu peux faire une pause, même au milieu de la journée 🌿",
         "Tu n’as pas besoin d’aller vite pour aller bien.",
-        "Déposer ici, c’est déjà prendre soin de toi."
+        "Déposer ici, c’est déjà prendre soin de toi.",
+        "Tu peux respirer avant de continuer."
       ];
     }
 
@@ -34,14 +40,16 @@ document.addEventListener("DOMContentLoaded", () => {
       return [
         "Ce soir, tu peux poser ce qui pèse 🌙",
         "La journée peut s’arrêter ici.",
-        "Tu n’as rien à régler maintenant."
+        "Tu n’as rien à régler maintenant.",
+        "Tu peux relâcher un peu."
       ];
     }
 
     return [
       "Il est tard… merci d’avoir déposé ici 🌌",
-      "Même la nuit, tu n’es pas seul·e.",
-      "Tu peux laisser ça ici et te reposer."
+      "Même la nuit, tu peux être entendu·e.",
+      "Tu peux laisser ça ici et te reposer.",
+      "Le silence peut aussi être doux."
     ];
   }
 
@@ -50,48 +58,22 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* ===============================
-     ACTION : DÉPOSER ✉️
+     RESET VISUEL (IMPORTANT)
   =============================== */
-  button.addEventListener("click", () => {
-    const text = textarea.value.trim();
-
-    if (text === "") {
-      showResponse("Tu peux écrire même un seul mot 🌱");
-      return;
-    }
-
-    if (containsForbidden(text)) {
-      showResponse("Ici, on parle sans se faire violence 🤍");
-      textarea.value = "";
-      return;
-    }
-
-    /* 🔄 RESET animation */
+  function resetAnimation() {
     envelope.classList.add("hidden");
     envelope.classList.remove("fold");
 
-    void envelope.offsetWidth; // 🔑 force le repaint
+    textarea.classList.remove("fold");
 
-    /* ✉️ LANCEMENT ANIMATION */
-    textarea.classList.add("fold");
-    envelope.classList.remove("hidden");
-
-    setTimeout(() => {
-      envelope.classList.add("fold");
-    }, 900);
-
-    /* 🌿 MESSAGE FINAL */
-    setTimeout(() => {
-      const responses = getTimeResponses();
-      showResponse(randomFrom(responses));
-
-      // reset
-      textarea.classList.remove("fold");
-      textarea.value = "";
-      envelope.classList.add("hidden");
-      envelope.classList.remove("fold");
-    }, 2000);
-  });
+    // reset animation lettre
+    const letter = envelope.querySelector(".letter");
+    if (letter) {
+      letter.style.animation = "none";
+      void letter.offsetWidth;
+      letter.style.animation = "";
+    }
+  }
 
   /* ===============================
      AFFICHER MESSAGE
@@ -105,5 +87,41 @@ document.addEventListener("DOMContentLoaded", () => {
 
     responsesContainer.appendChild(p);
   }
+
+  /* ===============================
+     ACTION : DÉPOSER ✉️
+  =============================== */
+  button.addEventListener("click", () => {
+    const text = textarea.value.trim();
+
+    if (text === "") {
+      showResponse("Tu peux écrire même un seul mot 🌱");
+      return;
+    }
+
+    // reset avant lancement
+    resetAnimation();
+
+    // 🔄 force repaint
+    void envelope.offsetWidth;
+
+    /* ✉️ animation lettre */
+    textarea.classList.add("fold");
+    envelope.classList.remove("hidden");
+
+    setTimeout(() => {
+      envelope.classList.add("fold");
+    }, 900);
+
+    /* 🌿 message doux */
+    setTimeout(() => {
+      showResponse(randomFrom(getTimeResponses()));
+
+      textarea.value = "";
+      textarea.classList.remove("fold");
+      envelope.classList.add("hidden");
+      envelope.classList.remove("fold");
+    }, 2000);
+  });
 
 });
