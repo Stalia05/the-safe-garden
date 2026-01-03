@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>The Safe Garden – Snake</title>
+
+  <!-- Polices Safe Garden -->
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Infant:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <!-- CSS SNAKE -->
+  <link rel="stylesheet" href="snake.css">
+</head>
+
+<body>
+
+  <!-- 🌿 BOUTON RETOUR MINI-JEUX (FIXE) -->
+  <a href="mini-jeux.html" class="back-mini-games">
+    ← Retour aux mini-jeux
+  </a>
+
+  <!-- 🌿 CONTENU PRINCIPAL -->
+  <main class="garden snake-page">
+
+    <!-- 🌿 TITRES -->
+    <header class="garden-title">
+      <h1 class="signature-title">The Safe Garden</h1>
+      <h2 class="signature-subtitle">Snake</h2>
+    </header>
+
+    <!-- 🌱 INTRO -->
+    <section class="care-intro">
+      <p>
+        Un jeu simple pour décrocher un peu.<br>
+        Pas de score à battre. Juste bouger, respirer.
+      </p>
+    </section>
+
+    <!-- 🐍 JEU SNAKE -->
+    <section class="snake-container">
+      <!-- ⚠️ ID UTILISÉ PAR LE JS -->
+      <canvas id="snakeGame" width="360" height="360"></canvas>
+    </section>
+
+    <!-- 📖 RÈGLES -->
+    <section class="snake-rules">
+      <h3>Comment jouer</h3>
+
+      <p>
+        <b>Sur ordinateur :</b><br>
+        Utilise les flèches du clavier ⬅️ ⬆️ ⬇️ ➡️
+      </p>
+
+      <p>
+        <b>Sur téléphone :</b><br>
+        Glisse ton doigt dans la direction souhaitée.
+      </p>
+
+      <p>
+        Mange les points, évite les murs.<br>
+        Si tu perds, ce n’est pas grave.<br>
+        Le but n’est pas de gagner, mais de faire une pause.
+      </p>
+    </section>
+
+  </main>
+
+  <!-- 🧠 JS DU SNAKE -->
+  <script src="snake.js"></script>
+
+</body>
+</html>
