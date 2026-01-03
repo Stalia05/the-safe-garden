@@ -1,57 +1,71 @@
 /* ===============================
-   🔒 BLOQUER SCROLL CLAVIER
+   SNAKE RÉTRO — SAFE GARDEN 🌿
+   Style Nokia 3310
 ================================ */
-window.addEventListener("keydown", e => {
-  if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", " "].includes(e.key)) {
-    e.preventDefault();
-  }
-});
 
-/* ===============================
-   🐍 SNAKE SAFE GARDEN
-================================ */
 document.addEventListener("DOMContentLoaded", () => {
 
   const canvas = document.getElementById("snakeGame");
   const scoreEl = document.getElementById("snakeScore");
-  if (!canvas || !scoreEl) return;
+  if (!canvas) return;
 
   const ctx = canvas.getContext("2d");
 
-  const tileSize = 20;
-  const speed = 130;
+  /* ===============================
+     BLOQUER LE SCROLL (ordi + mobile)
+  =============================== */
+  window.addEventListener("keydown", e => {
+    if (["ArrowUp","ArrowDown","ArrowLeft","ArrowRight"," "].includes(e.key)) {
+      e.preventDefault();
+    }
+  }, { passive: false });
 
-  let tilesX, tilesY;
-  let snake, food, dx, dy;
-  let respirations = 0;
+  canvas.addEventListener("touchmove", e => {
+    e.preventDefault();
+  }, { passive: false });
 
   /* ===============================
-     📐 RESIZE CANVAS
-  ================================ */
+     CANVAS RÉTRO
+  =============================== */
+  const tileSize = 20;
+
   function resizeCanvas() {
-    const rect = canvas.getBoundingClientRect();
+    const width = Math.min(window.innerWidth * 0.96, 520);
+    const height = Math.min(window.innerHeight * 0.6, 360);
 
-    canvas.width = Math.floor(rect.width / tileSize) * tileSize;
-    canvas.height = Math.floor(rect.height / tileSize) * tileSize;
-
-    tilesX = canvas.width / tileSize;
-    tilesY = canvas.height / tileSize;
+    canvas.width = Math.floor(width / tileSize) * tileSize;
+    canvas.height = Math.floor(height / tileSize) * tileSize;
   }
 
   resizeCanvas();
   window.addEventListener("resize", resizeCanvas);
 
+  let tilesX = canvas.width / tileSize;
+  let tilesY = canvas.height / tileSize;
+
   /* ===============================
-     RESET DOUX
-  ================================ */
+     ÉTAT DU JEU
+  =============================== */
+  let snake;
+  let food;
+  let dx;
+  let dy;
+  let respirations = 0;
+
   function resetGame() {
-    snake = [{
-      x: Math.floor(tilesX / 2),
-      y: Math.floor(tilesY / 2)
-    }];
+    tilesX = canvas.width / tileSize;
+    tilesY = canvas.height / tileSize;
+
+    snake = [
+      {
+        x: Math.floor(tilesX / 2),
+        y: Math.floor(tilesY / 2)
+      }
+    ];
 
     dx = 1;
     dy = 0;
+
     respirations = 0;
     updateScore();
     food = randomFood();
@@ -65,57 +79,65 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function updateScore() {
-    scoreEl.textContent = `🌿 respirations : ${respirations}`;
+    if (scoreEl) {
+      scoreEl.textContent = `🌿 respirations : ${respirations}`;
+    }
   }
 
   resetGame();
 
   /* ===============================
-     DRAW
-  ================================ */
+     DESSIN RÉTRO
+  =============================== */
   function draw() {
+
+    /* fond écran Nokia */
     ctx.fillStyle = "#e7f0ea";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    /* nourriture */
-    ctx.fillStyle = "#c9a24d";
-    ctx.beginPath();
-    ctx.arc(
-      food.x * tileSize + tileSize / 2,
-      food.y * tileSize + tileSize / 2,
-      tileSize / 3,
-      0,
-      Math.PI * 2
+    /* pomme (carrée) */
+    ctx.fillStyle = "#6f9f88";
+    ctx.fillRect(
+      food.x * tileSize,
+      food.y * tileSize,
+      tileSize,
+      tileSize
     );
-    ctx.fill();
 
-    /* serpent */
-    snake.forEach((part, i) => {
-      const t = i / snake.length;
-      ctx.fillStyle = `rgb(${90 + t * 30}, ${140 + t * 30}, ${115 + t * 20})`;
+    /* serpent (carré, brut) */
+    ctx.fillStyle = "#2f5d46";
+    snake.forEach(part => {
       ctx.fillRect(
         part.x * tileSize,
         part.y * tileSize,
-        tileSize - 2,
-        tileSize - 2
+        tileSize,
+        tileSize
       );
     });
 
-    const head = { x: snake[0].x + dx, y: snake[0].y + dy };
+    /* déplacement */
+    const head = {
+      x: snake[0].x + dx,
+      y: snake[0].y + dy
+    };
+
     snake.unshift(head);
 
+    /* manger */
     if (head.x === food.x && head.y === food.y) {
-      food = randomFood();
       respirations++;
       updateScore();
-      navigator.vibrate?.(20);
+      food = randomFood();
     } else {
       snake.pop();
     }
 
+    /* collision = reset */
     if (
-      head.x < 0 || head.y < 0 ||
-      head.x >= tilesX || head.y >= tilesY ||
+      head.x < 0 ||
+      head.y < 0 ||
+      head.x >= tilesX ||
+      head.y >= tilesY ||
       snake.slice(1).some(p => p.x === head.x && p.y === head.y)
     ) {
       resetGame();
@@ -123,8 +145,8 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* ===============================
-     CONTROLES CLAVIER
-  ================================ */
+     CONTRÔLES CLAVIER
+  =============================== */
   document.addEventListener("keydown", e => {
     if (e.key === "ArrowUp" && dy === 0) { dx = 0; dy = -1; }
     if (e.key === "ArrowDown" && dy === 0) { dx = 0; dy = 1; }
@@ -133,15 +155,16 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   /* ===============================
-     CONTROLES TOUCH
-  ================================ */
-  let startX = 0, startY = 0;
+     CONTRÔLES TACTILES
+  =============================== */
+  let startX = 0;
+  let startY = 0;
 
   canvas.addEventListener("touchstart", e => {
     const t = e.touches[0];
     startX = t.clientX;
     startY = t.clientY;
-  }, { passive: true });
+  });
 
   canvas.addEventListener("touchend", e => {
     const t = e.changedTouches[0];
@@ -155,7 +178,11 @@ document.addEventListener("DOMContentLoaded", () => {
       if (dyT > 0 && dy === 0) { dx = 0; dy = 1; }
       if (dyT < 0 && dy === 0) { dx = 0; dy = -1; }
     }
-  }, { passive: true });
+  });
 
-  setInterval(draw, speed);
+  /* ===============================
+     LANCEMENT
+  =============================== */
+  setInterval(draw, 150); // vitesse rétro
 });
+
