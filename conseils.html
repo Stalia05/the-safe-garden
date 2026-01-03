@@ -7,19 +7,19 @@
   <!-- Polices -->
   <link href="https://fonts.googleapis.com/css2?family=Italianno&family=Cormorant+Infant:wght@400;500;600&display=swap" rel="stylesheet">
 
-  <!-- CSS UNIQUE -->
+  <!-- CSS DE LA PAGE CONSEILS -->
   <link rel="stylesheet" href="conseils.css">
 </head>
 
 <body>
 
   <!-- 🦋 PAPILLONS -->
-  <img src="https://i.ibb.co/MkXd3nPM/IMG-5395.png" class="butterfly b1" alt="">
-  <img src="https://i.ibb.co/MkXd3nPM/IMG-5395.png" class="butterfly b2" alt="">
-  <img src="https://i.ibb.co/MkXd3nPM/IMG-5395.png" class="butterfly b3" alt="">
+  <img src="https://i.ibb.co/MkXd3nPM/IMG-5395.png" class="butterfly b1" alt="papillon">
+  <img src="https://i.ibb.co/MkXd3nPM/IMG-5395.png" class="butterfly b2" alt="papillon">
+  <img src="https://i.ibb.co/MkXd3nPM/IMG-5395.png" class="butterfly b3" alt="papillon">
 
-  <!-- 🌿 FEUILLES -->
-  <img src="https://i.ibb.co/93hPNjwt/IMG-5394.png" class="bottom-leaves" alt="">
+  <!-- 🌿 FEUILLES EN BAS -->
+  <img src="https://i.ibb.co/93hPNjwt/IMG-5394.png" class="bottom-leaves" alt="feuilles décoratives">
 
   <main class="garden">
 
@@ -32,19 +32,73 @@
     <!-- 🌱 INTRO -->
     <section class="step">
       <p>
-        Si tu es ici, ce n’est probablement pas par hasard.<br>
+        Si tu es ici, ce n’est probablement pas par hasard.
+        On n’atterrit pas dans un espace comme celui-ci quand tout va parfaitement bien.
+        Parfois, on arrive parce qu’on est fatigué·e sans savoir pourquoi.
+        Parfois parce qu’on se sent trop sensible, trop à fleur de peau.
+        Parfois parce qu’on a l’impression de fonctionner en pilote automatique.
+        Et parfois, on arrive ici simplement parce qu’on cherche des mots.
+      </p>
+      <p>
         Des mots pour comprendre ce qui se passe à l’intérieur.
       </p>
     </section>
 
-    <!-- 🐱 EXPÉRIENCE CHAT -->
+    <!-- 🐱 EXPÉRIENCE DU CHAT -->
     <section class="experience-chat">
       <div class="chat-container visible">
-        <img src="https://i.ibb.co/xqCqgGxS/IMG-5397.png" class="chat" alt="">
+        <img
+          src="https://i.ibb.co/xqCqgGxS/IMG-5397.png"
+          alt="Chat apaisant"
+          class="chat"
+        >
         <div class="chat-bubble" id="chatBubble">
           Tu peux aller doucement…
         </div>
       </div>
+    </section>
+
+    <!-- 🌱 SECTION 1 -->
+    <section class="step">
+      <h2>Quand “ça ne va pas” n’est pas clair</h2>
+
+      <p>
+        Il y a des moments où aller mal ne ressemble pas à une grande tristesse.
+        Ce n’est pas forcément pleurer toute la journée.
+        Ce n’est pas forcément une crise visible.
+      </p>
+
+      <p>Ça peut être plus discret.</p>
+
+      <ul>
+        <li>Un manque d’élan</li>
+        <li>Une fatigue qui ne part pas</li>
+        <li>Une difficulté à se concentrer</li>
+        <li>Une irritabilité inhabituelle</li>
+        <li>Une sensation de vide</li>
+      </ul>
+
+      <blockquote>« Je n’ai pas de raison d’aller mal. »</blockquote>
+
+      <p>
+        Mais les émotions n’ont pas besoin d’autorisation pour exister.
+      </p>
+    </section>
+
+    <!-- 🌱 SECTION 2 -->
+    <section class="step">
+      <h2>Comprendre ce qui se passe (sans se juger)</h2>
+
+      <p>
+        Notre cerveau n’est pas fait pour être constamment en tension.
+        Quand on accumule du stress, des attentes, des responsabilités,
+        le système nerveux reste en état d’alerte.
+      </p>
+
+      <p>
+        La fatigue mentale n’est pas un manque de motivation.
+        C’est souvent un signe de surcharge.
+      </p>
     </section>
 
     <!-- 🌱 EXPÉRIENCE PLANTE -->
@@ -60,10 +114,30 @@
       <p class="plant-message" id="plantMessage"></p>
     </section>
 
+    <!-- 🌱 SECTION 3 -->
+    <section class="step">
+      <h2>Pourquoi on culpabilise autant</h2>
+
+      <p>
+        Comparer sa douleur ne la fait pas disparaître.
+        Elle la rend simplement plus silencieuse.
+      </p>
+    </section>
+
+    <!-- 🌱 SECTION 4 -->
+    <section class="step">
+      <h2>Ce que veulent dire les émotions difficiles</h2>
+
+      <p>
+        Les émotions inconfortables ne sont pas là pour punir.
+        Elles sont souvent là pour informer.
+      </p>
+    </section>
+
     <!-- ☁️ EXPÉRIENCE NUAGE -->
     <section class="experience-cloud">
       <p class="cloud-intro">
-        Tu peux déposer ici ce qui pèse.
+        Tu peux déposer ici ce qui pèse un peu trop.
       </p>
 
       <textarea
@@ -73,21 +147,29 @@
       ></textarea>
 
       <button id="cloudBtn" class="cloud-btn">
-        Déposer
+        Déposer sur le nuage
       </button>
 
       <div class="cloud-area"></div>
     </section>
 
+    <!-- 🌱 CONCLUSION -->
+    <section class="step no-frame">
+      <h2>Une chose importante à retenir</h2>
+      <p>
+        Tu n’as pas besoin d’aller bien pour mériter de la douceur.
+      </p>
+    </section>
+
   </main>
 
-  <!-- 🌿 NAVIGATION BAS DE PAGE -->
+  <!-- 🌿 NAVIGATION -->
   <nav class="garden-nav">
     <a href="accueil.html" class="nav-link left">← Retour à l’accueil</a>
     <a href="bilan.html" class="nav-link right">Bilan personnalisé →</a>
   </nav>
 
-  <!-- JS -->
+  <!-- JS CONSEILS (TOUJOURS À LA FIN) -->
   <script src="conseils.js"></script>
 
 </body>
