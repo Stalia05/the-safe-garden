@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>The Safe Garden – Prendre soin de moi</title>
+
+  <!-- Polices -->
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Infant:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- 🌿 FEUILLAGE CONTOUR -->
+  <img 
+    src="https://i.ibb.co/TqKp2XgL/IMG-5404.png"
+    class="leaf-frame"
+    alt="feuillage décoratif"
+  >
+
+  <main class="garden care-page">
+
+    <!-- 🌿 TITRE PRINCIPAL -->
+    <header class="garden-title">
+      <h1 class="signature-title">The Safe Garden</h1>
+      <h2 class="signature-subtitle">Prendre soin de moi</h2>
+    </header>
+
+    <!-- 🌱 INTRO -->
+    <section class="care-intro">
+      <p>
+        Choisis ce qui te ressemble aujourd’hui.<br>
+        Il n’y a rien à réussir, seulement à t’écouter.
+      </p>
+    </section>
+
+    <!-- 🌸 CARTES -->
+    <section class="care-cards" id="cardsContainer">
+
+      <div class="care-card" data-care="fatigue-legere">
+        <h3>Fatigue légère</h3>
+        <p>Ralentir sans tout arrêter</p>
+      </div>
+
+      <div class="care-card" data-care="fatigue-profonde">
+        <h3>Fatigue profonde</h3>
+        <p>Récupération totale</p>
+      </div>
+
+      <div class="care-card" data-care="anxiete">
+        <h3>Anxiété</h3>
+        <p>Créer de la sécurité intérieure</p>
+      </div>
+
+      <div class="care-card" data-care="hypersensibilite">
+        <h3>Hypersensibilité</h3>
+        <p>Baisser le volume</p>
+      </div>
+
+      <div class="care-card" data-care="confusion">
+        <h3>Confusion</h3>
+        <p>Ne pas chercher de réponses</p>
+      </div>
+
+      <div class="care-card" data-care="auto-exigence">
+        <h3>Auto-exigence</h3>
+        <p>Lâcher le contrôle</p>
+      </div>
+
+      <div class="care-card" data-care="epuisement-emotionnel">
+        <h3>Épuisement émotionnel</h3>
+        <p>Ne rien absorber</p>
+      </div>
+
+      <div class="care-card" data-care="deconnexion">
+        <h3>Déconnexion</h3>
+        <p>Revenir doucement au corps</p>
+      </div>
+
+      <div class="care-card" data-care="transition">
+        <h3>Transition</h3>
+        <p>Entre deux mondes</p>
+      </div>
+
+      <div class="care-card" data-care="fatigue-mentale">
+        <h3>Fatigue mentale</h3>
+        <p>Faire taire le bruit intérieur</p>
+      </div>
+
+      <div class="care-card" data-care="ancrage-fragile">
+        <h3>Ancrage fragile</h3>
+        <p>Consolider sans forcer</p>
+      </div>
+
+    </section>
+
+    <!-- 🌙 LECTURE D’UNE CARTE -->
+    <section class="care-detail hidden" id="careDetail">
+
+      <div class="care-text" id="careText">
+        <!-- ✨ TEXTE INJECTÉ PAR LE JS -->
+      </div>
+
+      <!-- 🌸 BOUTON RETOUR -->
+      <div class="care-footer">
+        <button class="soft-return" id="softReturn">
+          ↺ Revenir doucement
+        </button>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- 🌿 FOOTER -->
+  <footer class="garden-footer">
+    <a href="index.html" class="back-home">
+      ← Revenir à l’accueil
+    </a>
+  </footer>
+
+  <!-- JS -->
+  <script src="care.js"></script>
+
+</body>
+</html>
