@@ -235,3 +235,16 @@ body {
   opacity: 1;
   transform: translateY(-2px);
 }
+.garden,
+.garden * {
+  position: relative;
+  z-index: 2;
+}
+
+.bottom-leaves {
+  z-index: 1;
+}
+
+.butterfly {
+  z-index: 1;
+}
