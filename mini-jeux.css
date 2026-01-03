@@ -1,0 +1,214 @@
+@import url("https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Infant:wght@400;500;600&display=swap");
+
+/* ===============================
+   VARIABLES SAFE GARDEN
+================================ */
+:root {
+  --sage-bg: #e7f0ea;
+  --sage-dark: #5f7d6b;
+  --sage-light: #a9c3a6;
+  --ink: #2f3e34;
+  --gold: #c9a24d;
+}
+
+/* ===============================
+   RESET
+================================ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ===============================
+   BASE
+================================ */
+body {
+  font-family: "Cormorant Infant", serif;
+  background-color: var(--sage-bg);
+  color: var(--ink);
+  line-height: 1.8;
+  overflow-x: hidden;
+}
+
+/* ===============================
+   BACKGROUND IMAGE 🌸 DÉZOOMÉE
+================================ */
+body::before {
+  content: "";
+  position: fixed;
+  inset: -10%;
+
+  background-image: url("https://i.ibb.co/HLpFbSmL/IMG-5406.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 135%; /* 🔥 DÉZOOM IMPORTANT */
+
+  opacity: 0.55; /* fleurs visibles mais pas envahissantes */
+  z-index: -2;
+}
+
+/* voile sauge pour la lisibilité */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: rgba(231, 240, 234, 0.75);
+  z-index: -1;
+}
+
+/* ===============================
+   TYPOGRAPHIE SIGNATURE
+================================ */
+h1,
+h2 {
+  font-family: "Great Vibes", cursive;
+  color: var(--ink);
+  text-align: center;
+}
+
+h1 {
+  font-size: clamp(3.8rem, 6vw, 5.2rem);
+  margin-bottom: 10px;
+}
+
+h2 {
+  font-size: 3rem;
+  margin-bottom: 20px;
+}
+
+h3 {
+  font-family: "Cormorant Infant", serif;
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: var(--sage-dark);
+}
+
+p {
+  font-size: 1.05rem;
+  opacity: 0.85;
+}
+
+/* ===============================
+   SECTION MINI-JEUX
+================================ */
+.mini-games {
+  max-width: 1000px;
+  margin: 100px auto 140px;
+  padding: 40px 24px;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+.subtitle {
+  max-width: 620px;
+  margin: 0 auto 30px;
+}
+
+.tea {
+  margin-top: 14px;
+  font-size: 0.95rem;
+  opacity: 0.6;
+  font-style: italic;
+}
+
+/* ===============================
+   GRILLE
+================================ */
+.games-grid {
+  margin-top: 70px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 36px;
+}
+
+/* ===============================
+   CARTES
+================================ */
+.game-card {
+  background: rgba(255, 255, 255, 0.82);
+  border-radius: 32px;
+  padding: 46px 34px;
+
+  box-shadow: 0 20px 42px rgba(0,0,0,0.08);
+  backdrop-filter: blur(4px);
+
+  transition: transform 0.45s ease, box-shadow 0.45s ease;
+  text-decoration: none;
+  color: inherit;
+  position: relative;
+}
+
+.game-card::before {
+  content: "";
+  position: absolute;
+  top: -45%;
+  right: -45%;
+  width: 240px;
+  height: 240px;
+  background: radial-gradient(
+    circle,
+    rgba(201,162,77,0.35),
+    transparent 70%
+  );
+}
+
+.game-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 32px 68px rgba(0,0,0,0.12);
+}
+
+/* ===============================
+   BOUTON RETOUR À L’ACCUEIL 🌿
+   FIXE — CENTRÉ — CALLIGRAPHIQUE
+================================ */
+.back-home {
+  position: fixed;
+  bottom: 26px;
+  left: 50%;
+  transform: translateX(-50%);
+
+  font-family: "Great Vibes", cursive;
+  font-size: 1.8rem;
+  color: var(--sage-dark);
+  text-decoration: none;
+
+  opacity: 0.85;
+  z-index: 50;
+
+  transition: opacity 0.3s ease;
+}
+
+.back-home:hover {
+  opacity: 1;
+}
+
+/* quand on ouvre une carte → le JS ajoutera .hide-home */
+.back-home.hide-home {
+  display: none;
+}
+/* ===============================
+   BOUTON FIXE — RETOUR À L’ACCUEIL
+================================ */
+.back-home-fixed {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+
+  font-family: "Great Vibes", cursive;
+  font-size: 1.8rem;
+  color: #5f7d6b;
+
+  text-decoration: none;
+  opacity: 0.85;
+
+  z-index: 999; /* toujours au-dessus */
+  pointer-events: auto;
+
+  transition: opacity 0.3s ease;
+}
+
+.back-home-fixed:hover {
+  opacity: 1;
