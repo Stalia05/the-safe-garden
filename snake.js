@@ -1,12 +1,9 @@
-// 🔒 Bloquer le scroll avec les flèches pendant le jeu
-window.addEventListener("keydown", function (e) {
-  const keys = ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"];
-
-  if (keys.includes(e.key)) {
-    e.preventDefault();
-  }
-});
 document.addEventListener("DOMContentLoaded", () => {
+
+  /* ===============================
+     ACTIVER MODE JEU (ANTI SCROLL)
+  ================================ */
+  document.body.classList.add("snake-active");
 
   /* ===============================
      CANVAS SETUP
@@ -29,6 +26,16 @@ document.addEventListener("DOMContentLoaded", () => {
   let food = randomFood();
   let dx = 0;
   let dy = 0;
+
+  /* ===============================
+     BLOQUER SCROLL CLAVIER
+  ================================ */
+  window.addEventListener("keydown", e => {
+    const keys = ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"];
+    if (keys.includes(e.key)) {
+      e.preventDefault();
+    }
+  }, { passive: false });
 
   /* ===============================
      UTILITAIRES
@@ -125,18 +132,20 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   /* ===============================
-     TOUCH (MOBILE)
+     TOUCH (MOBILE 📱)
   ================================ */
   let touchStartX = 0;
   let touchStartY = 0;
 
   canvas.addEventListener("touchstart", e => {
+    e.preventDefault();
     const touch = e.touches[0];
     touchStartX = touch.clientX;
     touchStartY = touch.clientY;
-  });
+  }, { passive: false });
 
   canvas.addEventListener("touchend", e => {
+    e.preventDefault();
     const touch = e.changedTouches[0];
     const dxTouch = touch.clientX - touchStartX;
     const dyTouch = touch.clientY - touchStartY;
@@ -154,7 +163,7 @@ document.addEventListener("DOMContentLoaded", () => {
         dx = 0; dy = -1;
       }
     }
-  });
+  }, { passive: false });
 
   /* ===============================
      LANCEMENT
