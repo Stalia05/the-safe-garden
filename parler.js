@@ -8,6 +8,16 @@ document.addEventListener("DOMContentLoaded", () => {
   if (!textarea || !button || !envelope || !responsesContainer) return;
 
   /* ===============================
+     FILTRE INSULTES (BASIQUE SAFE)
+  =============================== */
+  function containsForbidden(text) {
+    const forbidden = ["con", "connard", "pute", "salope", "fdp", "nique"];
+    return forbidden.some(word =>
+      text.toLowerCase().includes(word)
+    );
+  }
+
+  /* ===============================
      MESSAGES SELON L’HEURE
   =============================== */
   function getTimeResponses() {
@@ -49,7 +59,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* ===============================
-     ACTION : DÉPOSER
+     ACTION : DÉPOSER ✉️
   =============================== */
   button.addEventListener("click", () => {
     const text = textarea.value.trim();
@@ -65,25 +75,31 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    // ✉️ animation lettre
+    /* 🔄 RESET animation */
+    envelope.classList.add("hidden");
+    envelope.classList.remove("fold");
+
+    void envelope.offsetWidth; // 🔑 force le repaint
+
+    /* ✉️ LANCEMENT ANIMATION */
     textarea.classList.add("fold");
     envelope.classList.remove("hidden");
 
     setTimeout(() => {
       envelope.classList.add("fold");
-    }, 800);
+    }, 900);
 
-    // message doux
+    /* 🌿 MESSAGE FINAL */
     setTimeout(() => {
       const responses = getTimeResponses();
       showResponse(randomFrom(responses));
 
-      // reset visuel
-      envelope.classList.add("hidden");
-      envelope.classList.remove("fold");
+      // reset
       textarea.classList.remove("fold");
       textarea.value = "";
-    }, 1600);
+      envelope.classList.add("hidden");
+      envelope.classList.remove("fold");
+    }, 2000);
   });
 
   /* ===============================
