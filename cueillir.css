@@ -1,0 +1,182 @@
+@import url("https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Infant:wght@400;500;600&display=swap");
+
+/* ===============================
+   RESET GLOBAL
+================================ */
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+/* ===============================
+   BASE – FOND SAUGE
+================================ */
+body {
+  min-height: 100vh;
+  background-color: #e7f0ea;
+  font-family: "Cormorant Infant", serif;
+  color: #2f3e34;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* ===============================
+   IMAGE JARDIN – FIXE (CORRIGÉ)
+================================ */
+body::after {
+  content: "";
+  position: fixed; /* ✅ CLÉ */
+  inset: 0;
+
+  background-image: url("https://i.postimg.cc/GpJT0pqL/IMG-5465.png");
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
+
+  opacity: 0.55;
+  pointer-events: none;
+
+  z-index: 1;
+}
+
+/* ===============================
+   CONTENU PRINCIPAL
+================================ */
+.container {
+  position: relative;
+  z-index: 5;
+
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 120px 20px 80px;
+
+  text-align: center;
+}
+
+/* ===============================
+   BOUTON RETOUR
+================================ */
+.back {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+
+  font-family: "Great Vibes", cursive;
+  font-size: 1.8rem;
+  color: #2f5d46;
+  text-decoration: none;
+
+  opacity: 0.9;
+  z-index: 6;
+  transition: opacity 0.3s ease;
+}
+
+.back:hover {
+  opacity: 1;
+}
+
+/* ===============================
+   TITRES
+================================ */
+h1 {
+  font-family: "Great Vibes", cursive;
+  font-size: 4rem;
+  margin-bottom: 12px;
+}
+
+h2 {
+  font-family: "Great Vibes", cursive;
+  font-size: 2.6rem;
+  margin: 30px 0 12px;
+}
+
+/* ===============================
+   TEXTES
+================================ */
+.intro {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  opacity: 0.9;
+  margin-bottom: 30px;
+}
+
+/* ===============================
+   ZONE DE CUEILLETTE
+================================ */
+.pick-field {
+  position: relative;
+  height: 260px;
+  margin-bottom: 30px;
+
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 26px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+
+  overflow: hidden;
+  z-index: 4;
+}
+
+/* ===============================
+   FEUILLES / ÉTOILES
+================================ */
+.pick-item {
+  position: absolute;
+  cursor: pointer;
+  z-index: 6;
+  opacity: 0.9;
+
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.pick-item:hover {
+  transform: scale(1.2);
+  opacity: 1;
+}
+
+.pick-item.leaf {
+  color: #6f8b77;
+}
+
+.pick-item.star {
+  color: #c9a24d;
+  text-shadow: 0 0 8px rgba(201,162,77,0.6);
+}
+
+/* ===============================
+   TEXTE RÉSULTAT
+================================ */
+#pickResult {
+  font-family: "Great Vibes", cursive;
+  font-size: 2.2rem;
+  color: #6f8b77;
+
+  min-height: 80px;
+  margin: 30px 0;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+#pickResult.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ===============================
+   BOUTON
+================================ */
+.btn {
+  padding: 14px 26px;
+  border-radius: 999px;
+  border: none;
+
+  background: #6f8b77;
+  color: white;
+
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.btn:hover {
+  opacity: 0.9;
+}
