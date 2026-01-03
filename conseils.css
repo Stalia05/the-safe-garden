@@ -34,7 +34,7 @@ body {
 ================================ */
 .garden-title {
   text-align: center;
-  margin-bottom: 140px; /* 🔧 avant 400px → trop grand sur GitHub */
+  margin-bottom: 140px;
 }
 
 .garden-title h1 {
@@ -57,7 +57,6 @@ body {
   position: relative;
 }
 
-/* lignes décoratives */
 .step::before,
 .step::after {
   content: "";
@@ -77,9 +76,6 @@ body {
   right: 0;
 }
 
-/* ===============================
-   TITRES DES BLOCS
-================================ */
 .step h2 {
   font-family: "Italianno", cursive;
   font-size: 42px;
@@ -88,9 +84,6 @@ body {
   color: #355a43;
 }
 
-/* ===============================
-   TEXTE
-================================ */
 .step p,
 .step li {
   font-size: 20px;
@@ -104,9 +97,6 @@ body {
   margin: 20px 0 20px 26px;
 }
 
-/* ===============================
-   CITATION
-================================ */
 blockquote {
   font-style: italic;
   font-weight: 600;
@@ -172,7 +162,7 @@ blockquote {
 
 .chat-container {
   position: relative;
-  width: 140px; /* 🔧 réduit → correspond au rendu CodePen */
+  width: 140px;
   opacity: 0;
   transform: translateY(30px);
   transition: opacity 1.2s ease, transform 1.2s ease;
@@ -185,11 +175,9 @@ blockquote {
 
 .chat {
   width: 100%;
-  cursor: pointer;
   user-select: none;
 }
 
-/* bulle */
 .chat-bubble {
   position: absolute;
   top: -50px;
@@ -202,7 +190,6 @@ blockquote {
   font-weight: 600;
   opacity: 0;
   transition: opacity 0.3s ease;
-  pointer-events: none;
 }
 
 .chat-container.active .chat-bubble {
@@ -210,11 +197,15 @@ blockquote {
 }
 
 /* ===============================
-   🌱 EXPERIENCE PLANTE
+   🌱 EXPERIENCE PLANTE (VIVANTE)
 ================================ */
 .experience-plant {
   text-align: center;
   margin: 140px 0;
+}
+
+.plant {
+  transition: all 0.6s ease;
 }
 
 .plant-pot {
@@ -231,12 +222,13 @@ blockquote {
 .plant-stem {
   position: relative;
   width: 10px;
-  height: 40px;
+  height: 30px;
   background: #4f7f5f;
   border-radius: 10px;
   transition: height 0.6s ease;
 }
 
+/* feuilles */
 .leaf {
   position: absolute;
   width: 24px;
@@ -244,20 +236,48 @@ blockquote {
   background: #6fae88;
   border-radius: 20px;
   top: 20px;
+  opacity: 0;
+  transform: scale(0.5);
   transition: all 0.6s ease;
 }
 
 .leaf.left {
   left: -22px;
-  transform: rotate(-20deg) scale(0.6);
+  transform: rotate(-20deg) scale(0.5);
 }
 
 .leaf.right {
   right: -22px;
-  transform: rotate(20deg) scale(0.6);
+  transform: rotate(20deg) scale(0.5);
 }
 
-/* bouton plante */
+/* fleur */
+.flower {
+  position: absolute;
+  top: -32px;
+  left: 50%;
+  transform: translateX(-50%) scale(0);
+  font-size: 28px;
+  opacity: 0;
+  transition: all 0.8s ease;
+}
+
+/* niveaux */
+.plant.level-1 .plant-stem { height: 50px; }
+
+.plant.level-2 .plant-stem { height: 70px; }
+.plant.level-2 .leaf {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.plant.level-3 .plant-stem { height: 90px; }
+.plant.level-3 .flower {
+  opacity: 1;
+  transform: translateX(-50%) scale(1);
+}
+
+/* bouton */
 .water-btn {
   margin-top: 20px;
   padding: 8px 18px;
@@ -285,12 +305,6 @@ blockquote {
 .experience-cloud {
   margin: 140px 0;
   text-align: center;
-}
-
-.cloud-intro {
-  font-size: 20px;
-  margin-bottom: 20px;
-  opacity: 0.85;
 }
 
 .cloud-input {
@@ -321,7 +335,6 @@ blockquote {
   height: 220px;
 }
 
-/* nuage */
 .cloud {
   position: absolute;
   left: 50%;
@@ -330,37 +343,10 @@ blockquote {
   padding: 18px 28px;
   background: rgba(255,255,255,0.9);
   font-size: 18px;
-  max-width: 70%;
-  text-align: center;
   border-radius: 60px;
   animation: floatUp 8s ease-in forwards;
 }
 
-/* bosses */
-.cloud::before,
-.cloud::after {
-  content: "";
-  position: absolute;
-  background: rgba(255,255,255,0.9);
-  border-radius: 50%;
-  z-index: -1;
-}
-
-.cloud::before {
-  width: 60px;
-  height: 60px;
-  top: -30px;
-  left: 20px;
-}
-
-.cloud::after {
-  width: 80px;
-  height: 80px;
-  top: -40px;
-  right: 20px;
-}
-
-/* animation nuage */
 @keyframes floatUp {
   to {
     transform: translateX(-50%) translateY(-120vh);
@@ -369,11 +355,9 @@ blockquote {
 }
 
 /* ===============================
-   NAVIGATION BAS
+   NAVIGATION
 ================================ */
 .garden-nav {
-  position: relative;
-  z-index: 10;
   margin-top: 120px;
   padding: 30px 20px;
   display: flex;
@@ -391,46 +375,4 @@ blockquote {
 
 .nav-link:hover {
   text-decoration: underline;
-}
-/* ===============================
-   🌸 PLANTE QUI GRANDIT
-================================ */
-
-.plant.level-1 .plant-stem {
-  height: 60px;
-}
-
-.plant.level-2 .plant-stem {
-  height: 90px;
-}
-
-.plant.level-3 .plant-stem {
-  height: 120px;
-}
-
-/* feuilles qui grandissent */
-.plant.level-1 .leaf {
-  transform: scale(0.8);
-}
-
-.plant.level-2 .leaf {
-  transform: scale(1);
-}
-
-.plant.level-3 .leaf {
-  transform: scale(1.2);
-}
-
-/* 🌸 fleur */
-.flower {
-  position: absolute;
-  top: -18px;
-  left: 50%;
-  transform: translateX(-50%) scale(0);
-  font-size: 22px;
-  transition: transform 0.6s ease;
-}
-
-.plant.level-3 .flower {
-  transform: translateX(-50%) scale(1);
 }
