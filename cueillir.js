@@ -105,3 +105,61 @@ document.addEventListener("DOMContentLoaded", () => {
   /* 🚀 Lancement */
   createItems();
 });
+/* ===============================
+   🌱 CROISSANCE DE LA PLANTE
+================================ */
+const stem = document.getElementById("plantStem");
+const leaves = document.querySelectorAll(".leaf");
+const waterBtn = document.getElementById("waterBtn");
+const plantMessage = document.getElementById("plantMessage");
+
+let growth = 40;
+let stage = 0;
+let lastWater = 0;
+
+if (waterBtn && stem) {
+  waterBtn.addEventListener("click", () => {
+    const now = Date.now();
+
+    // éviter le spam
+    if (now - lastWater < 1200) {
+      plantMessage.textContent = "La plante pousse mieux quand on respecte son rythme 🌱";
+      return;
+    }
+
+    lastWater = now;
+
+    if (growth >= 120) {
+      plantMessage.textContent = "La plante a déjà bien grandi 🌸";
+      return;
+    }
+
+    growth += 8;
+    stem.style.height = growth + "px";
+
+    // feuilles apparaissent progressivement
+    leaves.forEach((leaf, index) => {
+      if (stage >= index) {
+        leaf.style.opacity = "1";
+        leaf.style.transform = leaf.classList.contains("left")
+          ? "rotate(-20deg) scale(1)"
+          : "rotate(20deg) scale(1)";
+        leaf.style.top = growth / 2 + "px";
+      }
+    });
+
+    stage++;
+
+    // messages doux
+    const messages = [
+      "Tu n’as pas besoin d’aller vite.",
+      "Chaque geste compte.",
+      "Même lentement, ça pousse.",
+      "Tu prends soin de quelque chose.",
+      "Ce rythme est suffisant."
+    ];
+
+    plantMessage.textContent =
+      messages[Math.floor(Math.random() * messages.length)];
+  });
+}
