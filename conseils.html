@@ -7,23 +7,24 @@
   <!-- Polices -->
   <link href="https://fonts.googleapis.com/css2?family=Italianno&family=Cormorant+Infant:wght@400;500;600&display=swap" rel="stylesheet">
 
-  <!-- CSS global -->
-  <link rel="stylesheet" href="style.css">
+  <!-- CSS -->
+  <link rel="stylesheet" href="conseils.css">
 </head>
 
 <body>
 
   <!-- 🦋 PAPILLONS -->
-  <img src="https://i.ibb.co/MkXd3nPM/IMG-5395.png" class="butterfly b1" alt="papillon">
-  <img src="https://i.ibb.co/MkXd3nPM/IMG-5395.png" class="butterfly b2" alt="papillon">
-  <img src="https://i.ibb.co/MkXd3nPM/IMG-5395.png" class="butterfly b3" alt="papillon">
+  <img src="https://i.ibb.co/MkXd3nPM/IMG-5395.png" class="butterfly b1" alt="">
+  <img src="https://i.ibb.co/MkXd3nPM/IMG-5395.png" class="butterfly b2" alt="">
+  <img src="https://i.ibb.co/MkXd3nPM/IMG-5395.png" class="butterfly b3" alt="">
 
-  <!-- 🌿 FEUILLES EN BAS -->
-  <img src="https://i.ibb.co/93hPNjwt/IMG-5394.png" class="bottom-leaves" alt="feuilles décoratives">
+  <!-- 🌿 FEUILLES BAS -->
+  <img src="https://i.ibb.co/93hPNjwt/IMG-5394.png" class="bottom-leaves" alt="">
 
+  <!-- 🌿 CONTENU -->
   <main class="garden">
 
-    <!-- 🌿 TITRE -->
+    <!-- 🌸 TITRE -->
     <header class="garden-title">
       <h1>The Safe Garden</h1>
       <p>Un espace pour ralentir, comprendre, respirer.</p>
@@ -33,23 +34,17 @@
     <section class="step">
       <p>
         Si tu es ici, ce n’est probablement pas par hasard.
-        On n’atterrit pas dans un espace comme celui-ci quand tout va parfaitement bien.
+        On n’arrive pas dans un lieu comme celui-ci quand tout va parfaitement bien.
       </p>
       <p>
-        Parfois, on arrive fatigué·e sans savoir pourquoi.
-        Parfois trop sensible, trop à fleur de peau.
-        Parfois simplement à la recherche de mots.
+        Parfois on cherche juste à comprendre ce qui se passe à l’intérieur.
       </p>
     </section>
 
-    <!-- 🐱 EXPÉRIENCE DU CHAT -->
+    <!-- 🐱 EXPÉRIENCE CHAT -->
     <section class="experience-chat">
       <div class="chat-container visible">
-        <img 
-          src="https://i.ibb.co/xqCqgGxS/IMG-5397.png"
-          alt="Chat apaisant"
-          class="chat"
-        >
+        <img src="https://i.ibb.co/xqCqgGxS/IMG-5397.png" alt="chat" class="chat">
         <div class="chat-bubble" id="chatBubble">
           Tu peux aller doucement…
         </div>
@@ -63,15 +58,19 @@
       <p>Aller mal ne ressemble pas toujours à une grande tristesse.</p>
 
       <ul>
-        <li>Un manque d’élan</li>
         <li>Une fatigue persistante</li>
+        <li>Un manque d’élan</li>
+        <li>Un brouillard mental</li>
         <li>Une irritabilité inhabituelle</li>
-        <li>Une sensation de vide</li>
       </ul>
 
-      <blockquote>« Je n’ai pas de raison d’aller mal. »</blockquote>
+      <blockquote>
+        « Je n’ai pas de raison d’aller mal. »
+      </blockquote>
 
-      <p>Les émotions n’ont pas besoin d’autorisation pour exister.</p>
+      <p>
+        Les émotions n’ont pas besoin de justification pour exister.
+      </p>
     </section>
 
     <!-- 🌱 SECTION 2 -->
@@ -83,7 +82,7 @@
         C’est souvent un signe de surcharge.
       </p>
 
-      <!-- 🌱 EXPÉRIENCE PLANTE -->
+      <!-- 🌱 PLANTE -->
       <section class="experience-plant">
         <div class="plant-pot">
           <div class="plant-stem" id="plantStem">
@@ -95,31 +94,6 @@
         <button class="water-btn" id="waterBtn">💧 Arroser</button>
         <p class="plant-message" id="plantMessage"></p>
       </section>
-
-      <p>
-        Le brouillard mental n’est pas un manque d’intelligence.
-        C’est un cerveau qui demande une pause.
-      </p>
-    </section>
-
-    <!-- 🌱 SECTION 3 -->
-    <section class="step">
-      <h2>Pourquoi on culpabilise autant</h2>
-
-      <p>
-        Comparer sa douleur ne la fait pas disparaître.
-        Elle la rend simplement plus silencieuse.
-      </p>
-    </section>
-
-    <!-- 🌱 SECTION 4 -->
-    <section class="step">
-      <h2>Ce que veulent dire les émotions difficiles</h2>
-
-      <p>
-        Les émotions ne sont pas là pour punir.
-        Elles sont là pour informer.
-      </p>
     </section>
 
     <!-- ☁️ EXPÉRIENCE NUAGE -->
@@ -151,46 +125,14 @@
 
   </main>
 
-  <!-- 🌿 NAVIGATION BAS DE PAGE -->
+  <!-- 🌿 NAVIGATION -->
   <nav class="garden-nav">
     <a href="accueil.html" class="nav-link left">← Retour à l’accueil</a>
     <a href="bilan.html" class="nav-link right">Bilan personnalisé →</a>
   </nav>
 
-  <!-- JS -->
-  <script src="script.js"></script>
-
-  <!-- 💬 CHAT JS -->
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const chat = document.querySelector('.chat');
-      const bubble = document.getElementById('chatBubble');
-      const container = document.querySelector('.chat-container');
-
-      const messages = [
-        "C’est bien comme ça…",
-        "Tu peux ralentir.",
-        "Rien ne presse.",
-        "Doucement, c’est parfait."
-      ];
-
-      let canInteract = true;
-
-      function showMessage() {
-        if (!canInteract) return;
-        canInteract = false;
-
-        bubble.textContent = messages[Math.floor(Math.random() * messages.length)];
-        container.classList.add('active');
-
-        setTimeout(() => container.classList.remove('active'), 2200);
-        setTimeout(() => canInteract = true, 3500);
-      }
-
-      chat.addEventListener('mouseenter', showMessage);
-      chat.addEventListener('touchstart', showMessage);
-    });
-  </script>
+  <!-- ✅ JS EXTERNE -->
+  <script src="conseils.js"></script>
 
 </body>
 </html>
