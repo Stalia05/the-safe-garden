@@ -1,17 +1,4 @@
 /* ===============================
-   BLOQUER SCROLL (CLAVIER + MOBILE)
-================================ */
-window.addEventListener("keydown", e => {
-  if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", " "].includes(e.key)) {
-    e.preventDefault();
-  }
-}, { passive: false });
-
-document.addEventListener("touchmove", e => {
-  e.preventDefault();
-}, { passive: false });
-
-/* ===============================
    SNAKE SAFE GARDEN 🌿
 ================================ */
 document.addEventListener("DOMContentLoaded", () => {
@@ -26,11 +13,11 @@ document.addEventListener("DOMContentLoaded", () => {
      CANVAS RECTANGULAIRE RESPONSIVE
   ================================ */
   function resizeCanvas() {
-    const width = Math.min(window.innerWidth * 0.96, 520);
-    const height = Math.min(window.innerHeight * 0.55, 320);
+    const width = Math.min(window.innerWidth * 0.96, 560);
+    const height = Math.min(window.innerHeight * 0.55, 360);
 
-    canvas.width = width;
-    canvas.height = height;
+    canvas.width = Math.floor(width / 20) * 20;
+    canvas.height = Math.floor(height / 20) * 20;
   }
 
   resizeCanvas();
@@ -46,16 +33,18 @@ document.addEventListener("DOMContentLoaded", () => {
   let respirations = 0;
 
   function resetGame() {
-    tilesX = Math.floor(canvas.width / tileSize);
-    tilesY = Math.floor(canvas.height / tileSize);
+    tilesX = canvas.width / tileSize;
+    tilesY = canvas.height / tileSize;
 
     snake = [{
       x: Math.floor(tilesX / 2),
       y: Math.floor(tilesY / 2)
     }];
 
-    dx = 0;
+    // 🌿 direction douce par défaut
+    dx = 1;
     dy = 0;
+
     respirations = 0;
     updateScore();
     food = randomFood();
@@ -89,8 +78,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function draw() {
-
-    /* fond */
     ctx.fillStyle = "#e7f0ea";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -106,14 +93,10 @@ document.addEventListener("DOMContentLoaded", () => {
     );
     ctx.fill();
 
-    /* serpent dégradé */
+    /* serpent */
     snake.forEach((part, index) => {
       const t = index / snake.length;
-      ctx.fillStyle = `rgb(
-        ${90 + t * 30},
-        ${140 + t * 30},
-        ${115 + t * 20}
-      )`;
+      ctx.fillStyle = `rgb(${90 + t * 30}, ${140 + t * 30}, ${115 + t * 20})`;
 
       drawRoundedRect(
         part.x * tileSize,
@@ -123,7 +106,6 @@ document.addEventListener("DOMContentLoaded", () => {
       );
     });
 
-    /* mouvement */
     const head = {
       x: snake[0].x + dx,
       y: snake[0].y + dy
@@ -131,20 +113,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
     snake.unshift(head);
 
-    /* manger */
     if (head.x === food.x && head.y === food.y) {
       food = randomFood();
       respirations++;
       updateScore();
-
-      if (navigator.vibrate) {
-        navigator.vibrate(25);
-      }
+      navigator.vibrate?.(20);
     } else {
       snake.pop();
     }
 
-    /* collision → reset zen */
     if (
       head.x < 0 ||
       head.y < 0 ||
@@ -195,5 +172,5 @@ document.addEventListener("DOMContentLoaded", () => {
   /* ===============================
      LANCEMENT
   ================================ */
-  setInterval(draw, 130);
+  setInterval(draw, 140);
 });
