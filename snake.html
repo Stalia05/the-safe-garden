@@ -2,24 +2,29 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+  >
+
   <title>The Safe Garden – Snake</title>
 
-  <!-- Polices Safe Garden -->
+  <!-- 🌿 POLICES SAFE GARDEN -->
   <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Infant:wght@400;500;600&display=swap" rel="stylesheet">
 
-  <!-- CSS SNAKE -->
+  <!-- 🌿 CSS SNAKE -->
   <link rel="stylesheet" href="snake.css">
 </head>
 
 <body>
 
-  <!-- 🌿 BOUTON RETOUR MINI-JEUX (FIXE) -->
+  <!-- 🌿 RETOUR MINI-JEUX -->
   <a href="mini-jeux.html" class="back-mini-games">
     ← Retour aux mini-jeux
   </a>
 
-  <!-- 🌿 CONTENU PRINCIPAL -->
-  <main class="garden snake-page">
+  <!-- 🌿 PAGE SNAKE -->
+  <main class="snake-page">
 
     <!-- 🌿 TITRES -->
     <header class="garden-title">
@@ -31,18 +36,21 @@
     <section class="care-intro">
       <p>
         Un jeu simple pour décrocher un peu.<br>
-        Pas de score à battre. Juste bouger, respirer.
+        Pas de score à battre.<br>
+        Juste bouger, respirer.
       </p>
     </section>
 
-    <!-- 🌿 SCORE ZEN (EN DEHORS DU JEU) -->
+    <!-- 🌿 SCORE ZEN (HORS DU CANVAS) -->
     <div id="snakeScore" class="snake-score">
       🌿 respirations : 0
     </div>
 
-    <!-- 🐍 JEU SNAKE -->
+    <!-- 🐍 ZONE DE JEU (ANTI-SCROLL) -->
     <section class="snake-container">
-      <canvas id="snakeGame"></canvas>
+      <div class="snake-frame">
+        <canvas id="snakeGame"></canvas>
+      </div>
     </section>
 
     <!-- 📖 RÈGLES -->
@@ -51,7 +59,7 @@
 
       <p>
         <b>Sur ordinateur :</b><br>
-        Utilise les flèches du clavier ⬅️ ⬆️ ⬇️ ➡️
+        Flèches du clavier ⬅️ ⬆️ ⬇️ ➡️
       </p>
 
       <p>
@@ -60,15 +68,14 @@
       </p>
 
       <p>
-        Mange les points, évite les murs.<br>
         Si tu perds, ce n’est pas grave.<br>
-        Le but n’est pas de gagner, mais de faire une pause.
+        Ici, on joue pour respirer.
       </p>
     </section>
 
   </main>
 
-  <!-- 🧠 JS DU SNAKE -->
+  <!-- 🌿 JS SNAKE -->
   <script src="snake.js"></script>
 
 </body>
