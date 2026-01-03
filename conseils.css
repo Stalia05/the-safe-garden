@@ -392,3 +392,45 @@ blockquote {
 .nav-link:hover {
   text-decoration: underline;
 }
+/* ===============================
+   🌸 PLANTE QUI GRANDIT
+================================ */
+
+.plant.level-1 .plant-stem {
+  height: 60px;
+}
+
+.plant.level-2 .plant-stem {
+  height: 90px;
+}
+
+.plant.level-3 .plant-stem {
+  height: 120px;
+}
+
+/* feuilles qui grandissent */
+.plant.level-1 .leaf {
+  transform: scale(0.8);
+}
+
+.plant.level-2 .leaf {
+  transform: scale(1);
+}
+
+.plant.level-3 .leaf {
+  transform: scale(1.2);
+}
+
+/* 🌸 fleur */
+.flower {
+  position: absolute;
+  top: -18px;
+  left: 50%;
+  transform: translateX(-50%) scale(0);
+  font-size: 22px;
+  transition: transform 0.6s ease;
+}
+
+.plant.level-3 .flower {
+  transform: translateX(-50%) scale(1);
+}
