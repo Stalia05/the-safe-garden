@@ -2,88 +2,48 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>The Safe Garden — Recevoir des conseils</title>
+  <title>The Safe Garden – Conseils</title>
 
-  <!-- 🌿 Polices -->
+  <!-- Polices -->
   <link href="https://fonts.googleapis.com/css2?family=Italianno&family=Cormorant+Infant:wght@400;500;600&display=swap" rel="stylesheet">
 
-  <!-- 🎨 CSS de la page CONSEILS -->
-  <link rel="stylesheet" href="conseils.css">
+  <!-- CSS UNIQUE -->
+  <link rel="stylesheet" href="style.css">
 </head>
-<script src="js/conseils.js"></script>
-<body>
+
+<body class="page-conseils">
 
   <!-- 🦋 PAPILLONS -->
-  <img src="https://i.ibb.co/MkXd3nPM/IMG-5395.png" class="butterfly b1" alt="papillon">
-  <img src="https://i.ibb.co/MkXd3nPM/IMG-5395.png" class="butterfly b2" alt="papillon">
-  <img src="https://i.ibb.co/MkXd3nPM/IMG-5395.png" class="butterfly b3" alt="papillon">
+  <img src="https://i.ibb.co/MkXd3nPM/IMG-5395.png" class="butterfly b1" alt="">
+  <img src="https://i.ibb.co/MkXd3nPM/IMG-5395.png" class="butterfly b2" alt="">
+  <img src="https://i.ibb.co/MkXd3nPM/IMG-5395.png" class="butterfly b3" alt="">
 
-  <!-- 🌿 FEUILLES EN BAS -->
-  <img src="https://i.ibb.co/93hPNjwt/IMG-5394.png" class="bottom-leaves" alt="feuilles décoratives">
+  <!-- 🌿 FEUILLES -->
+  <img src="https://i.ibb.co/93hPNjwt/IMG-5394.png" class="bottom-leaves" alt="">
 
   <main class="garden">
 
-    <!-- 🌿 TITRE -->
+    <!-- TITRE -->
     <header class="garden-title">
       <h1>The Safe Garden</h1>
       <p>Un espace pour ralentir, comprendre, respirer.</p>
     </header>
 
-    <!-- 🌱 INTRO -->
+    <!-- INTRO -->
     <section class="step">
-      <p>
-        Si tu es ici, ce n’est probablement pas par hasard.
-        On n’atterrit pas dans un espace comme celui-ci quand tout va parfaitement bien.
-      </p>
-      <p>
-        Parfois, on arrive fatigué·e sans trop savoir pourquoi.
-        Parfois, on cherche simplement des mots.
-      </p>
+      <p>Si tu es ici, ce n’est probablement pas par hasard.</p>
+      <p>Des mots pour comprendre ce qui se passe à l’intérieur.</p>
     </section>
 
-    <!-- 🐱 EXPÉRIENCE DU CHAT -->
+    <!-- 🐱 CHAT -->
     <section class="experience-chat">
       <div class="chat-container visible">
-        <img 
-          src="https://i.ibb.co/xqCqgGxS/IMG-5397.png"
-          alt="Chat apaisant"
-          class="chat"
-        >
-        <div class="chat-bubble" id="chatBubble">
-          Tu peux aller doucement…
-        </div>
+        <img src="https://i.ibb.co/xqCqgGxS/IMG-5397.png" class="chat" alt="">
+        <div class="chat-bubble" id="chatBubble">Tu peux aller doucement…</div>
       </div>
     </section>
 
-    <!-- 🌱 SECTION 1 -->
-    <section class="step">
-      <h2>Quand “ça ne va pas” n’est pas clair</h2>
-
-      <p>Parfois, aller mal ne ressemble pas à une grande tristesse.</p>
-
-      <ul>
-        <li>Une fatigue qui ne part pas</li>
-        <li>Un manque d’élan</li>
-        <li>Un brouillard mental</li>
-        <li>Une irritabilité inhabituelle</li>
-      </ul>
-
-      <blockquote>« Je n’ai pas de raison d’aller mal. »</blockquote>
-
-      <p>Mais les émotions n’ont pas besoin d’autorisation pour exister.</p>
-    </section>
-
-    <!-- 🌱 SECTION 2 -->
-    <section class="step">
-      <h2>Comprendre sans se juger</h2>
-
-      <p>
-        La fatigue mentale n’est pas un manque de volonté.
-        C’est souvent un système saturé.
-      </p>
-    </section>
-
-    <!-- 🌱 EXPÉRIENCE PLANTE -->
+    <!-- 🌱 PLANTE -->
     <section class="experience-plant">
       <div class="plant-pot">
         <div class="plant-stem" id="plantStem">
@@ -96,44 +56,20 @@
       <p class="plant-message" id="plantMessage"></p>
     </section>
 
-    <!-- ☁️ EXPÉRIENCE NUAGE -->
+    <!-- ☁️ NUAGE -->
     <section class="experience-cloud">
+      <p class="cloud-intro">Tu peux déposer ici ce qui pèse.</p>
 
-      <p class="cloud-intro">
-        Tu peux déposer ici ce qui pèse un peu trop.
-      </p>
-
-      <textarea
-        id="cloudInput"
-        class="cloud-input"
-        placeholder="Un mot, une pensée, une émotion…"
-      ></textarea>
-
-      <button id="cloudBtn" class="cloud-btn">
-        Déposer sur le nuage
-      </button>
+      <textarea id="cloudInput" class="cloud-input"></textarea>
+      <button id="cloudBtn" class="cloud-btn">Déposer</button>
 
       <div class="cloud-area"></div>
     </section>
 
-    <!-- 🌱 CONCLUSION -->
-    <section class="step no-frame">
-      <h2>Une chose à retenir</h2>
-      <p>
-        Tu n’as pas besoin d’aller bien pour mériter de la douceur.
-      </p>
-    </section>
-
   </main>
 
-  <!-- 🌿 NAVIGATION -->
-  <nav class="garden-nav">
-    <a href="accueil.html" class="nav-link left">← Retour à l’accueil</a>
-    <a href="bilan.html" class="nav-link right">Bilan personnalisé →</a>
-  </nav>
-
-  <!-- 🧠 JS DE CETTE PAGE -->
-  <script src="conseils.js"></script>
+  <!-- JS À LA FIN -->
+  <script src="script.js"></script>
 
 </body>
 </html>
