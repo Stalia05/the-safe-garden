@@ -7,15 +7,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (!textarea || !button || !envelope || !responsesContainer) return;
 
-  /* ===============================
-     FILTRE INSULTES (BASIQUE SAFE)
-  =============================== */
-  function containsForbidden(text) {
-    const forbidden = ["con", "connard", "pute", "salope", "fdp", "nique"];
-    return forbidden.some(word =>
-      text.toLowerCase().includes(word)
-    );
-  }
 
   /* ===============================
      MESSAGES SELON L’HEURE
