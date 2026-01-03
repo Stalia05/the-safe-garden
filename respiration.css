@@ -1,52 +1,149 @@
-document.addEventListener("DOMContentLoaded", () => {
+/* =========================
+   BASE
+========================= */
+body {
+  margin: 0;
+  height: 100vh;
+  overflow: hidden; /* ❌ aucun scroll */
+  font-family: "Cormorant Infant", Georgia, serif;
+  color: #2f2f2f;
+  text-align: center;
 
-  const circle = document.getElementById("circle");
-  const instruction = document.getElementById("instruction");
-  const startBtn = document.getElementById("start");
+  /* 🌿 FOND SAUGE + IMAGE RESPIRATION */
+  background-color: #fbf8f3;
+  background-image: url("https://i.postimg.cc/cLKfzYKQ/IMG-5469.png");
+  background-repeat: no-repeat;
+  background-position: center top;
+  background-size: cover; /* prend tout l’écran */
+}
 
-  let isRunning = false;
-  let cycleInterval;
-  let totalTimer;
+/* =========================
+   HEADER – SIGNATURE
+========================= */
+.page-header {
+  padding-top: 24px;
+}
 
-  function startBreathing() {
-    if (isRunning) return;
-    isRunning = true;
+.safe-garden-title {
+  font-family: "Great Vibes", cursive;
+  font-size: 3rem;
+  font-weight: 400;
+  color: #6f8b77;
+  margin: 0;
+  opacity: 0.9;
+}
 
-    startBtn.disabled = true;
-    startBtn.style.opacity = "0.6";
+/* =========================
+   CONTENEUR JEU – CENTRÉ
+========================= */
+.container {
+  height: calc(100vh - 110px); /* écran - header */
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 0 20px;
 
-    instruction.textContent = "Inspire doucement…";
-    circle.classList.add("expand");
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* centre verticalement */
+}
 
-    // 🔁 cycle respiration (4s inspire / 4s expire)
-    cycleInterval = setInterval(() => {
-      if (circle.classList.contains("expand")) {
-        circle.classList.remove("expand");
-        instruction.textContent = "Expire lentement…";
-      } else {
-        circle.classList.add("expand");
-        instruction.textContent = "Inspire doucement…";
-      }
-    }, 4000);
+/* =========================
+   LIEN RETOUR
+========================= */
+.back {
+  margin-bottom: 16px;
+  text-decoration: none;
+  color: #6f8b77;
+  font-size: 0.9rem;
+  opacity: 0.85;
+}
 
-    // ⏱️ arrêt automatique après 30 secondes
-    totalTimer = setTimeout(stopBreathing, 30000);
+.back:hover {
+  opacity: 1;
+}
+
+/* =========================
+   TITRE PAGE
+========================= */
+.page-title {
+  font-size: 2.1rem;
+  margin-bottom: 10px;
+}
+
+/* =========================
+   INTRO
+========================= */
+.intro {
+  font-size: 1rem;
+  opacity: 0.8;
+  margin-bottom: 20px;
+}
+
+/* =========================
+   CERCLE DE RESPIRATION
+========================= */
+.circle {
+  width: 110px;
+  height: 110px;
+  margin: 30px auto;
+  border-radius: 50%;
+  background-color: #6f8b77;
+  transition: transform 4s ease-in-out;
+}
+
+.circle.expand {
+  transform: scale(1.8);
+}
+
+/* =========================
+   TEXTE INSTRUCTION
+========================= */
+.instruction {
+  font-size: 1.05rem;
+  min-height: 24px;
+  opacity: 0.9;
+}
+
+/* =========================
+   BOUTON
+========================= */
+.btn {
+  margin-top: 18px;
+  padding: 12px 26px;
+  border-radius: 999px;
+  border: none;
+  background-color: #6f8b77;
+  color: white;
+  cursor: pointer;
+  font-size: 1rem;
+  font-family: "Cormorant Infant", serif;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn:hover {
+  background-color: #5f7d6a;
+  transform: translateY(-1px);
+}
+
+/* =========================
+   RESPONSIVE – PETITS ÉCRANS
+========================= */
+@media (max-height: 700px) {
+  .safe-garden-title {
+    font-size: 2.4rem;
   }
 
-  function stopBreathing() {
-    clearInterval(cycleInterval);
-    clearTimeout(totalTimer);
-
-    circle.classList.remove("expand");
-    instruction.textContent = "C’est terminé. Tu peux rester encore un instant.";
-
-    startBtn.disabled = false;
-    startBtn.style.opacity = "1";
-    startBtn.textContent = "Recommencer";
-
-    isRunning = false;
+  .page-title {
+    font-size: 1.9rem;
   }
 
-  startBtn.addEventListener("click", startBreathing);
+  .circle {
+    width: 90px;
+    height: 90px;
+    margin: 20px auto;
+  }
 
-});
+  .intro {
+    font-size: 0.95rem;
+  }
+}
