@@ -4,10 +4,10 @@
   <meta charset="UTF-8">
   <title>The Safe Garden — Parler</title>
 
-  <!-- Polices Safe Garden -->
+  <!-- 🌿 POLICES SAFE GARDEN -->
   <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Infant:wght@400;500;600&display=swap" rel="stylesheet">
 
-  <!-- CSS DE LA PAGE -->
+  <!-- 🌿 CSS DE LA PAGE -->
   <link rel="stylesheet" href="parler.css">
 </head>
 
@@ -53,13 +53,18 @@
         Tu peux t’arrêter quand tu veux.
       </p>
     </section>
-<p class="chat-note">
-  Ce que tu écris ici ne sera ni enregistré, ni partagé.
-</p>
+
+    <!-- 🔒 NOTE DE CONFIANCE -->
+    <p class="chat-note">
+      Ce que tu écris ici n’est ni enregistré, ni partagé.
+    </p>
+
     <!-- 💬 ZONE D’ÉCRITURE -->
     <section class="chat-box">
+
       <textarea
         id="chatInput"
+        class="chat-input"
         placeholder="Écris ici ce que tu veux déposer…"
         rows="6"
       ></textarea>
@@ -68,9 +73,15 @@
         Déposer 🌿
       </button>
 
-      <!-- 🌿 MESSAGE DE RETOUR (JS) -->
-      <p id="chatFeedback" class="chat-feedback"></p>
     </section>
+
+    <!-- ✉️ ENVELOPPE — ANIMATION -->
+    <div id="envelope" class="envelope hidden">
+      <div class="letter"></div>
+    </div>
+
+    <!-- 🌿 RÉPONSES SAFE GARDEN -->
+    <section id="chatResponses" class="chat-responses"></section>
 
   </main>
 
@@ -81,7 +92,7 @@
     </a>
   </footer>
 
-  <!-- JS -->
+  <!-- 🌿 JS -->
   <script src="parler.js"></script>
 
 </body>
