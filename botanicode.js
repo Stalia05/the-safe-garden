@@ -1,15 +1,24 @@
 document.addEventListener("DOMContentLoaded", () => {
 
+  /* ===============================
+     CONFIG
+  ================================ */
   const SYMBOLS = ["🌼", "🌸", "🌻", "🌱", "🍃", "🍀", "🍄", "🪨"];
   const CODE_LENGTH = 5;
   const MAX_ATTEMPTS = 10;
 
+  /* ===============================
+     DOM
+  ================================ */
   const board = document.querySelector(".botanicode-board");
-  const attemptRows = document.querySelectorAll(".attempt-row");
+  const attemptRows = Array.from(document.querySelectorAll(".attempt-row"));
   const endMessage = document.querySelector(".end-message");
   const winMessage = document.querySelector(".win-message");
   const retryBtns = document.querySelectorAll(".retry-btn");
 
+  /* ===============================
+     STATE
+  ================================ */
   let secretCode = [];
   let currentAttempt = 0;
   let selectedSymbol = null;
@@ -43,7 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     endMessage.style.display = "none";
-    winMessage.style.display = "none";
+    if (winMessage) winMessage.style.display = "none";
   }
 
   function generateSecretCode() {
@@ -76,33 +85,43 @@ document.addEventListener("DOMContentLoaded", () => {
   board.appendChild(palette);
 
   /* ===============================
-     CLIC SUR CASES (SANS pointer-events)
+     CLIC GAUCHE → PLACER
   ================================ */
   board.addEventListener("click", (e) => {
-  const slot = e.target.classList.contains("slot")
-    ? e.target
-    : e.target.closest(".slot");
+    if (gameOver || !selectedSymbol) return;
 
-  if (!slot || gameOver || !selectedSymbol) return;
+    const slot = e.target.classList.contains("slot")
+      ? e.target
+      : e.target.closest(".slot");
 
-  const row = slot.closest(".attempt-row");
-  const rowIndex = [...attemptRows].indexOf(row);
+    if (!slot) return;
 
-  if (rowIndex !== currentAttempt) return;
+    const row = slot.closest(".attempt-row");
+    if (!row) return;
 
-  slot.textContent = selectedSymbol;
-  slot.dataset.symbol = selectedSymbol;
-});
+    const rowIndex = attemptRows.indexOf(row);
+    if (rowIndex !== currentAttempt) return;
 
+    slot.textContent = selectedSymbol;
+    slot.dataset.symbol = selectedSymbol;
+  });
+
+  /* ===============================
+     CLIC DROIT → EFFACER
+  ================================ */
   board.addEventListener("contextmenu", (e) => {
-    const slot = e.target.closest(".slots .slot");
+    const slot = e.target.classList.contains("slot")
+      ? e.target
+      : e.target.closest(".slot");
+
     if (!slot || gameOver) return;
 
     e.preventDefault();
 
     const row = slot.closest(".attempt-row");
-    const rowIndex = [...attemptRows].indexOf(row);
+    if (!row) return;
 
+    const rowIndex = attemptRows.indexOf(row);
     if (rowIndex !== currentAttempt) return;
 
     slot.textContent = "";
@@ -120,6 +139,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const slots = row.querySelectorAll(".slots .slot");
       const guess = [...slots].map(s => s.dataset.symbol);
+
       if (guess.includes("")) return;
 
       const feedback = getFeedback(guess);
@@ -141,6 +161,9 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
+  /* ===============================
+     FEEDBACK
+  ================================ */
   function getFeedback(guess) {
     let correct = 0;
     let present = 0;
@@ -169,22 +192,31 @@ document.addEventListener("DOMContentLoaded", () => {
   function displayFeedback(row, { correct, present }) {
     const dots = row.querySelectorAll(".feedback-dot");
     let i = 0;
+
     for (; i < correct; i++) dots[i].classList.add("correct");
     for (; i < correct + present; i++) dots[i].classList.add("present");
     for (; i < dots.length; i++) dots[i].classList.add("absent");
   }
 
+  /* ===============================
+     ROWS
+  ================================ */
   function updateRows() {
     attemptRows.forEach((row, index) => {
       row.style.opacity = index === currentAttempt ? "1" : "0.3";
     });
   }
 
+  /* ===============================
+     FIN DE JEU
+  ================================ */
   function endGame(victory) {
     gameOver = true;
     revealSecret();
-    victory ? winMessage.style.display = "block"
-            : endMessage.style.display = "block";
+
+    victory
+      ? winMessage && (winMessage.style.display = "block")
+      : (endMessage.style.display = "block");
   }
 
   function revealSecret() {
@@ -194,7 +226,14 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  /* ===============================
+     RESSAYER
+  ================================ */
   retryBtns.forEach(btn => btn.addEventListener("click", initGame));
 
+  /* ===============================
+     START
+  ================================ */
   initGame();
+
 });
