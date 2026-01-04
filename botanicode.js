@@ -25,6 +25,31 @@ document.addEventListener("DOMContentLoaded", () => {
   let gameOver = false;
 
   /* ===============================
+     BOUTON EFFACER (UNIQUE)
+  ================================ */
+  const eraseBtn = document.createElement("button");
+  eraseBtn.className = "erase-btn";
+  eraseBtn.textContent = "↩ Effacer";
+  eraseBtn.style.display = "none";
+  board.appendChild(eraseBtn);
+
+  eraseBtn.addEventListener("click", () => {
+    if (gameOver) return;
+
+    const row = attemptRows[currentAttempt];
+    if (!row) return;
+
+    const slots = row.querySelectorAll(".slots .slot");
+    const filled = [...slots].filter(s => s.dataset.symbol);
+
+    if (filled.length === 0) return;
+
+    const last = filled[filled.length - 1];
+    last.textContent = "";
+    last.dataset.symbol = "";
+  });
+
+  /* ===============================
      INIT
   ================================ */
   function initGame() {
@@ -32,12 +57,14 @@ document.addEventListener("DOMContentLoaded", () => {
     currentAttempt = 0;
     gameOver = false;
 
-    attemptRows.forEach((row, index) => {
-      row.style.opacity = "1"; // ❌ plus de transparence
+    attemptRows.forEach(row => {
+      row.style.opacity = "1";
+
       row.querySelectorAll(".slot").forEach(slot => {
         slot.textContent = "";
         slot.dataset.symbol = "";
       });
+
       row.querySelectorAll(".feedback-dot").forEach(dot => {
         dot.className = "feedback-dot";
       });
@@ -50,6 +77,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     endMessage.style.display = "none";
     if (winMessage) winMessage.style.display = "none";
+
+    moveEraseButton();
   }
 
   /* ===============================
@@ -62,7 +91,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* ===============================
-     PALETTE (PLACEMENT AUTO)
+     PALETTE → PLACEMENT AUTO
   ================================ */
   const palette = document.createElement("div");
   palette.className = "symbol-palette";
@@ -79,12 +108,14 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!row) return;
 
       const slots = row.querySelectorAll(".slots .slot");
-      const emptySlot = [...slots].find(s => !s.dataset.symbol);
+      const empty = [...slots].find(s => !s.dataset.symbol);
 
-      if (!emptySlot) return;
+      if (!empty) return;
 
-      emptySlot.textContent = symbol;
-      emptySlot.dataset.symbol = symbol;
+      empty.textContent = symbol;
+      empty.dataset.symbol = symbol;
+
+      moveEraseButton();
     });
 
     palette.appendChild(btn);
@@ -104,6 +135,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const slots = row.querySelectorAll(".slots .slot");
       const guess = [...slots].map(s => s.dataset.symbol);
+
       if (guess.includes("")) return;
 
       const feedback = getFeedback(guess);
@@ -118,7 +150,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (currentAttempt >= MAX_ATTEMPTS) {
         endGame(false);
+        return;
       }
+
+      moveEraseButton();
     });
   });
 
@@ -160,10 +195,27 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* ===============================
+     POSITION DU BOUTON EFFACER
+  ================================ */
+  function moveEraseButton() {
+    if (gameOver || currentAttempt >= MAX_ATTEMPTS) {
+      eraseBtn.style.display = "none";
+      return;
+    }
+
+    const row = attemptRows[currentAttempt];
+    if (!row) return;
+
+    row.appendChild(eraseBtn);
+    eraseBtn.style.display = "inline-block";
+  }
+
+  /* ===============================
      FIN
   ================================ */
   function endGame(victory) {
     gameOver = true;
+    eraseBtn.style.display = "none";
 
     secretSlots.forEach((slot, i) => {
       slot.textContent = secretCode[i];
