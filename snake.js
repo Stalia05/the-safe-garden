@@ -8,27 +8,41 @@ document.addEventListener("DOMContentLoaded", () => {
   const ctx = canvas.getContext("2d");
 
   /* ===============================
-     🔒 BLOQUER LE SCROLL UNIQUEMENT
-     QUAND ON INTERAGIT AVEC LE JEU
+     🔒 GESTION SCROLL / CLAVIER
+     (UNIQUEMENT QUAND LE SNAKE EST ACTIF)
   ================================ */
-  function preventScroll(e) {
-    e.preventDefault();
-  }
+  let snakeActive = false;
 
-  function lockScroll() {
-    document.addEventListener("touchmove", preventScroll, { passive: false });
-    document.addEventListener("wheel", preventScroll, { passive: false });
-  }
+  // activation quand on entre dans la zone
+  wrapper.addEventListener("mouseenter", () => {
+    snakeActive = true;
+  });
+  wrapper.addEventListener("mouseleave", () => {
+    snakeActive = false;
+  });
 
-  function unlockScroll() {
-    document.removeEventListener("touchmove", preventScroll);
-    document.removeEventListener("wheel", preventScroll);
-  }
+  // mobile
+  wrapper.addEventListener("touchstart", () => {
+    snakeActive = true;
+  }, { passive: true });
+  wrapper.addEventListener("touchend", () => {
+    snakeActive = false;
+  });
 
-  /* activation ciblée */
-  wrapper.addEventListener("touchstart", lockScroll, { passive: true });
-  wrapper.addEventListener("touchend", unlockScroll);
-  wrapper.addEventListener("mouseleave", unlockScroll);
+  // blocage des flèches UNIQUEMENT si snake actif
+  window.addEventListener(
+    "keydown",
+    e => {
+      if (!snakeActive) return;
+
+      if (
+        ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", " "].includes(e.key)
+      ) {
+        e.preventDefault();
+      }
+    },
+    { passive: false }
+  );
 
   /* ===============================
      CANVAS RESPONSIVE
@@ -89,11 +103,11 @@ document.addEventListener("DOMContentLoaded", () => {
      DRAW
   ================================ */
   function draw() {
-    /* fond */
+    // fond
     ctx.fillStyle = "#e7f0ea";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    /* 🍎 pomme */
+    // 🍎 pomme
     const cx = food.x * tileSize + tileSize / 2;
     const cy = food.y * tileSize + tileSize / 2;
 
@@ -109,7 +123,7 @@ document.addEventListener("DOMContentLoaded", () => {
     ctx.lineTo(cx, cy - tileSize / 1.3);
     ctx.stroke();
 
-    /* 🟩 serpent */
+    // 🟩 serpent
     ctx.fillStyle = "#6f9f88";
     snake.forEach(part => {
       ctx.fillRect(
@@ -120,7 +134,7 @@ document.addEventListener("DOMContentLoaded", () => {
       );
     });
 
-    /* mouvement */
+    // mouvement
     const head = {
       x: snake[0].x + dx,
       y: snake[0].y + dy
@@ -128,7 +142,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     snake.unshift(head);
 
-    /* manger */
+    // manger
     if (head.x === food.x && head.y === food.y) {
       food = randomFood();
       respirations++;
@@ -139,7 +153,7 @@ document.addEventListener("DOMContentLoaded", () => {
       snake.pop();
     }
 
-    /* collision = reset */
+    // collision → reset zen
     if (
       head.x < 0 ||
       head.y < 0 ||
@@ -155,6 +169,8 @@ document.addEventListener("DOMContentLoaded", () => {
      CLAVIER (DESKTOP)
   ================================ */
   document.addEventListener("keydown", e => {
+    if (!snakeActive) return;
+
     if (e.key === "ArrowUp" && dy === 0) {
       dx = 0; dy = -1;
     }
