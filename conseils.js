@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-  console.log("🌿 Safe Garden JS chargé");
+  console.log("🌿 Safe Garden – JS complet chargé");
 
   /* ===============================
      🌸 RESPIRATION DES SECTIONS
@@ -16,17 +16,19 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   /* ===============================
-     🐱 CHAT – CARESSE NATURELLE
+     🐱 CHAT – CARESSE DOUCE & LISIBLE
   =============================== */
   const chat = document.getElementById("chatImage");
   const bubble = document.getElementById("chatBubble");
   const purr = document.getElementById("purrSound");
   const meowStop = document.getElementById("meowStop");
 
-  let lastX = null;
-  let lastY = null;
-  let lastTime = null;
+  let lastX = null, lastY = null, lastT = null;
   let audioUnlocked = false;
+
+  let currentMessage = "";
+  let lastMessageTime = 0;
+  const MESSAGE_DELAY = 1400;
 
   function unlockAudio() {
     if (audioUnlocked || !purr) return;
@@ -35,77 +37,78 @@ document.addEventListener("DOMContentLoaded", () => {
     purr.play().then(() => purr.pause()).catch(() => {});
   }
 
-  function petReaction(speed) {
+  function setBubble(text) {
+    const now = Date.now();
+    if (text === currentMessage) return;
+    if (now - lastMessageTime < MESSAGE_DELAY) return;
+
+    currentMessage = text;
+    lastMessageTime = now;
+    bubble.textContent = text;
+  }
+
+  function reactToPet(speed) {
     if (!bubble || !purr) return;
 
     if (speed < 0.25) {
       purr.volume = 0.45;
-      bubble.textContent = "Voilà… doucement 🤍";
-    } else if (speed < 0.6) {
+      setBubble("Voilà… doucement 🤍");
+    } 
+    else if (speed < 0.6) {
       purr.volume = 0.3;
-      bubble.textContent = "Pas trop fort…";
-    } else {
+      setBubble("Pas trop fort…");
+    } 
+    else {
       purr.pause();
       if (meowStop) {
         meowStop.currentTime = 0;
         meowStop.play().catch(() => {});
       }
-      bubble.textContent =
-        "Si tu es dur·e avec toi-même, ça fait mal aussi…";
+      setBubble("Si tu es dur·e avec toi-même, ça fait mal aussi…");
       return;
     }
 
-    if (purr.paused) {
-      purr.play().catch(() => {});
-    }
+    if (purr.paused) purr.play().catch(() => {});
   }
 
   function handlePet(x, y) {
     unlockAudio();
-
     const now = performance.now();
 
     if (lastX === null) {
-      lastX = x;
-      lastY = y;
-      lastTime = now;
+      lastX = x; lastY = y; lastT = now;
       return;
     }
 
     const dx = x - lastX;
     const dy = y - lastY;
-    const dt = now - lastTime || 1;
+    const dt = now - lastT || 1;
     const speed = Math.sqrt(dx * dx + dy * dy) / dt;
 
-    lastX = x;
-    lastY = y;
-    lastTime = now;
-
-    petReaction(speed);
+    lastX = x; lastY = y; lastT = now;
+    reactToPet(speed);
   }
 
   function stopPet() {
     if (purr) purr.pause();
-    if (bubble) bubble.textContent = "Je suis là.";
-    lastX = lastY = lastTime = null;
+    setBubble("Je suis là.");
+    lastX = lastY = lastT = null;
   }
 
   if (chat) {
     chat.addEventListener("mousemove", e =>
       handlePet(e.clientX, e.clientY)
     );
-
     chat.addEventListener("touchmove", e => {
       const t = e.touches[0];
       handlePet(t.clientX, t.clientY);
     });
-
     chat.addEventListener("mouseleave", stopPet);
     chat.addEventListener("touchend", stopPet);
   }
 
   /* ===============================
-     🌱 PLANTE VIVANTE (FIXÉE)
+     🌱 PLANTE VIVANTE (FIABLE)
   =============================== */
   const plant = document.querySelector(".plant");
   const waterBtn = document.getElementById("waterBtn");
@@ -146,15 +149,14 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* ===============================
-     ☁️ NUAGE → ÉTOILES VISIBLES
+     ⭐ POUSSIÈRE D’ÉTOILES (VISIBLE)
   =============================== */
-  const cloudBtn = document.getElementById("cloudBtn");
-  const cloudInput = document.getElementById("cloudInput");
-  const cloudArea = document.querySelector(".cloud-area");
   const starLayer = document.getElementById("starDustLayer");
+  let dustLevel = Number(localStorage.getItem("dustLevel")) || 0;
 
-  let dustLevel = 0;
-  let autoSweepTimeout = null;
+  function saveDust() {
+    localStorage.setItem("dustLevel", dustLevel);
+  }
 
   function createStar(x, y) {
     const star = document.createElement("span");
@@ -162,7 +164,8 @@ document.addEventListener("DOMContentLoaded", () => {
     star.style.left = `${x}px`;
     star.style.top = `${y}px`;
     starLayer.appendChild(star);
-    setTimeout(() => star.remove(), 3500);
+
+    setTimeout(() => star.remove(), 4500);
   }
 
   function spreadDust(amount) {
@@ -177,11 +180,22 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  if (dustLevel > 0) {
+    spreadDust(40 + dustLevel * 20);
+  }
+
+  /* ===============================
+     ☁️ NUAGE – APPARITION IMMÉDIATE
+  =============================== */
+  const cloudBtn = document.getElementById("cloudBtn");
+  const cloudInput = document.getElementById("cloudInput");
+  const cloudArea = document.querySelector(".cloud-area");
+
   function animateCloud(cloud) {
     let y = 0;
 
     function rise() {
-      y += 1.4;
+      y += 1.6;
       cloud.style.transform = `translate(-50%, -${y}px)`;
 
       if (y < window.innerHeight + 200) {
@@ -189,12 +203,11 @@ document.addEventListener("DOMContentLoaded", () => {
       } else {
         cloud.remove();
         dustLevel++;
-        spreadDust(80 + dustLevel * 30);
-
-        if (autoSweepTimeout) clearTimeout(autoSweepTimeout);
-        autoSweepTimeout = setTimeout(autoSweep, 6000);
+        saveDust();
+        spreadDust(100 + dustLevel * 30);
       }
     }
+
     rise();
   }
 
@@ -203,18 +216,21 @@ document.addEventListener("DOMContentLoaded", () => {
       const text = cloudInput.value.trim();
       if (!text) return;
 
+      // ☁️ création instantanée
       const cloud = document.createElement("div");
       cloud.className = "cloud";
       cloud.textContent = text;
       cloudArea.appendChild(cloud);
+
       cloudInput.value = "";
 
-      animateCloud(cloud);
+      // animation lancée juste après apparition
+      requestAnimationFrame(() => animateCloud(cloud));
     });
   }
 
   /* ===============================
-     🧹 BALAI – OPTION C (PROPRE)
+     🧹 BALAI – NETTOYAGE GLOBAL
   =============================== */
   const broom = document.getElementById("broom");
   const sweepBtn = document.getElementById("sweepBtn");
@@ -230,12 +246,12 @@ document.addEventListener("DOMContentLoaded", () => {
     sweepSound.play().catch(() => {});
 
     if (navigator.vibrate) {
-      navigator.vibrate([25, 20, 25]);
+      navigator.vibrate([30, 20, 30]);
     }
 
     broom.animate(
       [
-        { transform: "translateX(-160%) rotate(-10deg)" },
+        { transform: "translateX(-160%) rotate(-12deg)" },
         { transform: "translateX(120%) rotate(8deg)" }
       ],
       { duration: 2400, easing: "ease-in-out" }
@@ -244,6 +260,7 @@ document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => {
       document.querySelectorAll(".star").forEach(s => s.remove());
       dustLevel = 0;
+      saveDust();
       broom.style.display = "none";
     }, 2300);
   }
