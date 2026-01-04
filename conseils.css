@@ -189,78 +189,108 @@ body {
 }
 
 /* ===============================
-   🌱 EXPERIENCE PLANTE
+   🌱 EXPERIENCE PLANTE – VERSION PROPRE
 ================================ */
 .experience-plant {
   text-align: center;
   margin: 140px 0;
 }
 
+/* conteneur plante */
 .plant {
   position: relative;
-  display: inline-block;
+  width: 90px;
+  margin: 0 auto;
 }
 
-/* pot */
+/* POT = MASQUE */
 .plant-pot {
+  position: relative;
   width: 90px;
   height: 120px;
   background: #7a5c42;
   border-radius: 0 0 40px 40px;
-  margin: 0 auto;
+  overflow: hidden; /* 🔴 TRÈS IMPORTANT */
   display: flex;
   justify-content: center;
   align-items: flex-end;
 }
 
-/* tige */
+/* TIGE */
 .plant-stem {
+  position: absolute;
+  bottom: 0;
   width: 10px;
-  height: 26px;
+  height: 0; /* commence invisible */
   background: #4f7f5f;
   border-radius: 10px;
-  transition: height 0.6s ease;
+  transition: height 0.8s ease;
 }
 
-/* feuilles */
+/* FEUILLES */
 .leaf {
   position: absolute;
-  width: 26px;
+  width: 24px;
   height: 14px;
   background: #6fae88;
   border-radius: 20px;
-  top: 28px;
-  opacity: 0;
-  transition: all 0.6s ease;
-}
-
-.leaf.left { left: -24px; transform: rotate(-20deg); }
-.leaf.right { right: -24px; transform: rotate(20deg); }
-
-/* fleur cachée */
-.flower {
-  position: absolute;
-  top: -36px;
-  left: 50%;
-  transform: translateX(-50%) scale(0);
   opacity: 0;
   transition: all 0.8s ease;
 }
 
-/* niveaux */
-.plant.level-1 .plant-stem { height: 50px; }
-
-.plant.level-2 .plant-stem { height: 75px; }
-.plant.level-2 .leaf {
-  opacity: 1;
+.leaf.left {
+  left: -18px;
+  transform: rotate(-25deg);
 }
 
-.plant.level-3 .plant-stem { height: 95px; }
+.leaf.right {
+  right: -18px;
+  transform: rotate(25deg);
+}
+
+/* FLEUR (CACHÉE AU DÉPART) */
+.flower {
+  position: absolute;
+  top: -34px;
+  left: 50%;
+  transform: translateX(-50%) scale(0);
+  opacity: 0;
+  transition: all 0.9s ease;
+  pointer-events: none;
+}
+
+/* ===============================
+   🌱 NIVEAUX DE CROISSANCE
+================================ */
+
+/* niveau 1 : tige sort à peine */
+.plant.level-1 .plant-stem {
+  height: 40px;
+}
+
+/* niveau 2 : tige + feuilles */
+.plant.level-2 .plant-stem {
+  height: 70px;
+}
+
+.plant.level-2 .leaf {
+  opacity: 1;
+  top: 34px;
+}
+
+/* niveau 3 : tige complète + fleur */
+.plant.level-3 .plant-stem {
+  height: 95px;
+}
+
+.plant.level-3 .leaf {
+  top: 46px;
+}
+
 .plant.level-3 .flower {
   opacity: 1;
   transform: translateX(-50%) scale(1);
 }
-
 /* ===============================
    ☁️ EXPERIENCE NUAGE
 ================================ */
