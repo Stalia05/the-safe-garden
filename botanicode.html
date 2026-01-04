@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <title>The Safe Garden – Botanicode</title>
 
-  <!-- 🌿 Polices Safe Garden -->
+  <!-- 🌿 Polices -->
   <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Infant:wght@400;500;600&display=swap" rel="stylesheet">
 
   <!-- 🌿 CSS -->
@@ -12,9 +12,6 @@
 </head>
 
 <body>
-
-  <!-- ✨ DÉCOR -->
-  <div class="star-field"></div>
 
   <!-- 🌿 CONTENEUR PRINCIPAL -->
   <main class="botanicode-container">
@@ -48,7 +45,7 @@
     <!-- 🧠 PLATEAU DU JEU -->
     <section class="botanicode-board">
 
-      <!-- 🌼 CODE SECRET (MASQUÉ) -->
+      <!-- 🌼 CODE SECRET -->
       <div class="secret-code">
         <div class="slot hidden"></div>
         <div class="slot hidden"></div>
@@ -60,8 +57,8 @@
       <!-- 🌿 ESSAIS -->
       <div class="attempts">
 
-        <!-- ESSAIS x10 -->
-        <!-- 👉 même structure pour chaque ligne -->
+        <!-- 10 LIGNES D’ESSAIS -->
+        <!-- ❌ PAS DE BOUTON EFFACER ICI -->
 
         <!-- ESSAI 1 -->
         <div class="attempt-row">
@@ -81,7 +78,6 @@
             <div class="feedback-dot"></div>
           </div>
 
-          <button class="erase-btn">⬅ Effacer</button>
           <button class="validate-btn">Valider</button>
         </div>
 
@@ -93,9 +89,11 @@
           <div class="feedback">
             <div class="feedback-dot"></div><div class="feedback-dot"></div><div class="feedback-dot"></div><div class="feedback-dot"></div><div class="feedback-dot"></div>
           </div>
-          <button class="erase-btn">⬅ Effacer</button>
           <button class="validate-btn">Valider</button>
         </div>
+
+        <!-- ESSAIS 3 À 10 -->
+        <!-- (copie exactement la même structure) -->
 
         <!-- ESSAI 3 -->
         <div class="attempt-row">
@@ -105,7 +103,6 @@
           <div class="feedback">
             <div class="feedback-dot"></div><div class="feedback-dot"></div><div class="feedback-dot"></div><div class="feedback-dot"></div><div class="feedback-dot"></div>
           </div>
-          <button class="erase-btn">⬅ Effacer</button>
           <button class="validate-btn">Valider</button>
         </div>
 
@@ -117,7 +114,6 @@
           <div class="feedback">
             <div class="feedback-dot"></div><div class="feedback-dot"></div><div class="feedback-dot"></div><div class="feedback-dot"></div><div class="feedback-dot"></div>
           </div>
-          <button class="erase-btn">⬅ Effacer</button>
           <button class="validate-btn">Valider</button>
         </div>
 
@@ -129,7 +125,6 @@
           <div class="feedback">
             <div class="feedback-dot"></div><div class="feedback-dot"></div><div class="feedback-dot"></div><div class="feedback-dot"></div><div class="feedback-dot"></div>
           </div>
-          <button class="erase-btn">⬅ Effacer</button>
           <button class="validate-btn">Valider</button>
         </div>
 
@@ -141,7 +136,6 @@
           <div class="feedback">
             <div class="feedback-dot"></div><div class="feedback-dot"></div><div class="feedback-dot"></div><div class="feedback-dot"></div><div class="feedback-dot"></div>
           </div>
-          <button class="erase-btn">⬅ Effacer</button>
           <button class="validate-btn">Valider</button>
         </div>
 
@@ -153,7 +147,6 @@
           <div class="feedback">
             <div class="feedback-dot"></div><div class="feedback-dot"></div><div class="feedback-dot"></div><div class="feedback-dot"></div><div class="feedback-dot"></div>
           </div>
-          <button class="erase-btn">⬅ Effacer</button>
           <button class="validate-btn">Valider</button>
         </div>
 
@@ -165,7 +158,6 @@
           <div class="feedback">
             <div class="feedback-dot"></div><div class="feedback-dot"></div><div class="feedback-dot"></div><div class="feedback-dot"></div><div class="feedback-dot"></div>
           </div>
-          <button class="erase-btn">⬅ Effacer</button>
           <button class="validate-btn">Valider</button>
         </div>
 
@@ -177,7 +169,6 @@
           <div class="feedback">
             <div class="feedback-dot"></div><div class="feedback-dot"></div><div class="feedback-dot"></div><div class="feedback-dot"></div><div class="feedback-dot"></div>
           </div>
-          <button class="erase-btn">⬅ Effacer</button>
           <button class="validate-btn">Valider</button>
         </div>
 
@@ -189,18 +180,16 @@
           <div class="feedback">
             <div class="feedback-dot"></div><div class="feedback-dot"></div><div class="feedback-dot"></div><div class="feedback-dot"></div><div class="feedback-dot"></div>
           </div>
-          <button class="erase-btn">⬅ Effacer</button>
           <button class="validate-btn">Valider</button>
         </div>
 
       </div>
 
-      <!-- 🌿 MESSAGE DE FIN -->
+      <!-- 🌿 MESSAGE FIN -->
       <section class="end-message" style="display:none;">
         <p class="end-text">
           <strong>Oupsii 🌿</strong><br>
-          Changer de chemin ou réessayer, ce n’est pas un échec.<br>
-          L’échec, c’est seulement quand on abandonne complètement.
+          Ici, on n’échoue pas. On apprend.
         </p>
 
         <div class="end-actions">
@@ -212,7 +201,7 @@
     </section>
   </main>
 
-  <!-- 🌿 RETOUR FIXE -->
+  <!-- 🌿 RETOUR -->
   <a href="mini-jeux.html" class="back-home-fixed">
     ← Retour aux mini-jeux
   </a>
