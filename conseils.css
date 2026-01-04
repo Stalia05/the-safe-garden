@@ -1,230 +1,333 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8">
-  <title>The Safe Garden – Botanicode</title>
+/* ===============================
+   RESET
+================================ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-  <!-- 🌿 Polices Safe Garden -->
-  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Infant:wght@400;500;600&display=swap" rel="stylesheet">
+/* ===============================
+   BASE
+================================ */
+body {
+  font-family: "Cormorant Infant", serif;
+  background-color: #e7f0ea;
+  color: #263326;
+  line-height: 1.85;
+  overflow-x: hidden;
+}
 
-  <!-- 🌿 CSS dédié au jeu -->
-  <link rel="stylesheet" href="botanicode.css">
-</head>
+/* ===============================
+   CONTENEUR PRINCIPAL
+================================ */
+.garden {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 80px 20px 240px;
+  position: relative;
+  z-index: 2;
+}
 
-<body>
+/* ===============================
+   FOND BOTANIQUE
+================================ */
+.bottom-leaves {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  pointer-events: none;
+  opacity: 0.9;
+  z-index: 0;
+}
 
-  <!-- 🌿 CONTENEUR PRINCIPAL -->
-  <main class="botanicode-container">
+/* ===============================
+   PAPILLONS
+================================ */
+.butterfly {
+  position: fixed;
+  pointer-events: none;
+  opacity: 0.75;
+  z-index: 1;
+}
 
-    <!-- 🌸 TITRES -->
-    <header class="botanicode-header">
-      <h1 class="safe-garden-title">The Safe Garden</h1>
-      <h2 class="botanicode-title">🌿 Botanicode</h2>
-    </header>
+.b1 { width: 120px; top: 12%; left: 4%; }
+.b2 { width: 150px; top: 32%; right: 6%; }
+.b3 { width: 110px; top: 58%; left: 16%; }
 
-    <!-- 🌱 INTRO -->
-    <p class="botanicode-intro">
-      Un code botanique est caché dans le jardin.<br>
-      Observe, déduis, ajuste.
-    </p>
+/* ===============================
+   POUSSIÈRE D’ÉTOILES
+================================ */
+#starDustLayer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 3;
+}
 
-    <!-- 📜 RÈGLES -->
-    <section class="botanicode-rules">
-      <h3>Règles du jeu</h3>
-      <ul>
-        <li>🌸 8 symboles botaniques sont disponibles</li>
-        <li>🌱 Le code secret contient 5 symboles</li>
-        <li>🧠 Tu as 10 essais pour le décrypter</li>
-        <li>🟢 Bon symbole, bonne place</li>
-        <li>🟡 Bon symbole, mauvaise place</li>
-        <li>⚪ Symbole absent</li>
-        <li>🌿 Il n’y a pas d’échec ici. Seulement des essais.</li>
-      </ul>
-    </section>
+.star {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  background: #ffd84d;
+  clip-path: polygon(
+    50% 0%, 61% 35%, 98% 35%, 68% 57%,
+    79% 100%, 50% 72%, 21% 100%, 32% 57%,
+    2% 35%, 39% 35%
+  );
+  opacity: 0.85;
+  filter: drop-shadow(0 0 6px rgba(255,215,120,0.8));
+  animation: sparkle 3s ease-in-out infinite;
+}
 
-    <!-- 🧠 PLATEAU DU JEU -->
-    <section class="botanicode-board">
+@keyframes sparkle {
+  0%,100% { transform: scale(0.9); opacity: 0.6; }
+  50% { transform: scale(1.1); opacity: 1; }
+}
 
-      <!-- 🌼 CODE SECRET (MASQUÉ) -->
-      <div class="secret-code">
-        <div class="slot hidden"></div>
-        <div class="slot hidden"></div>
-        <div class="slot hidden"></div>
-        <div class="slot hidden"></div>
-        <div class="slot hidden"></div>
-      </div>
+/* ===============================
+   TITRE
+================================ */
+.garden-title {
+  text-align: center;
+  margin-bottom: 140px;
+}
 
-      <!-- 🌿 ESSAIS -->
-      <div class="attempts">
+.garden-title h1 {
+  font-family: "Great Vibes", cursive;
+  font-size: clamp(3.5rem, 8vw, 5.5rem);
+  color: #2f5d46;
+}
 
-        <!-- 10 ESSAIS -->
-        <!-- ESSAI 1 -->
-        <div class="attempt-row">
-          <div class="slots">
-            <div class="slot"></div>
-            <div class="slot"></div>
-            <div class="slot"></div>
-            <div class="slot"></div>
-            <div class="slot"></div>
-          </div>
-          <div class="feedback">
-            <div class="feedback-dot"></div>
-            <div class="feedback-dot"></div>
-            <div class="feedback-dot"></div>
-            <div class="feedback-dot"></div>
-            <div class="feedback-dot"></div>
-          </div>
-          <button class="validate-btn">Valider</button>
-        </div>
+.garden-title p {
+  font-size: 18px;
+  opacity: 0.75;
+}
 
-        <!-- ESSAIS 2 À 10 -->
-        <!-- (structure identique, répétée volontairement pour la lisibilité JS) -->
+/* ===============================
+   TEXTE CONSEIL
+================================ */
+.step,
+.garden-text {
+  margin-bottom: 120px;
+}
 
-        <!-- ESSAI 2 -->
-        <div class="attempt-row">
-          <div class="slots">
-            <div class="slot"></div><div class="slot"></div><div class="slot"></div><div class="slot"></div><div class="slot"></div>
-          </div>
-          <div class="feedback">
-            <div class="feedback-dot"></div><div class="feedback-dot"></div><div class="feedback-dot"></div><div class="feedback-dot"></div><div class="feedback-dot"></div>
-          </div>
-          <button class="validate-btn">Valider</button>
-        </div>
+.step p,
+.garden-text p {
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.85;
+  color: #263326;
+  margin-bottom: 22px;
+}
 
-        <!-- ESSAI 3 -->
-        <div class="attempt-row">
-          <div class="slots">
-            <div class="slot"></div><div class="slot"></div><div class="slot"></div><div class="slot"></div><div class="slot"></div>
-          </div>
-          <div class="feedback">
-            <div class="feedback-dot"></div><div class="feedback-dot"></div><div class="feedback-dot"></div><div class="feedback-dot"></div><div class="feedback-dot"></div>
-          </div>
-          <button class="validate-btn">Valider</button>
-        </div>
+/* ===============================
+   CHAT CARESSABLE
+================================ */
+.experience-chat {
+  margin: 140px 0;
+  display: flex;
+  justify-content: center;
+  position: relative;
+  z-index: 6;
+}
 
-        <!-- ESSAI 4 -->
-        <div class="attempt-row">
-          <div class="slots">
-            <div class="slot"></div><div class="slot"></div><div class="slot"></div><div class="slot"></div><div class="slot"></div>
-          </div>
-          <div class="feedback">
-            <div class="feedback-dot"></div><div class="feedback-dot"></div><div class="feedback-dot"></div><div class="feedback-dot"></div><div class="feedback-dot"></div>
-          </div>
-          <button class="validate-btn">Valider</button>
-        </div>
+.chat-container {
+  position: relative;
+  width: 180px;
+}
 
-        <!-- ESSAI 5 -->
-        <div class="attempt-row">
-          <div class="slots">
-            <div class="slot"></div><div class="slot"></div><div class="slot"></div><div class="slot"></div><div class="slot"></div>
-          </div>
-          <div class="feedback">
-            <div class="feedback-dot"></div><div class="feedback-dot"></div><div class="feedback-dot"></div><div class="feedback-dot"></div><div class="feedback-dot"></div>
-          </div>
-          <button class="validate-btn">Valider</button>
-        </div>
+.chat {
+  width: 100%;
+  cursor: pointer;
+  user-select: none;
+}
 
-        <!-- ESSAI 6 -->
-        <div class="attempt-row">
-          <div class="slots">
-            <div class="slot"></div><div class="slot"></div><div class="slot"></div><div class="slot"></div><div class="slot"></div>
-          </div>
-          <div class="feedback">
-            <div class="feedback-dot"></div><div class="feedback-dot"></div><div class="feedback-dot"></div><div class="feedback-dot"></div><div class="feedback-dot"></div>
-          </div>
-          <button class="validate-btn">Valider</button>
-        </div>
+.chat-bubble {
+  position: absolute;
+  top: -60px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255,255,255,0.95);
+  padding: 10px 18px;
+  border-radius: 20px;
+  font-weight: 600;
+  white-space: nowrap;
+  pointer-events: none;
+}
 
-        <!-- ESSAI 7 -->
-        <div class="attempt-row">
-          <div class="slots">
-            <div class="slot"></div><div class="slot"></div><div class="slot"></div><div class="slot"></div><div class="slot"></div>
-          </div>
-          <div class="feedback">
-            <div class="feedback-dot"></div><div class="feedback-dot"></div><div class="feedback-dot"></div><div class="feedback-dot"></div><div class="feedback-dot"></div>
-          </div>
-          <button class="validate-btn">Valider</button>
-        </div>
+/* ===============================
+   PLANTE
+================================ */
+.experience-plant {
+  text-align: center;
+  margin: 140px 0;
+}
 
-        <!-- ESSAI 8 -->
-        <div class="attempt-row">
-          <div class="slots">
-            <div class="slot"></div><div class="slot"></div><div class="slot"></div><div class="slot"></div><div class="slot"></div>
-          </div>
-          <div class="feedback">
-            <div class="feedback-dot"></div><div class="feedback-dot"></div><div class="feedback-dot"></div><div class="feedback-dot"></div><div class="feedback-dot"></div>
-          </div>
-          <button class="validate-btn">Valider</button>
-        </div>
+.plant {
+  width: 90px;
+  margin: 0 auto;
+}
 
-        <!-- ESSAI 9 -->
-        <div class="attempt-row">
-          <div class="slots">
-            <div class="slot"></div><div class="slot"></div><div class="slot"></div><div class="slot"></div><div class="slot"></div>
-          </div>
-          <div class="feedback">
-            <div class="feedback-dot"></div><div class="feedback-dot"></div><div class="feedback-dot"></div><div class="feedback-dot"></div><div class="feedback-dot"></div>
-          </div>
-          <button class="validate-btn">Valider</button>
-        </div>
+.plant-pot {
+  position: relative;
+  width: 90px;
+  height: 120px;
+  background: #7a5c42;
+  border-radius: 0 0 40px 40px;
+  overflow: hidden;
+}
 
-        <!-- ESSAI 10 -->
-        <div class="attempt-row">
-          <div class="slots">
-            <div class="slot"></div><div class="slot"></div><div class="slot"></div><div class="slot"></div><div class="slot"></div>
-          </div>
-          <div class="feedback">
-            <div class="feedback-dot"></div><div class="feedback-dot"></div><div class="feedback-dot"></div><div class="feedback-dot"></div><div class="feedback-dot"></div>
-          </div>
-          <button class="validate-btn">Valider</button>
-        </div>
+.plant-stem {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 10px;
+  height: 0;
+  background: #4f7f5f;
+  border-radius: 10px;
+  transform: translateX(-50%);
+  transition: height 0.8s ease;
+}
 
-      </div>
+.leaf {
+  position: absolute;
+  width: 22px;
+  height: 12px;
+  background: #6fae88;
+  border-radius: 20px;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
 
-      <!-- 🌿 MESSAGE DE DÉFAITE -->
-      <section class="end-message" style="display:none;">
-        <p class="end-text primary">
-          <strong>Oupsii 🌿</strong><br>
-          Tu n’as pas trouvé la réponse cette fois.<br>
-          Mais tu n’as pas abandonné.
-        </p>
+.leaf.left { left: 8px; transform: rotate(-25deg); }
+.leaf.right { right: 8px; transform: rotate(25deg); }
 
-        <p class="end-text secondary">
-          Changer de chemin ou réessayer,<br>
-          ce n’est pas un échec.<br>
-          L’échec, c’est seulement quand on abandonne complètement.
-        </p>
+.flower {
+  position: absolute;
+  bottom: 95px;
+  left: 50%;
+  transform: translateX(-50%) scale(0);
+  opacity: 0;
+  transition: all 0.9s ease;
+}
 
-        <div class="end-actions">
-          <button class="retry-btn">🌱 Ressayer</button>
-          <a href="mini-jeux.html" class="back-btn">← Retour aux mini-jeux</a>
-        </div>
-      </section>
+.plant.level-1 .plant-stem { height: 35px; }
+.plant.level-2 .plant-stem { height: 65px; }
+.plant.level-2 .leaf { opacity: 1; top: 38px; }
+.plant.level-3 .plant-stem { height: 90px; }
+.plant.level-3 .flower {
+  opacity: 1;
+  transform: translateX(-50%) scale(1);
+}
 
-      <!-- 🌸 MESSAGE DE VICTOIRE -->
-      <section class="win-message" style="display:none;">
-        <p class="win-text">
-          🌸 Bravo 🌿<br>
-          Tu as trouvé le code botanique.<br>
-          Tu as observé, ajusté, persévéré.
-        </p>
+/* ===============================
+   BOUTONS (UNIFIÉS)
+================================ */
+button {
+  padding: 10px 26px;
+  border-radius: 30px;
+  border: none;
+  background: #5f8f73;
+  color: white;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 8px 18px rgba(0,0,0,0.12);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
 
-        <div class="end-actions">
-          <button class="retry-btn">🌱 Rejouer</button>
-          <a href="mini-jeux.html" class="back-btn">← Retour aux mini-jeux</a>
-        </div>
-      </section>
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 26px rgba(0,0,0,0.18);
+}
 
-    </section>
-  </main>
+/* ===============================
+   NUAGE
+================================ */
+.experience-cloud {
+  margin: 160px 0;
+  text-align: center;
+  position: relative;
+  z-index: 6;
+}
 
-  <!-- 🌿 RETOUR FIXE -->
-  <a href="mini-jeux.html" class="back-home-fixed">
-    ← Retour aux mini-jeux
-  </a>
+.cloud-input {
+  width: 100%;
+  max-width: 420px;
+  min-height: 90px;
+  padding: 18px 20px;
+  border-radius: 24px;
+  border: none;
+  font-family: inherit;
+  font-size: 17px;
+  background: rgba(255,255,255,0.9);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+  resize: none;
+}
 
-  <!-- 🌿 JS -->
-  <script src="botanicode.js"></script>
+.cloud-controls {
+  margin-top: 18px;
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+}
 
-</body>
-</html>
+.cloud-area {
+  position: relative;
+  height: 480px;
+}
+
+.cloud {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  padding: 26px 56px;
+  max-width: 520px;
+  background: rgba(255,255,255,0.96);
+  border-radius: 120px;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.8;
+  color: #263326;
+  text-align: center;
+  box-shadow: 0 18px 36px rgba(0,0,0,0.12);
+  z-index: 7;
+  pointer-events: none;
+}
+
+.cloud::before,
+.cloud::after {
+  content: "";
+  position: absolute;
+  background: #fff;
+  border-radius: 50%;
+}
+
+.cloud::before {
+  width: 90px;
+  height: 90px;
+  top: -40px;
+  left: 20px;
+}
+
+.cloud::after {
+  width: 110px;
+  height: 110px;
+  top: -55px;
+  right: 20px;
+}
+
+/* ===============================
+   BALAI
+================================ */
+#broom {
+  position: fixed;
+  bottom: 140px;
+  left: -300px;
+  width: 260px;
+  display: none;
+  z-index: 8;
+}
