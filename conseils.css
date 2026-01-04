@@ -349,7 +349,7 @@ button:hover {
    (Retour accueil / Bilan)
 ================================ */
 .garden-nav {
-  position: fixed;
+  position:  absolute ;
   bottom: 28px;
   left: 50%;
   transform: translateX(-50%);
