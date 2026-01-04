@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
   /* ===============================
      CONFIG
   =============================== */
-  const SYMBOLS = ["🌼", "🌸", "🌻", "🌱", "🍃", "🍀", "🍄", "🪨"];
+  const SYMBOLS = ["🌼", "🌸", "🌻", "🌱", "🍀", "🍄",];
   const CODE_LENGTH = 5;
   const MAX_ATTEMPTS = 10;
 
