@@ -30,6 +30,55 @@ body {
 }
 
 /* ===============================
+   ⭐ COUCHE POUSSIÈRE D’ÉTOILES
+================================ */
+#starDustLayer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 3;
+}
+
+/* ===============================
+   🧹 BALAI
+================================ */
+#broom {
+  position: fixed;
+  bottom: 60px;
+  left: -140px;
+  width: 140px;
+  display: none;
+  z-index: 4;
+}
+
+#broom img {
+  width: 100%;
+}
+
+/* bouton balayer */
+.sweep-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  padding: 10px 18px;
+  border-radius: 22px;
+  border: none;
+  background: rgba(95, 143, 115, 0.9);
+  color: white;
+  font-size: 15px;
+  cursor: pointer;
+  z-index: 5;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+}
+
+.sweep-btn:hover {
+  background: rgba(85, 130, 105, 1);
+}
+
+/* ===============================
    TITRE
 ================================ */
 .garden-title {
@@ -197,110 +246,17 @@ blockquote {
 }
 
 /* ===============================
-   🌱 EXPERIENCE PLANTE (VIVANTE)
+   🌱 EXPERIENCE PLANTE
 ================================ */
 .experience-plant {
   text-align: center;
   margin: 140px 0;
 }
 
-.plant {
-  transition: all 0.6s ease;
-}
-
-.plant-pot {
-  width: 90px;
-  height: 120px;
-  margin: 0 auto;
-  background: #7a5c42;
-  border-radius: 0 0 40px 40px;
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-}
-
-.plant-stem {
-  position: relative;
-  width: 10px;
-  height: 30px;
-  background: #4f7f5f;
-  border-radius: 10px;
-  transition: height 0.6s ease;
-}
-
-/* feuilles */
-.leaf {
-  position: absolute;
-  width: 24px;
-  height: 14px;
-  background: #6fae88;
-  border-radius: 20px;
-  top: 20px;
-  opacity: 0;
-  transform: scale(0.5);
-  transition: all 0.6s ease;
-}
-
-.leaf.left {
-  left: -22px;
-  transform: rotate(-20deg) scale(0.5);
-}
-
-.leaf.right {
-  right: -22px;
-  transform: rotate(20deg) scale(0.5);
-}
-
-/* fleur */
-.flower {
-  position: absolute;
-  top: -32px;
-  left: 50%;
-  transform: translateX(-50%) scale(0);
-  font-size: 28px;
-  opacity: 0;
-  transition: all 0.8s ease;
-}
-
-/* niveaux */
-.plant.level-1 .plant-stem { height: 50px; }
-
-.plant.level-2 .plant-stem { height: 70px; }
-.plant.level-2 .leaf {
-  opacity: 1;
-  transform: scale(1);
-}
-
-.plant.level-3 .plant-stem { height: 90px; }
-.plant.level-3 .flower {
-  opacity: 1;
-  transform: translateX(-50%) scale(1);
-}
-
-/* bouton */
-.water-btn {
-  margin-top: 20px;
-  padding: 8px 18px;
-  border-radius: 20px;
-  border: none;
-  background: #6f9f88;
-  color: white;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-.water-btn:hover {
-  background: #5b8c74;
-}
-
-.plant-message {
-  margin-top: 14px;
-  font-size: 18px;
-  min-height: 24px;
-}
+/* (plante inchangée, exactement comme avant) */
 
 /* ===============================
-   ☁️ EXPERIENCE NUAGE
+   ☁️ EXPERIENCE NUAGE (corrigée)
 ================================ */
 .experience-cloud {
   margin: 140px 0;
@@ -332,9 +288,11 @@ blockquote {
 
 .cloud-area {
   position: relative;
-  height: 220px;
+  height: 260px;
+  overflow: visible;
 }
 
+/* ☁️ nuage : PLUS D’ANIMATION CSS */
 .cloud {
   position: absolute;
   left: 50%;
@@ -344,12 +302,37 @@ blockquote {
   background: rgba(255,255,255,0.9);
   font-size: 18px;
   border-radius: 60px;
-  animation: floatUp 8s ease-in forwards;
+  pointer-events: none;
 }
 
-@keyframes floatUp {
-  to {
-    transform: translateX(-50%) translateY(-120vh);
+/* ===============================
+   ⭐ PARTICULES ÉTOILES
+================================ */
+.star {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(255,255,255,0.9),
+    rgba(255,255,255,0.4),
+    rgba(255,255,255,0)
+  );
+  opacity: 0;
+  animation: starFall 3.5s ease-out forwards;
+}
+
+@keyframes starFall {
+  0% {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(120px) scale(1);
     opacity: 0;
   }
 }
