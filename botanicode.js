@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
   /* ===============================
      CONFIG
   =============================== */
-  const SYMBOLS = ["🌼", "🌸", "🌻", "🌱", "🍀", "🍄",];
+  const SYMBOLS = ["🌼", "🌸", "🌻", "🌱", "🍀", "🍄"];
   const CODE_LENGTH = 5;
   const MAX_ATTEMPTS = 10;
 
@@ -154,29 +154,35 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   /* ===============================
-     FEEDBACK
+     FEEDBACK (LOGIQUE MASTER MIND CORRIGÉE)
   =============================== */
   function getFeedback(guess) {
     let correct = 0;
     let present = 0;
 
-    const codeCopy = [...secretCode];
+    const secretCopy = [...secretCode];
     const guessCopy = [...guess];
 
+    // 1️⃣ BIEN PLACÉS
     for (let i = 0; i < CODE_LENGTH; i++) {
-      if (guessCopy[i] === codeCopy[i]) {
+      if (guessCopy[i] === secretCopy[i]) {
         correct++;
-        codeCopy[i] = null;
+        secretCopy[i] = null;
         guessCopy[i] = null;
       }
     }
 
-    guessCopy.forEach(symbol => {
-      if (symbol && codeCopy.includes(symbol)) {
+    // 2️⃣ MAL PLACÉS
+    for (let i = 0; i < CODE_LENGTH; i++) {
+      const symbol = guessCopy[i];
+      if (!symbol) continue;
+
+      const index = secretCopy.indexOf(symbol);
+      if (index !== -1) {
         present++;
-        codeCopy[codeCopy.indexOf(symbol)] = null;
+        secretCopy[index] = null;
       }
-    });
+    }
 
     return { correct, present };
   }
