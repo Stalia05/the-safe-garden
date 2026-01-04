@@ -33,13 +33,13 @@ body {
   background: var(--cream);
   color: var(--ink);
   line-height: 1.7;
-  overflow-x: hidden; /* ok */
-  /* ⚠️ PAS DE overflow: hidden ICI */
+
+  overflow-x: hidden; /* OK */
+  /* ⚠️ PAS de overflow: hidden ici */
 }
 
 /* ===============================
-   ⭐ ÉTOILES DOUCES (FOND)
-   → N’EMPÊCHENT PAS LE SCROLL
+   ⭐ FOND ÉTOILÉ DOUX
 ================================ */
 .star-field {
   position: fixed;
@@ -74,13 +74,50 @@ body {
 }
 
 /* ===============================
-   🌿 PAGE DE GARDE (accueil.html)
+   🐍 SNAKE — WRAPPER
+   🔑 BLOQUE LE SCROLL UNIQUEMENT ICI
+================================ */
+.snake-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  margin: 40px auto;
+
+  touch-action: none;            /* 🔑 clé mobile */
+  overscroll-behavior: contain;  /* stop rebond iOS */
+}
+
+/* ===============================
+   🐍 CANVAS SNAKE
+================================ */
+#snakeGame {
+  display: block;
+  max-width: 100%;
+  border-radius: 16px;
+
+  touch-action: none;            /* 🔑 double sécurité */
+}
+
+/* ===============================
+   SCORE
+================================ */
+#snakeScore {
+  text-align: center;
+  margin-top: 18px;
+  font-size: 1rem;
+  color: #4b6b5a;
+}
+
+/* ===============================
+   PAGE DE GARDE / CONTENU
 ================================ */
 .cover {
   position: relative;
   z-index: 1;
 
-  min-height: 100svh; /* 🔑 mobile safe */
+  min-height: 100svh;
   padding: 80px 20px;
 
   display: flex;
@@ -102,7 +139,7 @@ body {
 }
 
 /* ===============================
-   TEXTE PRINCIPAL
+   TEXTE
 ================================ */
 .cover-text {
   max-width: 520px;
@@ -111,9 +148,6 @@ body {
   margin-bottom: 22px;
 }
 
-/* ===============================
-   PHRASE CHUCHOTÉE
-================================ */
 .cover-whisper {
   font-size: 0.95rem;
   font-style: italic;
@@ -122,8 +156,7 @@ body {
 }
 
 /* ===============================
-   🌿 BOUTON "ENTRER DANS LE JARDIN"
-   → mène vers accueil.html
+   BOUTON ENTRÉE
 ================================ */
 .enter-btn {
   display: inline-block;
