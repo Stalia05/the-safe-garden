@@ -13,11 +13,11 @@ const MAX_ATTEMPTS = 10;
 const attemptRows = document.querySelectorAll(".attempt-row");
 const endMessage = document.querySelector(".end-message");
 const retryBtn = document.querySelector(".retry-btn");
+const board = document.querySelector(".botanicode-board");
 
 // 🌱 État du jeu
 let secretCode = [];
 let currentAttempt = 0;
-let currentPosition = 0;
 let selectedSymbol = null;
 
 /* ===============================
@@ -26,22 +26,30 @@ let selectedSymbol = null;
 function initGame() {
   secretCode = generateSecretCode();
   currentAttempt = 0;
-  currentPosition = 0;
   selectedSymbol = null;
 
-  // Nettoyage du plateau
-  document.querySelectorAll(".slot").forEach(slot => {
-    slot.textContent = "";
-    slot.className = "slot";
+  // Reset slots des essais
+  attemptRows.forEach((row, index) => {
+    row.style.opacity = index === 0 ? "1" : "0.3";
+    row.style.pointerEvents = index === 0 ? "auto" : "none";
+
+    row.querySelectorAll(".slot").forEach(slot => {
+      slot.textContent = "";
+      slot.dataset.symbol = "";
+    });
+
+    row.querySelectorAll(".feedback-dot").forEach(dot => {
+      dot.className = "feedback-dot";
+    });
   });
 
-  document.querySelectorAll(".feedback-dot").forEach(dot => {
-    dot.className = "feedback-dot";
+  // Reset code secret
+  document.querySelectorAll(".secret-code .slot").forEach(slot => {
+    slot.textContent = "";
+    slot.classList.add("hidden");
   });
 
   endMessage.style.display = "none";
-
-  enableCurrentRow();
 }
 
 initGame();
@@ -50,12 +58,9 @@ initGame();
    GÉNÉRATION DU CODE
 ================================ */
 function generateSecretCode() {
-  const code = [];
-  for (let i = 0; i < CODE_LENGTH; i++) {
-    const randomSymbol = SYMBOLS[Math.floor(Math.random() * SYMBOLS.length)];
-    code.push(randomSymbol);
-  }
-  return code;
+  return Array.from({ length: CODE_LENGTH }, () =>
+    SYMBOLS[Math.floor(Math.random() * SYMBOLS.length)]
+  );
 }
 
 /* ===============================
@@ -78,56 +83,51 @@ SYMBOLS.forEach(symbol => {
   palette.appendChild(el);
 });
 
-document.querySelector(".botanicode-board").appendChild(palette);
+board.appendChild(palette);
 
 /* ===============================
-   INTERACTION AVEC LE PLATEAU
+   INTERACTION AVEC LES CASES
 ================================ */
 attemptRows.forEach((row, rowIndex) => {
-  const slots = row.querySelectorAll(".slot");
+  const slots = row.querySelectorAll(".slots .slot");
+  const validateBtn = row.querySelector(".validate-btn");
 
-  slots.forEach((slot, slotIndex) => {
+  // Clic sur une case
+  slots.forEach(slot => {
     slot.addEventListener("click", () => {
       if (rowIndex !== currentAttempt || !selectedSymbol) return;
 
       slot.textContent = selectedSymbol;
       slot.dataset.symbol = selectedSymbol;
-
-      currentPosition = slotIndex + 1;
-
-      if (isRowComplete(row)) {
-        validateRow(row);
-      }
     });
   });
+
+  // Bouton Valider
+  validateBtn.addEventListener("click", () => {
+    if (rowIndex !== currentAttempt) return;
+
+    const guess = [...slots].map(s => s.dataset.symbol);
+    if (guess.includes("")) return; // ligne incomplète
+
+    const feedback = getFeedback(guess);
+    displayFeedback(row, feedback);
+
+    if (feedback.correct === CODE_LENGTH) {
+      revealSecret();
+      return;
+    }
+
+    currentAttempt++;
+
+    if (currentAttempt >= MAX_ATTEMPTS) {
+      revealSecret();
+      endMessage.style.display = "block";
+      return;
+    }
+
+    enableNextRow();
+  });
 });
-
-/* ===============================
-   VALIDATION
-================================ */
-function isRowComplete(row) {
-  return [...row.querySelectorAll(".slot")].every(slot => slot.dataset.symbol);
-}
-
-function validateRow(row) {
-  const guess = [...row.querySelectorAll(".slot")].map(s => s.dataset.symbol);
-  const feedback = getFeedback(guess);
-  displayFeedback(row, feedback);
-
-  if (feedback.correct === CODE_LENGTH) {
-    revealSecret(true);
-    return;
-  }
-
-  currentAttempt++;
-
-  if (currentAttempt >= MAX_ATTEMPTS) {
-    revealSecret(false);
-    return;
-  }
-
-  enableCurrentRow();
-}
 
 /* ===============================
    FEEDBACK
@@ -159,50 +159,37 @@ function getFeedback(guess) {
   return { correct, present };
 }
 
-function displayFeedback(row, feedback) {
+function displayFeedback(row, { correct, present }) {
   const dots = row.querySelectorAll(".feedback-dot");
   let index = 0;
 
-  for (let i = 0; i < feedback.correct; i++) {
-    dots[index++].classList.add("correct");
-  }
-  for (let i = 0; i < feedback.present; i++) {
-    dots[index++].classList.add("present");
-  }
-  while (index < dots.length) {
-    dots[index++].classList.add("absent");
-  }
-}
-
-/* ===============================
-   FIN DE PARTIE
-================================ */
-function revealSecret(victory) {
-  const secretSlots = document.querySelectorAll(".secret-code .slot");
-
-  secretSlots.forEach((slot, i) => {
-    slot.textContent = secretCode[i];
-    slot.classList.remove("hidden");
-  });
-
-  if (!victory) {
-    endMessage.style.display = "block";
-  }
+  for (; index < correct; index++) dots[index].classList.add("correct");
+  for (; index < correct + present; index++) dots[index].classList.add("present");
+  for (; index < dots.length; index++) dots[index].classList.add("absent");
 }
 
 /* ===============================
    GESTION DES LIGNES
 ================================ */
-function enableCurrentRow() {
+function enableNextRow() {
   attemptRows.forEach((row, index) => {
-    row.style.opacity = index === currentAttempt ? "1" : "0.4";
+    row.style.opacity = index === currentAttempt ? "1" : "0.3";
     row.style.pointerEvents = index === currentAttempt ? "auto" : "none";
+  });
+}
+
+/* ===============================
+   FIN DE PARTIE
+================================ */
+function revealSecret() {
+  const secretSlots = document.querySelectorAll(".secret-code .slot");
+  secretSlots.forEach((slot, i) => {
+    slot.textContent = secretCode[i];
+    slot.classList.remove("hidden");
   });
 }
 
 /* ===============================
    RESSAYER
 ================================ */
-retryBtn.addEventListener("click", () => {
-  initGame();
-});
+retryBtn.addEventListener("click", initGame);
