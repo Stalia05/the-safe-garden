@@ -88,7 +88,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   /* ===============================
-     ⭐ ÉTOILES – IMMÉDIATES
+     ⭐ ÉTOILES
   =============================== */
   const starLayer = document.getElementById("starDustLayer");
 
@@ -114,91 +114,81 @@ document.addEventListener("DOMContentLoaded", () => {
     const h = document.body.scrollHeight;
 
     for (let i = 0; i < amount; i++) {
-      createStar(
-        Math.random() * w,
-        Math.random() * h
-      );
-    }
-  }
- /* ===============================
-   ☁️ NUAGE – MONTE & EXPLOSE (CORRIGÉ)
-=============================== */
-const cloudBtn = document.getElementById("cloudBtn");
-const cloudInput = document.getElementById("cloudInput");
-const cloudArea = document.querySelector(".cloud-area");
-
-cloudBtn?.addEventListener("click", () => {
-  const text = cloudInput.value.trim();
-  if (!text) return;
-
-  // ☁️ conteneur nuage
-  const cloud = document.createElement("div");
-  cloud.className = "cloud";
-
-  // 🔒 contenu texte PROTÉGÉ
-  const content = document.createElement("div");
-  content.className = "cloud-content";
-  content.textContent = text;
-
-  cloud.appendChild(content);
-  cloudArea.appendChild(cloud);
-  cloudInput.value = "";
-
-  let y = 0;
-
-  function rise() {
-    y -= 3;
-    cloud.style.transform = `translate(-50%, ${y}px)`;
-
-    if (Math.abs(y) < window.innerHeight + 120) {
-      requestAnimationFrame(rise);
-    } else {
-      cloud.remove();
-      explodeStars(); // ⭐ explosion immédiate
+      createStar(Math.random() * w, Math.random() * h);
     }
   }
 
-  rise();
-});
+  /* ===============================
+     ☁️ NUAGE
+  =============================== */
+  const cloudBtn = document.getElementById("cloudBtn");
+  const cloudInput = document.getElementById("cloudInput");
+  const cloudArea = document.querySelector(".cloud-area");
 
- /* ===============================
-   🧹 BALAI – DESKTOP + MOBILE
-=============================== */
-const broom = document.getElementById("broom");
-const sweepBtn = document.getElementById("sweepBtn");
+  cloudBtn?.addEventListener("click", () => {
+    const text = cloudInput.value.trim();
+    if (!text) return;
 
-function startSweep() {
-  if (!broom) return;
+    const cloud = document.createElement("div");
+    cloud.className = "cloud";
 
-  broom.style.display = "block";
-  let x = -320;
+    const content = document.createElement("div");
+    content.className = "cloud-content";
+    content.textContent = text;
 
-  function sweep() {
-    x += 18;
-    broom.style.transform = `translateX(${x}px) rotate(${x / 28}deg)`;
+    cloud.appendChild(content);
+    cloudArea.appendChild(cloud);
+    cloudInput.value = "";
 
-    document.querySelectorAll(".star").forEach(star => {
-      const r = star.getBoundingClientRect();
-      if (r.left < x + 260 && r.right > x) {
-        star.remove();
+    let y = 0;
+    function rise() {
+      y -= 3;
+      cloud.style.transform = `translate(-50%, ${y}px)`;
+
+      if (Math.abs(y) < window.innerHeight + 120) {
+        requestAnimationFrame(rise);
+      } else {
+        cloud.remove();
+        explodeStars();
       }
-    });
-
-    if (x < window.innerWidth + 320) {
-      requestAnimationFrame(sweep);
-    } else {
-      broom.style.display = "none";
     }
+    rise();
+  });
+
+  /* ===============================
+     🧹 BALAI – DESKTOP + MOBILE
+  =============================== */
+  const broom = document.getElementById("broom");
+  const sweepBtn = document.getElementById("sweepBtn");
+
+  function startSweep() {
+    if (!broom) return;
+
+    broom.style.display = "block";
+    let x = -320;
+
+    function sweep() {
+      x += 18;
+      broom.style.transform = `translateX(${x}px) rotate(${x / 28}deg)`;
+
+      document.querySelectorAll(".star").forEach(star => {
+        const r = star.getBoundingClientRect();
+        if (r.left < x + 260 && r.right > x) star.remove();
+      });
+
+      if (x < window.innerWidth + 320) {
+        requestAnimationFrame(sweep);
+      } else {
+        broom.style.display = "none";
+      }
+    }
+    sweep();
   }
 
-  sweep();
-}
+  sweepBtn?.addEventListener("click", startSweep);
+  sweepBtn?.addEventListener("touchstart", e => {
+    e.preventDefault();
+    startSweep();
+  });
 
-/* desktop */
-sweepBtn?.addEventListener("click", startSweep);
-
-/* mobile */
-sweepBtn?.addEventListener("touchstart", e => {
-  e.preventDefault(); // 🔑 très important sur iOS
-  startSweep();
-});
+}); // ✅ 🔑 FERMETURE MANQUANTE
