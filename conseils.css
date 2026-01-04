@@ -40,19 +40,20 @@ body {
 }
 
 /* ===============================
-   🧹 BALAI (TEMPORAIRE – GLOBAL)
+   🧹 BALAI (PRÊT POUR OPTION C)
 ================================ */
 #broom {
   position: fixed;
-  bottom: 60px;
-  left: -140px;
-  width: 140px;
+  bottom: 120px;
+  left: -180px;
+  width: 180px;
   display: none;
-  z-index: 4;
+  z-index: 6;
 }
 
 #broom img {
   width: 100%;
+  transform-origin: left center;
 }
 
 /* bouton balayer */
@@ -67,7 +68,7 @@ body {
   color: white;
   font-size: 15px;
   cursor: pointer;
-  z-index: 5;
+  z-index: 7;
   box-shadow: 0 6px 18px rgba(0,0,0,0.15);
 }
 
@@ -139,17 +140,6 @@ body {
   color: #263326;
 }
 
-.step ul {
-  margin: 20px 0 20px 26px;
-}
-
-blockquote {
-  font-style: italic;
-  font-weight: 600;
-  opacity: 0.8;
-  margin: 26px 0;
-}
-
 /* ===============================
    CONCLUSION
 ================================ */
@@ -208,15 +198,8 @@ blockquote {
 
 .chat-container {
   position: relative;
-  width: 140px;
-  opacity: 0;
-  transform: translateY(30px);
-  transition: opacity 1.2s ease, transform 1.2s ease;
-}
-
-.chat-container.visible {
+  width: 150px;
   opacity: 1;
-  transform: translateY(0);
 }
 
 .chat {
@@ -227,7 +210,7 @@ blockquote {
 
 .chat-bubble {
   position: absolute;
-  top: -50px;
+  top: -56px;
   left: 50%;
   transform: translateX(-50%);
   background: rgba(255,255,255,0.92);
@@ -235,13 +218,12 @@ blockquote {
   border-radius: 20px;
   font-size: 15px;
   font-weight: 600;
-  opacity: 1;
   pointer-events: none;
-  transition: opacity 0.3s ease;
+  white-space: nowrap;
 }
 
 /* ===============================
-   🌱 EXPERIENCE PLANTE (COMPLÈTE)
+   🌱 EXPERIENCE PLANTE (CORRIGÉE)
 ================================ */
 .experience-plant {
   text-align: center;
@@ -249,24 +231,25 @@ blockquote {
 }
 
 .plant {
+  display: inline-block;
   transition: all 0.6s ease;
 }
 
 .plant-pot {
   width: 90px;
   height: 120px;
-  margin: 0 auto;
   background: #7a5c42;
   border-radius: 0 0 40px 40px;
   display: flex;
   justify-content: center;
   align-items: flex-end;
+  margin: 0 auto;
 }
 
 .plant-stem {
   position: relative;
   width: 10px;
-  height: 30px;
+  height: 25px;
   background: #4f7f5f;
   border-radius: 10px;
   transition: height 0.6s ease;
@@ -278,25 +261,17 @@ blockquote {
   height: 14px;
   background: #6fae88;
   border-radius: 20px;
-  top: 20px;
+  top: 22px;
   opacity: 0;
-  transform: scale(0.5);
   transition: all 0.6s ease;
 }
 
-.leaf.left {
-  left: -22px;
-  transform: rotate(-20deg) scale(0.5);
-}
-
-.leaf.right {
-  right: -22px;
-  transform: rotate(20deg) scale(0.5);
-}
+.leaf.left { left: -22px; transform: rotate(-20deg); }
+.leaf.right { right: -22px; transform: rotate(20deg); }
 
 .flower {
   position: absolute;
-  top: -32px;
+  top: -34px;
   left: 50%;
   transform: translateX(-50%) scale(0);
   font-size: 28px;
@@ -304,13 +279,11 @@ blockquote {
   transition: all 0.8s ease;
 }
 
+/* niveaux */
 .plant.level-1 .plant-stem { height: 50px; }
 
 .plant.level-2 .plant-stem { height: 70px; }
-.plant.level-2 .leaf {
-  opacity: 1;
-  transform: scale(1);
-}
+.plant.level-2 .leaf { opacity: 1; }
 
 .plant.level-3 .plant-stem { height: 90px; }
 .plant.level-3 .flower {
@@ -326,33 +299,9 @@ blockquote {
   text-align: center;
 }
 
-.cloud-input {
-  width: 100%;
-  max-width: 420px;
-  height: 90px;
-  padding: 14px;
-  border-radius: 18px;
-  border: none;
-  resize: none;
-  font-size: 18px;
-  background: rgba(255,255,255,0.6);
-}
-
-.cloud-btn {
-  margin-top: 16px;
-  padding: 10px 22px;
-  border-radius: 20px;
-  border: none;
-  background: #5f8f73;
-  color: white;
-  font-size: 16px;
-  cursor: pointer;
-}
-
 .cloud-area {
   position: relative;
   height: 260px;
-  overflow: visible;
 }
 
 .cloud {
@@ -360,15 +309,15 @@ blockquote {
   left: 50%;
   bottom: 0;
   transform: translateX(-50%);
-  padding: 20px 34px;
+  padding: 20px 36px;
   background: rgba(255,255,255,0.95);
+  border-radius: 999px;
   font-size: 18px;
-  border-radius: 60px;
   pointer-events: none;
 }
 
 /* ===============================
-   ⭐ ÉTOILES VISIBLES
+   ⭐ ÉTOILES
 ================================ */
 .star {
   position: absolute;
@@ -381,19 +330,13 @@ blockquote {
     rgba(255,255,255,0.4),
     rgba(255,255,255,0)
   );
-  opacity: 0.6;
+  opacity: 0.7;
   animation: starFall 3.5s ease-out forwards;
 }
 
 @keyframes starFall {
-  0% {
-    transform: scale(0.6);
-    opacity: 0.6;
-  }
-  100% {
-    transform: translateY(120px) scale(1);
-    opacity: 0;
-  }
+  from { transform: translateY(0); }
+  to { transform: translateY(120px); opacity: 0; }
 }
 
 /* ===============================
@@ -413,8 +356,4 @@ blockquote {
   font-weight: 600;
   color: #2f5d46;
   text-decoration: none;
-}
-
-.nav-link:hover {
-  text-decoration: underline;
 }
