@@ -8,51 +8,58 @@
 }
 
 /* ===============================
-   BASE + ARRIÈRE-PLAN
+   JARDIN – FOND PRINCIPAL
 ================================ */
 body {
   font-family: "Cormorant Infant", serif;
-  color: #2f3e34;
   min-height: 100vh;
+  color: #2f3e34;
 
   background-image: url("https://i.ibb.co/qFNK1Spg/A3-D9-E0-DD-D9-A4-4404-B935-B3-D0014-CD14-C.png");
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
 
-  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 80px 20px;
 }
 
 /* ===============================
-   DÉCOR (NE BLOQUE PAS)
-================================ */
-.star-field,
-.bottom-leaves,
-.butterfly {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* ===============================
-   CONTENEUR PRINCIPAL
+   PANNEAU EN BOIS (JEU)
 ================================ */
 .botanicode-container {
-  max-width: 900px;
-  margin: 80px auto;
-  padding: 50px 36px 70px;
+  max-width: 920px;
+  width: 100%;
 
-  background: rgba(255, 250, 240, 0.92);
-  backdrop-filter: blur(6px);
+  background: linear-gradient(
+    180deg,
+    #f6efe4 0%,
+    #ede2d1 100%
+  );
 
-  border-radius: 32px;
-  box-shadow: 0 30px 60px rgba(0,0,0,0.15);
+  border-radius: 34px;
+  padding: 54px 40px 70px;
+
+  box-shadow:
+    inset 0 0 0 4px rgba(120, 90, 50, 0.25),
+    0 30px 60px rgba(0, 0, 0, 0.25);
 
   position: relative;
-  z-index: 10;
+  isolation: isolate;
+}
 
-  isolation: isolate; /* 🔥 AJOUTE CETTE LIGNE */
+/* effet bois */
+.botanicode-container::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 34px;
+  background-image: url("https://i.ibb.co/4J1H1mJ/wood-texture-soft.png");
+  background-size: cover;
+  opacity: 0.15;
+  pointer-events: none;
 }
 
 /* ===============================
@@ -86,28 +93,18 @@ body {
    RÈGLES
 ================================ */
 .botanicode-rules {
-  background: rgba(255,255,255,0.85);
+  background: rgba(255,255,255,0.7);
   padding: 24px 28px;
-  border-radius: 24px;
+  border-radius: 22px;
   margin-bottom: 44px;
 }
 
-.botanicode-rules h3 {
-  margin-bottom: 14px;
-}
-
-.botanicode-rules ul {
-  padding-left: 18px;
-  line-height: 1.7;
-  font-size: 0.95rem;
-}
-
 /* ===============================
-   PLATEAU (CLIC OK)
+   PLATEAU
 ================================ */
 .botanicode-board {
   position: relative;
-  z-index: 20;
+  z-index: 10;
 }
 
 /* ===============================
@@ -125,22 +122,18 @@ body {
   height: 58px;
   border-radius: 50%;
   background: #f2eee6;
-  border: 2px solid #c9bfae;
+  border: 2px solid #a88f6a;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
   font-size: 1.6rem;
-  cursor: pointer;
   user-select: none;
-
-  position: relative;
-  z-index: 30;
 }
 
 .slot.hidden {
-  background: #d9d3c6;
+  background: #c9bfae;
 }
 
 /* ===============================
@@ -149,17 +142,13 @@ body {
 .attempts {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 18px;
 }
 
 .attempt-row {
   display: flex;
   align-items: center;
   gap: 14px;
-  transition: opacity 0.3s ease;
-
-  position: relative;
-  z-index: 30;
 }
 
 .slots {
@@ -180,79 +169,59 @@ body {
   width: 14px;
   height: 14px;
   border-radius: 50%;
-  background: #ddd;
+  background: #d6d0c6;
 }
 
 .feedback-dot.correct { background: #6f8b77; }
 .feedback-dot.present { background: #c9a24d; }
-.feedback-dot.absent  { background: #e0e0e0; }
+.feedback-dot.absent  { background: #bfae96; }
 
 /* ===============================
-   BOUTON VALIDER
+   VALIDER
 ================================ */
 .validate-btn {
-  background: linear-gradient(135deg, #c9a24d, #b58f3e);
+  background: linear-gradient(135deg, #6f8b77, #56705f);
   color: #fff;
   border: none;
 
-  padding: 8px 20px;
+  padding: 8px 22px;
   border-radius: 999px;
 
   font-family: "Cormorant Infant", serif;
-  font-size: 0.95rem;
-
   cursor: pointer;
-  box-shadow: 0 6px 14px rgba(0,0,0,0.15);
 
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
-}
-
-.validate-btn:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 8px 18px rgba(0,0,0,0.2);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.25);
 }
 
 /* ===============================
-   PALETTE DE SYMBOLES
+   PALETTE
 ================================ */
 .symbol-palette {
-  margin-top: 42px;
-
+  margin-top: 44px;
   display: flex;
   justify-content: center;
   gap: 18px;
-
-  position: relative;
-  z-index: 40;
 }
 
 .symbol {
-  width: 68px;
-  height: 68px;
+  width: 70px;
+  height: 70px;
   border-radius: 50%;
-
   background: #fff;
-  border: 2px solid #c9bfae;
+
+  border: 2px solid #a88f6a;
+  font-size: 2rem;
 
   display: flex;
   align-items: center;
   justify-content: center;
-
-  font-size: 2rem;
   cursor: pointer;
-  user-select: none;
 
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.2s ease;
 }
 
 .symbol:hover {
   transform: scale(1.12);
-  box-shadow: 0 8px 18px rgba(0,0,0,0.18);
-}
-
-.symbol.selected {
-  border-color: #6f8b77;
-  box-shadow: 0 0 0 4px rgba(111,139,119,0.35);
 }
 
 /* ===============================
@@ -261,29 +230,20 @@ body {
 .end-message,
 .win-message {
   margin-top: 44px;
-  padding: 36px 30px;
-
-  background: rgba(255,255,255,0.9);
-  border-radius: 28px;
+  padding: 34px;
+  border-radius: 26px;
+  background: rgba(255,255,255,0.85);
   text-align: center;
-
-  animation: fadeIn 0.8s ease;
-}
-
-.end-text {
-  font-size: 1.05rem;
-  line-height: 1.7;
-  margin-bottom: 20px;
 }
 
 /* ===============================
-   ACTIONS
+   BOUTONS FIN
 ================================ */
 .end-actions {
   display: flex;
   justify-content: center;
   gap: 20px;
-  flex-wrap: wrap;
+  margin-top: 26px;
 }
 
 .retry-btn {
@@ -317,13 +277,4 @@ body {
 
   color: #4b6b5a;
   text-decoration: none;
-  z-index: 50;
-}
-
-/* ===============================
-   ANIMATION
-================================ */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(12px); }
-  to   { opacity: 1; transform: translateY(0); }
 }
