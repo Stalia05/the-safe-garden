@@ -1,19 +1,27 @@
 document.addEventListener("DOMContentLoaded", () => {
 
+  /* ===============================
+     CONFIG
+  ================================ */
   const SYMBOLS = ["🌼", "🌸", "🌻", "🌱", "🍃", "🍀", "🍄", "🪨"];
   const CODE_LENGTH = 5;
   const MAX_ATTEMPTS = 10;
 
+  /* ===============================
+     DOM
+  ================================ */
+  const board = document.querySelector(".botanicode-board");
   const attemptRows = document.querySelectorAll(".attempt-row");
   const secretSlots = document.querySelectorAll(".secret-code .slot");
   const endMessage = document.querySelector(".end-message");
   const winMessage = document.querySelector(".win-message");
   const retryBtns = document.querySelectorAll(".retry-btn");
-  const board = document.querySelector(".botanicode-board");
 
+  /* ===============================
+     ÉTAT
+  ================================ */
   let secretCode = [];
   let currentAttempt = 0;
-  let selectedSymbol = null;
   let gameOver = false;
 
   /* ===============================
@@ -22,17 +30,14 @@ document.addEventListener("DOMContentLoaded", () => {
   function initGame() {
     secretCode = generateSecretCode();
     currentAttempt = 0;
-    selectedSymbol = null;
     gameOver = false;
 
     attemptRows.forEach((row, index) => {
-      row.style.opacity = index === 0 ? "1" : "0.3";
-
+      row.style.opacity = "1"; // ❌ plus de transparence
       row.querySelectorAll(".slot").forEach(slot => {
         slot.textContent = "";
         slot.dataset.symbol = "";
       });
-
       row.querySelectorAll(".feedback-dot").forEach(dot => {
         dot.className = "feedback-dot";
       });
@@ -47,6 +52,9 @@ document.addEventListener("DOMContentLoaded", () => {
     if (winMessage) winMessage.style.display = "none";
   }
 
+  /* ===============================
+     CODE SECRET
+  ================================ */
   function generateSecretCode() {
     return Array.from({ length: CODE_LENGTH }, () =>
       SYMBOLS[Math.floor(Math.random() * SYMBOLS.length)]
@@ -54,7 +62,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* ===============================
-     PALETTE
+     PALETTE (PLACEMENT AUTO)
   ================================ */
   const palette = document.createElement("div");
   palette.className = "symbol-palette";
@@ -66,9 +74,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
     btn.addEventListener("click", () => {
       if (gameOver) return;
-      selectedSymbol = symbol;
-      document.querySelectorAll(".symbol").forEach(s => s.classList.remove("selected"));
-      btn.classList.add("selected");
+
+      const row = attemptRows[currentAttempt];
+      if (!row) return;
+
+      const slots = row.querySelectorAll(".slots .slot");
+      const emptySlot = [...slots].find(s => !s.dataset.symbol);
+
+      if (!emptySlot) return;
+
+      emptySlot.textContent = symbol;
+      emptySlot.dataset.symbol = symbol;
     });
 
     palette.appendChild(btn);
@@ -77,38 +93,16 @@ document.addEventListener("DOMContentLoaded", () => {
   board.appendChild(palette);
 
   /* ===============================
-     CLIC SUR CASES (SIMPLE & SÛR)
+     VALIDATION
   ================================ */
   attemptRows.forEach((row, rowIndex) => {
-    const slots = row.querySelectorAll(".slots .slot");
     const validateBtn = row.querySelector(".validate-btn");
-
-    slots.forEach(slot => {
-
-      slot.addEventListener("click", () => {
-        if (gameOver) return;
-        if (rowIndex !== currentAttempt) return;
-        if (!selectedSymbol) return;
-
-        slot.textContent = selectedSymbol;
-        slot.dataset.symbol = selectedSymbol;
-      });
-
-      slot.addEventListener("contextmenu", e => {
-        e.preventDefault();
-        if (gameOver) return;
-        if (rowIndex !== currentAttempt) return;
-
-        slot.textContent = "";
-        slot.dataset.symbol = "";
-      });
-
-    });
 
     validateBtn.addEventListener("click", () => {
       if (gameOver) return;
       if (rowIndex !== currentAttempt) return;
 
+      const slots = row.querySelectorAll(".slots .slot");
       const guess = [...slots].map(s => s.dataset.symbol);
       if (guess.includes("")) return;
 
@@ -124,10 +118,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (currentAttempt >= MAX_ATTEMPTS) {
         endGame(false);
-        return;
       }
-
-      updateRows();
     });
   });
 
@@ -168,14 +159,8 @@ document.addEventListener("DOMContentLoaded", () => {
     for (; i < dots.length; i++) dots[i].classList.add("absent");
   }
 
-  function updateRows() {
-    attemptRows.forEach((row, index) => {
-      row.style.opacity = index === currentAttempt ? "1" : "0.3";
-    });
-  }
-
   /* ===============================
-     FIN DE PARTIE
+     FIN
   ================================ */
   function endGame(victory) {
     gameOver = true;
