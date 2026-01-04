@@ -1,84 +1,8 @@
 document.addEventListener("DOMContentLoaded", () => {
-  console.log("🌿 Safe Garden – JS final magique");
+  console.log("🌿 Safe Garden – JS corrigé");
 
   /* ===============================
-     🌸 RESPIRATION DES SECTIONS
-  =============================== */
-  document.querySelectorAll(".step").forEach(step => {
-    step.animate(
-      [
-        { transform: "scale(1)" },
-        { transform: "scale(1.01)" },
-        { transform: "scale(1)" }
-      ],
-      { duration: 9000, iterations: Infinity }
-    );
-  });
-
-  /* ===============================
-     🐱 CHAT – CARESSE DOUCE
-  =============================== */
-  const chat = document.getElementById("chatImage");
-  const bubble = document.getElementById("chatBubble");
-  const purr = document.getElementById("purrSound");
-  const meowStop = document.getElementById("meowStop");
-
-  let lastX = 0, lastY = 0, lastTime = 0;
-  let bubbleTimeout;
-
-  function setBubble(text) {
-    if (!bubble) return;
-    bubble.textContent = text;
-    clearTimeout(bubbleTimeout);
-    bubbleTimeout = setTimeout(() => {
-      bubble.textContent = "Je suis là.";
-    }, 2200);
-  }
-
-  function handlePet(x, y) {
-    const now = Date.now();
-    const dx = x - lastX;
-    const dy = y - lastY;
-    const dt = now - lastTime || 1;
-    const speed = Math.sqrt(dx * dx + dy * dy) / dt;
-
-    lastX = x;
-    lastY = y;
-    lastTime = now;
-
-    if (purr && purr.paused) {
-      purr.volume = 0.3;
-      purr.play().catch(() => {});
-    }
-
-    if (speed < 0.25) {
-      purr.volume = 0.45;
-      setBubble("Voilà… doucement 🤍");
-    } else if (speed < 0.6) {
-      purr.volume = 0.3;
-      setBubble("Pas trop fort…");
-    } else {
-      purr.pause();
-      if (meowStop) {
-        meowStop.currentTime = 0;
-        meowStop.play().catch(() => {});
-      }
-      setBubble("Si tu es dur·e avec toi-même, ça fait mal aussi…");
-    }
-  }
-
-  if (chat) {
-    chat.addEventListener("mousemove", e => handlePet(e.clientX, e.clientY));
-    chat.addEventListener("touchmove", e => {
-      const t = e.touches[0];
-      handlePet(t.clientX, t.clientY);
-    });
-    chat.addEventListener("mouseleave", () => purr && purr.pause());
-    chat.addEventListener("touchend", () => purr && purr.pause());
-  }
-
-  /* ===============================
-     🌱 PLANTE – CYCLE COMPLET
+     🌱 PLANTE – CROISSANCE RÉELLE
   =============================== */
   const plant = document.querySelector(".plant");
   const waterBtn = document.getElementById("waterBtn");
@@ -106,76 +30,80 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (level < 3) {
         level++;
-        plant.className = `plant level-${level}`;
+        plant.classList.remove("level-0", "level-1", "level-2", "level-3");
+        plant.classList.add(`level-${level}`);
         plantMessage.textContent = plantTexts[level];
       }
     });
   }
 
   /* ===============================
-     ⭐ ÉTOILES – TOMBE & SE POSENT
+     ⭐ ÉTOILES – TOMBE + SE POSENT
   =============================== */
   const starLayer = document.getElementById("starDustLayer");
 
-  function createStar(x, y) {
+  function dropStar(x) {
     const star = document.createElement("span");
     star.className = "star";
     star.style.left = `${x}px`;
-    star.style.top = `${y}px`;
+    star.style.top = `-20px`;
     starLayer.appendChild(star);
+
+    let y = -20;
+    const stopY = window.innerHeight - 40 - Math.random() * 120;
+
+    function fall() {
+      y += 3;
+      star.style.top = `${y}px`;
+
+      if (y < stopY) {
+        requestAnimationFrame(fall);
+      }
+    }
+    fall();
   }
 
   function rainStars(amount, originX = null) {
-    const w = window.innerWidth;
-    const h = window.innerHeight;
-
     for (let i = 0; i < amount; i++) {
-      const x = originX !== null
-        ? originX + (Math.random() * 200 - 100)
-        : Math.random() * w;
-
-      let y = -20;
-
-      const fall = () => {
-        y += 3 + Math.random() * 2;
-        if (y < h + 40) {
-          createStar(x, y);
-        }
-      };
-
-      setTimeout(fall, i * 12);
+      setTimeout(() => {
+        const x = originX !== null
+          ? originX + (Math.random() * 240 - 120)
+          : Math.random() * window.innerWidth;
+        dropStar(x);
+      }, i * 15);
     }
   }
 
   /* ===============================
-     ☁️ NUAGE – MONTE & EXPLOSE
+     ☁️ NUAGE – MONTE + EXPLOSE
   =============================== */
   const cloudBtn = document.getElementById("cloudBtn");
   const cloudInput = document.getElementById("cloudInput");
   const cloudArea = document.querySelector(".cloud-area");
 
   function explodeCloud(cloud) {
+    const rect = cloud.getBoundingClientRect();
+
     cloud.animate(
       [
-        { transform: "translate(-50%, -20px) scale(1)" },
-        { transform: "translate(-50%, -20px) scale(1.15)" },
+        { transform: "translate(-50%, 0) scale(1)" },
+        { transform: "translate(-50%, -10px) scale(1.15)" },
         { transform: "translate(-50%, -20px) scale(0.8)" }
       ],
-      { duration: 600, easing: "ease-out" }
+      { duration: 500, easing: "ease-out" }
     );
 
-    const rect = cloud.getBoundingClientRect();
-    rainStars(140, rect.left + rect.width / 2);
+    rainStars(120, rect.left + rect.width / 2);
 
-    setTimeout(() => cloud.remove(), 500);
+    setTimeout(() => cloud.remove(), 450);
   }
 
   function animateCloud(cloud) {
     let y = 0;
-    const max = -window.innerHeight - 100;
+    const max = -window.innerHeight - 80;
 
     function rise() {
-      y -= 2.2;
+      y -= 2;
       cloud.style.transform = `translate(-50%, ${y}px)`;
 
       if (y > max) {
@@ -194,16 +122,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const cloud = document.createElement("div");
       cloud.className = "cloud";
-      cloud.textContent = text;
+      cloud.textContent = text; // 🔴 LE MOT EST BIEN LÀ
       cloudArea.appendChild(cloud);
-      cloudInput.value = "";
 
+      cloudInput.value = "";
       animateCloud(cloud);
     });
   }
 
   /* ===============================
-     🧹 BALAI – EFFACE POUR DE VRAI
+     🧹 BALAI – NETTOYAGE TOTAL
   =============================== */
   const broom = document.getElementById("broom");
   const sweepBtn = document.getElementById("sweepBtn");
@@ -219,12 +147,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function sweep() {
       x += 16;
-      broom.style.transform = `translateX(${x}px) rotate(${x / 35}deg)`;
+      broom.style.transform = `translateX(${x}px) rotate(${x / 30}deg)`;
 
       document.querySelectorAll(".star").forEach(star => {
         const rect = star.getBoundingClientRect();
         if (
-          rect.left < x + 220 &&
+          rect.left < x + 240 &&
           rect.right > x &&
           rect.top > window.innerHeight - 420
         ) {
