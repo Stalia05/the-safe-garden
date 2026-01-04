@@ -4,21 +4,16 @@ document.addEventListener("DOMContentLoaded", () => {
      BOTANICODE – LOGIQUE DU JEU
   ================================ */
 
-  // 🌸 Symboles disponibles
   const SYMBOLS = ["🌼", "🌸", "🌻", "🌱", "🍃", "🍀", "🍄", "🪨"];
-
-  // ⚙️ Configuration
   const CODE_LENGTH = 5;
   const MAX_ATTEMPTS = 10;
 
-  // 🌿 Éléments DOM
+  const board = document.querySelector(".botanicode-board");
   const attemptRows = document.querySelectorAll(".attempt-row");
   const endMessage = document.querySelector(".end-message");
   const winMessage = document.querySelector(".win-message");
   const retryBtns = document.querySelectorAll(".retry-btn");
-  const board = document.querySelector(".botanicode-board");
 
-  // 🌱 État du jeu
   let secretCode = [];
   let currentAttempt = 0;
   let selectedSymbol = null;
@@ -57,7 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* ===============================
-     GÉNÉRATION DU CODE
+     CODE SECRET
   ================================ */
   function generateSecretCode() {
     return Array.from({ length: CODE_LENGTH }, () =>
@@ -66,7 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* ===============================
-     PALETTE DE SYMBOLES
+     PALETTE
   ================================ */
   const palette = document.createElement("div");
   palette.className = "symbol-palette";
@@ -89,32 +84,46 @@ document.addEventListener("DOMContentLoaded", () => {
   board.appendChild(palette);
 
   /* ===============================
-     INTERACTION AVEC LES CASES
+     EVENT DELEGATION — CASES
+  ================================ */
+  board.addEventListener("click", (e) => {
+    const slot = e.target.closest(".slot");
+    if (!slot || gameOver || !selectedSymbol) return;
+
+    const row = slot.closest(".attempt-row");
+    const rowIndex = [...attemptRows].indexOf(row);
+
+    if (rowIndex !== currentAttempt) return;
+
+    slot.textContent = selectedSymbol;
+    slot.dataset.symbol = selectedSymbol;
+  });
+
+  board.addEventListener("contextmenu", (e) => {
+    const slot = e.target.closest(".slot");
+    if (!slot || gameOver) return;
+
+    e.preventDefault();
+
+    const row = slot.closest(".attempt-row");
+    const rowIndex = [...attemptRows].indexOf(row);
+
+    if (rowIndex !== currentAttempt) return;
+
+    slot.textContent = "";
+    slot.dataset.symbol = "";
+  });
+
+  /* ===============================
+     VALIDATION
   ================================ */
   attemptRows.forEach((row, rowIndex) => {
-    const slots = row.querySelectorAll(".slots .slot");
     const validateBtn = row.querySelector(".validate-btn");
-
-    slots.forEach(slot => {
-      // clic gauche
-      slot.addEventListener("click", () => {
-        if (gameOver || rowIndex !== currentAttempt || !selectedSymbol) return;
-        slot.textContent = selectedSymbol;
-        slot.dataset.symbol = selectedSymbol;
-      });
-
-      // clic droit = effacer
-      slot.addEventListener("contextmenu", e => {
-        e.preventDefault();
-        if (gameOver || rowIndex !== currentAttempt) return;
-        slot.textContent = "";
-        slot.dataset.symbol = "";
-      });
-    });
 
     validateBtn.addEventListener("click", () => {
       if (gameOver || rowIndex !== currentAttempt) return;
 
+      const slots = row.querySelectorAll(".slots .slot");
       const guess = [...slots].map(s => s.dataset.symbol);
       if (guess.includes("")) return;
 
@@ -168,14 +177,13 @@ document.addEventListener("DOMContentLoaded", () => {
   function displayFeedback(row, { correct, present }) {
     const dots = row.querySelectorAll(".feedback-dot");
     let i = 0;
-
     for (; i < correct; i++) dots[i].classList.add("correct");
     for (; i < correct + present; i++) dots[i].classList.add("present");
     for (; i < dots.length; i++) dots[i].classList.add("absent");
   }
 
   /* ===============================
-     GESTION DES LIGNES
+     LIGNES
   ================================ */
   function enableNextRow() {
     attemptRows.forEach((row, index) => {
@@ -185,18 +193,15 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* ===============================
-     FIN DE PARTIE
+     FIN
   ================================ */
   function endGame(victory) {
     gameOver = true;
     revealSecret();
     attemptRows.forEach(row => row.style.pointerEvents = "none");
 
-    if (victory) {
-      winMessage.style.display = "block";
-    } else {
-      endMessage.style.display = "block";
-    }
+    if (victory) winMessage.style.display = "block";
+    else endMessage.style.display = "block";
   }
 
   function revealSecret() {
@@ -206,12 +211,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  /* ===============================
-     RESSAYER
-  ================================ */
   retryBtns.forEach(btn => btn.addEventListener("click", initGame));
 
-  // 🚀 Lancement
   initGame();
-
 });
