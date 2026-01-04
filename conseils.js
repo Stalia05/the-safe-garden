@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-  console.log("🌿 Safe Garden – JS actif");
+  console.log("🌿 Safe Garden – JS final magique");
 
   /* ===============================
      🌸 RESPIRATION DES SECTIONS
@@ -27,6 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let bubbleTimeout;
 
   function setBubble(text) {
+    if (!bubble) return;
     bubble.textContent = text;
     clearTimeout(bubbleTimeout);
     bubbleTimeout = setTimeout(() => {
@@ -45,7 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
     lastY = y;
     lastTime = now;
 
-    if (purr.paused) {
+    if (purr && purr.paused) {
       purr.volume = 0.3;
       purr.play().catch(() => {});
     }
@@ -58,8 +59,10 @@ document.addEventListener("DOMContentLoaded", () => {
       setBubble("Pas trop fort…");
     } else {
       purr.pause();
-      meowStop.currentTime = 0;
-      meowStop.play().catch(() => {});
+      if (meowStop) {
+        meowStop.currentTime = 0;
+        meowStop.play().catch(() => {});
+      }
       setBubble("Si tu es dur·e avec toi-même, ça fait mal aussi…");
     }
   }
@@ -70,12 +73,12 @@ document.addEventListener("DOMContentLoaded", () => {
       const t = e.touches[0];
       handlePet(t.clientX, t.clientY);
     });
-    chat.addEventListener("mouseleave", () => purr.pause());
-    chat.addEventListener("touchend", () => purr.pause());
+    chat.addEventListener("mouseleave", () => purr && purr.pause());
+    chat.addEventListener("touchend", () => purr && purr.pause());
   }
 
   /* ===============================
-     🌱 PLANTE – FLEUR UNIQUEMENT À LA FIN
+     🌱 PLANTE – CYCLE COMPLET
   =============================== */
   const plant = document.querySelector(".plant");
   const waterBtn = document.getElementById("waterBtn");
@@ -110,7 +113,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* ===============================
-     ⭐ ÉTOILES QUI SE POSENT
+     ⭐ ÉTOILES – TOMBE & SE POSENT
   =============================== */
   const starLayer = document.getElementById("starDustLayer");
 
@@ -122,40 +125,65 @@ document.addEventListener("DOMContentLoaded", () => {
     starLayer.appendChild(star);
   }
 
-  function spreadStars(amount) {
+  function rainStars(amount, originX = null) {
     const w = window.innerWidth;
-    const h = document.body.scrollHeight;
+    const h = window.innerHeight;
 
     for (let i = 0; i < amount; i++) {
-      createStar(
-        Math.random() * w,
-        Math.random() * h
-      );
+      const x = originX !== null
+        ? originX + (Math.random() * 200 - 100)
+        : Math.random() * w;
+
+      let y = -20;
+
+      const fall = () => {
+        y += 3 + Math.random() * 2;
+        if (y < h + 40) {
+          createStar(x, y);
+        }
+      };
+
+      setTimeout(fall, i * 12);
     }
   }
 
   /* ===============================
-     ☁️ NUAGE → ÉTOILES
+     ☁️ NUAGE – MONTE & EXPLOSE
   =============================== */
   const cloudBtn = document.getElementById("cloudBtn");
   const cloudInput = document.getElementById("cloudInput");
   const cloudArea = document.querySelector(".cloud-area");
 
+  function explodeCloud(cloud) {
+    cloud.animate(
+      [
+        { transform: "translate(-50%, -20px) scale(1)" },
+        { transform: "translate(-50%, -20px) scale(1.15)" },
+        { transform: "translate(-50%, -20px) scale(0.8)" }
+      ],
+      { duration: 600, easing: "ease-out" }
+    );
+
+    const rect = cloud.getBoundingClientRect();
+    rainStars(140, rect.left + rect.width / 2);
+
+    setTimeout(() => cloud.remove(), 500);
+  }
+
   function animateCloud(cloud) {
     let y = 0;
+    const max = -window.innerHeight - 100;
 
     function rise() {
-      y -= 1.6;
+      y -= 2.2;
       cloud.style.transform = `translate(-50%, ${y}px)`;
 
-      if (y > -340) {
+      if (y > max) {
         requestAnimationFrame(rise);
       } else {
-        cloud.remove();
-        spreadStars(90);
+        explodeCloud(cloud);
       }
     }
-
     rise();
   }
 
@@ -175,38 +203,36 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* ===============================
-     🧹 BALAI – NETTOIE VRAIMENT
+     🧹 BALAI – EFFACE POUR DE VRAI
   =============================== */
   const broom = document.getElementById("broom");
   const sweepBtn = document.getElementById("sweepBtn");
   const sweepSound = new Audio("sweep.mp3");
   sweepSound.volume = 0.35;
 
-  function sweepStep(x) {
-    broom.style.transform = `translateX(${x}px) rotate(${x / 30}deg)`;
-
-    document.querySelectorAll(".star").forEach(star => {
-      const rect = star.getBoundingClientRect();
-      if (
-        rect.left < x + 180 &&
-        rect.right > x &&
-        rect.bottom > window.innerHeight - 320
-      ) {
-        star.remove();
-      }
-    });
-  }
-
   function autoSweep() {
     broom.style.display = "block";
     sweepSound.currentTime = 0;
     sweepSound.play().catch(() => {});
 
-    let x = -260;
+    let x = -300;
+
     function sweep() {
-      x += 14;
-      sweepStep(x);
-      if (x < window.innerWidth + 260) {
+      x += 16;
+      broom.style.transform = `translateX(${x}px) rotate(${x / 35}deg)`;
+
+      document.querySelectorAll(".star").forEach(star => {
+        const rect = star.getBoundingClientRect();
+        if (
+          rect.left < x + 220 &&
+          rect.right > x &&
+          rect.top > window.innerHeight - 420
+        ) {
+          star.remove();
+        }
+      });
+
+      if (x < window.innerWidth + 300) {
         requestAnimationFrame(sweep);
       } else {
         broom.style.display = "none";
