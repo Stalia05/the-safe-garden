@@ -1,4 +1,15 @@
-@import url("https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Infant:wght@400;500;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Great+Vibes&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap");
+
+/* ===============================
+   VARIABLES SAFE GARDEN
+================================ */
+:root {
+  --cream: #fbf8f3;
+  --sage: #6f8b77;
+  --sage-light: #a9c3a6;
+  --gold: #c9a24d;
+  --ink: #2f2f2f;
+}
 
 /* ===============================
    RESET
@@ -10,197 +21,166 @@
 }
 
 /* ===============================
-   BASE
+   BASE — SCROLL AUTORISÉ
 ================================ */
-html, body {
-  height: 100%;
+html,
+body {
+  width: 100%;
 }
 
 body {
-  background-color: #e7f0ea;
-  font-family: "Cormorant Infant", serif;
-  color: #2f3e34;
-  text-align: center;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  background: var(--cream);
+  color: var(--ink);
+  line-height: 1.7;
 
-  overflow-x: hidden;
-  overscroll-behavior: none; /* 🔒 stop scroll iOS */
+  overflow-x: hidden; /* ok */
+  /* ❌ PAS de overflow hidden ici */
 }
 
 /* ===============================
-   BACKGROUND JARDIN 🌿
+   ⭐ FOND ÉTOILÉ DOUX
 ================================ */
-body::before {
-  content: "";
+.star-field {
   position: fixed;
   inset: 0;
-
-  background-image: url("https://i.postimg.cc/Qd4Bqz4m/IMG-5408.png");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-
-  opacity: 0.35;
   pointer-events: none;
   z-index: 0;
 }
 
-/* voile doux vert sauge */
-body::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  background: rgba(231, 240, 234, 0.65);
-  pointer-events: none;
-  z-index: 0;
+.star-field::before,
+.star-field::after {
+  content: "✦ ✦ ✦ ✦ ✦ ✦ ✦ ✦";
+  position: absolute;
+  top: -10%;
+  left: -5%;
+  width: 110%;
+  font-size: 13px;
+  letter-spacing: 90px;
+  color: rgba(201, 162, 77, 0.18);
+  animation: starsFall 30s linear infinite;
 }
 
-body > * {
+.star-field::after {
+  font-size: 11px;
+  opacity: 0.15;
+  animation-duration: 45s;
+}
+
+@keyframes starsFall {
+  to {
+    transform: translateY(120vh);
+  }
+}
+
+/* ===============================
+   🌿 CONTENU PRINCIPAL
+================================ */
+.cover {
   position: relative;
   z-index: 1;
+
+  min-height: 100svh; /* safe mobile */
+  padding: 80px 20px 100px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+/* ===============================
+   TITRE
+================================ */
+.cover h1 {
+  font-family: "Great Vibes", cursive;
+  font-size: clamp(4rem, 8vw, 5.6rem);
+  margin-bottom: 24px;
+  color: #2f5d46;
+}
+
+/* ===============================
+   TEXTE
+================================ */
+.cover-text {
+  max-width: 520px;
+  font-size: 1.1rem;
+  opacity: 0.85;
+  margin-bottom: 18px;
+}
+
+.cover-whisper {
+  font-size: 0.95rem;
+  font-style: italic;
+  opacity: 0.6;
+  margin-bottom: 42px;
+}
+
+/* ===============================
+   🐍 SNAKE — WRAPPER
+   🔑 bloque scroll UNIQUEMENT ici
+================================ */
+.snake-wrapper {
+  width: 100%;
+  max-width: 600px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  margin: 30px auto 18px;
+
+  touch-action: none;            /* 🔑 mobile */
+  overscroll-behavior: contain;  /* stop rebond iOS */
+}
+
+/* ===============================
+   🐍 CANVAS
+================================ */
+#snakeGame {
+  display: block;
+  width: 100%;
+  height: auto;
+
+  border-radius: 18px;
+
+  background: #e7f0ea;
+  box-shadow:
+    inset 0 0 0 3px rgba(111, 139, 119, 0.35),
+    0 18px 40px rgba(0,0,0,0.12);
+
+  touch-action: none; /* double sécurité */
+}
+
+/* ===============================
+   SCORE
+================================ */
+#snakeScore {
+  margin-top: 16px;
+  font-size: 1rem;
+  color: #4b6b5a;
 }
 
 /* ===============================
    BOUTON RETOUR
 ================================ */
-.back-mini-games {
-  position: fixed;
-  top: 18px;
-  left: 18px;
+.enter-btn {
+  margin-top: 36px;
 
-  font-family: "Great Vibes", cursive;
-  font-size: 1.9rem;
-  color: #2f3e34;
+  display: inline-block;
+  padding: 14px 38px;
+  border-radius: 999px;
+
+  background: linear-gradient(135deg, var(--sage), var(--sage-light));
+  color: white;
   text-decoration: none;
+  font-size: 1rem;
+  font-weight: 500;
 
-  opacity: 0.85;
-  z-index: 9999;
-
-  transition: opacity 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.back-mini-games:hover {
-  opacity: 1;
-}
-
-/* ===============================
-   CONTENU PAGE
-================================ */
-.snake-page {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 130px 20px 80px;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-/* ===============================
-   TITRES
-================================ */
-.signature-title {
-  font-family: "Great Vibes", cursive;
-  font-size: clamp(3.6rem, 6vw, 4.8rem);
-  margin-bottom: 8px;
-}
-
-.signature-subtitle {
-  font-family: "Great Vibes", cursive;
-  font-size: clamp(2.1rem, 4vw, 2.8rem);
-  color: #3f5f4a;
-  margin-bottom: 28px;
-}
-
-/* ===============================
-   INTRO
-================================ */
-.care-intro p {
-  font-size: 1.15rem;
-  line-height: 1.8;
-  opacity: 0.85;
-  margin-bottom: 36px;
-}
-
-/* ===============================
-   JEU SNAKE 🐍
-================================ */
-.snake-container {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  margin-bottom: 36px;
-}
-
-/* 🎮 CANVAS */
-canvas {
-  width: 420px;
-  height: 420px;
-
-  background: rgba(255, 255, 255, 0.9);
-  border-radius: 24px;
-  box-shadow: 0 22px 48px rgba(0,0,0,0.18);
-
-  touch-action: none;           /* 🔒 bloque scroll iOS */
-  overscroll-behavior: none;
-}
-
-/* 📱 MOBILE — GRAND JEU */
-@media (max-width: 600px) {
-  canvas {
-    width: 92vw;
-    height: 92vw;
-    max-width: 420px;
-    max-height: 420px;
-  }
-}
-
-/* 📱 PETITS ÉCRANS */
-@media (max-width: 420px) {
-  canvas {
-    width: 95vw;
-    height: 95vw;
-  }
-}
-
-/* ===============================
-   RÈGLES
-================================ */
-.snake-rules {
-  max-width: 620px;
-  padding: 28px 30px;
-  margin-bottom: 40px;
-
-  background: rgba(255, 255, 255, 0.85);
-  border-radius: 26px;
-  box-shadow: 0 14px 34px rgba(0,0,0,0.12);
-}
-
-.snake-rules h3 {
-  font-family: "Great Vibes", cursive;
-  font-size: 2.6rem;
-  margin-bottom: 16px;
-}
-
-.snake-rules p {
-  font-size: 1.05rem;
-  line-height: 1.8;
-  margin-bottom: 14px;
-  opacity: 0.9;
-}
-
-/* ===============================
-   MOBILE AJUSTEMENTS
-================================ */
-@media (max-width: 500px) {
-  .snake-page {
-    padding-top: 120px;
-  }
-
-  .signature-title {
-    font-size: 3.2rem;
-  }
-
-  .signature-subtitle {
-    font-size: 2.2rem;
-  }
+.enter-btn:hover {
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
 }
