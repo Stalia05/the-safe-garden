@@ -1,9 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-  /* ===============================
-     BOTANICODE – LOGIQUE DU JEU
-  ================================ */
-
   const SYMBOLS = ["🌼", "🌸", "🌻", "🌱", "🍃", "🍀", "🍄", "🪨"];
   const CODE_LENGTH = 5;
   const MAX_ATTEMPTS = 10;
@@ -20,7 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let gameOver = false;
 
   /* ===============================
-     INITIALISATION
+     INIT
   ================================ */
   function initGame() {
     secretCode = generateSecretCode();
@@ -30,7 +26,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     attemptRows.forEach((row, index) => {
       row.style.opacity = index === 0 ? "1" : "0.3";
-      row.style.pointerEvents = index === 0 ? "auto" : "none";
 
       row.querySelectorAll(".slot").forEach(slot => {
         slot.textContent = "";
@@ -51,9 +46,6 @@ document.addEventListener("DOMContentLoaded", () => {
     winMessage.style.display = "none";
   }
 
-  /* ===============================
-     CODE SECRET
-  ================================ */
   function generateSecretCode() {
     return Array.from({ length: CODE_LENGTH }, () =>
       SYMBOLS[Math.floor(Math.random() * SYMBOLS.length)]
@@ -84,10 +76,10 @@ document.addEventListener("DOMContentLoaded", () => {
   board.appendChild(palette);
 
   /* ===============================
-     EVENT DELEGATION — CASES
+     CLIC SUR CASES (SANS pointer-events)
   ================================ */
   board.addEventListener("click", (e) => {
-    const slot = e.target.closest(".slot");
+    const slot = e.target.closest(".slots .slot");
     if (!slot || gameOver || !selectedSymbol) return;
 
     const row = slot.closest(".attempt-row");
@@ -100,7 +92,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   board.addEventListener("contextmenu", (e) => {
-    const slot = e.target.closest(".slot");
+    const slot = e.target.closest(".slots .slot");
     if (!slot || gameOver) return;
 
     e.preventDefault();
@@ -142,13 +134,10 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      enableNextRow();
+      updateRows();
     });
   });
 
-  /* ===============================
-     FEEDBACK
-  ================================ */
   function getFeedback(guess) {
     let correct = 0;
     let present = 0;
@@ -182,26 +171,17 @@ document.addEventListener("DOMContentLoaded", () => {
     for (; i < dots.length; i++) dots[i].classList.add("absent");
   }
 
-  /* ===============================
-     LIGNES
-  ================================ */
-  function enableNextRow() {
+  function updateRows() {
     attemptRows.forEach((row, index) => {
       row.style.opacity = index === currentAttempt ? "1" : "0.3";
-      row.style.pointerEvents = index === currentAttempt ? "auto" : "none";
     });
   }
 
-  /* ===============================
-     FIN
-  ================================ */
   function endGame(victory) {
     gameOver = true;
     revealSecret();
-    attemptRows.forEach(row => row.style.pointerEvents = "none");
-
-    if (victory) winMessage.style.display = "block";
-    else endMessage.style.display = "block";
+    victory ? winMessage.style.display = "block"
+            : endMessage.style.display = "block";
   }
 
   function revealSecret() {
