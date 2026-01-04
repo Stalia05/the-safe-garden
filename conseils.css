@@ -19,7 +19,7 @@ body {
 }
 
 /* ===============================
-   CONTENEUR
+   CONTENEUR PRINCIPAL
 ================================ */
 .garden {
   max-width: 720px;
@@ -30,7 +30,7 @@ body {
 }
 
 /* ===============================
-   FONDS
+   🌿 FEUILLES DE FOND
 ================================ */
 .bottom-leaves {
   position: fixed;
@@ -42,6 +42,9 @@ body {
   z-index: 0;
 }
 
+/* ===============================
+   🦋 PAPILLONS
+================================ */
 .butterfly {
   position: fixed;
   pointer-events: none;
@@ -54,7 +57,7 @@ body {
 .b3 { width: 110px; top: 58%; left: 16%; }
 
 /* ===============================
-   ⭐ ÉTOILES
+   ⭐ POUSSIÈRE D’ÉTOILES
 ================================ */
 #starDustLayer {
   position: fixed;
@@ -99,6 +102,7 @@ body {
   width: 100%;
   background: none;
   border: none;
+  box-shadow: none;
   transform-origin: left center;
 }
 
@@ -143,18 +147,19 @@ body {
 }
 
 /* ===============================
-   🐱 EXPERIENCE CHAT (TAILLE NORMALE)
+   🐱 EXPERIENCE CHAT
 ================================ */
 .experience-chat {
   margin: 140px 0;
   display: flex;
   justify-content: center;
-  z-index: 2;
+  position: relative;
+  z-index: 6; /* au-dessus des étoiles */
 }
 
 .chat-container {
   position: relative;
-  width: 220px;
+  width: 180px; /* taille NORMALE */
 }
 
 .chat {
@@ -175,11 +180,10 @@ body {
   font-weight: 600;
   white-space: nowrap;
   pointer-events: none;
-  z-index: 5;
 }
 
 /* ===============================
-   🌱 EXPERIENCE PLANTE (DANS LE POT)
+   🌱 EXPERIENCE PLANTE
 ================================ */
 .experience-plant {
   text-align: center;
@@ -189,7 +193,6 @@ body {
 .plant {
   width: 90px;
   margin: 0 auto;
-  position: relative;
 }
 
 .plant-pot {
@@ -198,7 +201,7 @@ body {
   height: 120px;
   background: #7a5c42;
   border-radius: 0 0 40px 40px;
-  overflow: hidden;
+  overflow: hidden; /* TOUT SE PASSE DEDANS */
 }
 
 .plant-stem {
@@ -220,18 +223,11 @@ body {
   background: #6fae88;
   border-radius: 20px;
   opacity: 0;
-  transition: all 0.8s ease;
+  transition: opacity 0.6s ease;
 }
 
-.leaf.left {
-  left: 6px;
-  transform: rotate(-25deg);
-}
-
-.leaf.right {
-  right: 6px;
-  transform: rotate(25deg);
-}
+.leaf.left { left: 8px; transform: rotate(-25deg); }
+.leaf.right { right: 8px; transform: rotate(25deg); }
 
 .flower {
   position: absolute;
@@ -240,16 +236,14 @@ body {
   transform: translateX(-50%) scale(0);
   opacity: 0;
   transition: all 0.9s ease;
+  pointer-events: none;
 }
 
 /* niveaux */
 .plant.level-1 .plant-stem { height: 35px; }
 
 .plant.level-2 .plant-stem { height: 65px; }
-.plant.level-2 .leaf {
-  opacity: 1;
-  top: 38px;
-}
+.plant.level-2 .leaf { opacity: 1; top: 38px; }
 
 .plant.level-3 .plant-stem { height: 90px; }
 .plant.level-3 .flower {
@@ -266,9 +260,49 @@ body {
   position: relative;
 }
 
+.cloud-input {
+  width: 100%;
+  max-width: 420px;
+  min-height: 90px;
+  padding: 18px 20px;
+  border-radius: 24px;
+  border: none;
+  font-size: 17px;
+  font-family: "Cormorant Infant", serif;
+  background: rgba(255,255,255,0.85);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+  resize: none;
+}
+
+.cloud-controls {
+  margin-top: 18px;
+  display: inline-flex;
+  gap: 14px;
+}
+
+.cloud-btn,
+.sweep-btn {
+  padding: 10px 26px;
+  border-radius: 30px;
+  border: none;
+  background: #5f8f73;
+  color: white;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 8px 18px rgba(0,0,0,0.12);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.cloud-btn:hover,
+.sweep-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 26px rgba(0,0,0,0.18);
+}
+
 .cloud-area {
   position: relative;
-  height: 520px;
+  height: 500px;
 }
 
 .cloud {
@@ -276,7 +310,7 @@ body {
   left: 50%;
   bottom: 0;
   transform: translateX(-50%);
-  padding: 28px 70px;
+  padding: 26px 64px;
   background: #fff;
   border-radius: 120px;
   font-size: 18px;
@@ -284,10 +318,6 @@ body {
   text-align: center;
   box-shadow: 0 20px 40px rgba(0,0,0,0.15);
   z-index: 3;
-  pointer-events: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .cloud::before,
@@ -296,7 +326,6 @@ body {
   position: absolute;
   background: #fff;
   border-radius: 50%;
-  z-index: 1;
 }
 
 .cloud::before {
@@ -313,20 +342,6 @@ body {
   right: 20px;
 }
 
-/* texte au-dessus du nuage */
-.cloud span,
-.cloud p {
-  position: relative;
-  z-index: 5;
-}
-
-/* explosion */
-.cloud.exploding {
-  opacity: 0;
-  transform: translateX(-50%) scale(0.7);
-  transition: opacity 0.4s ease, transform 0.4s ease;
-}
-
 /* ===============================
    NAVIGATION
 ================================ */
@@ -335,8 +350,8 @@ body {
   padding: 30px 20px;
   display: flex;
   justify-content: space-between;
-  background: rgba(231, 240, 234, 0.95);
-  border-top: 1px solid rgba(60, 100, 80, 0.3);
+  background: rgba(231,240,234,0.95);
+  border-top: 1px solid rgba(60,100,80,0.3);
 }
 
 .nav-link {
