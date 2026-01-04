@@ -161,34 +161,44 @@ cloudBtn?.addEventListener("click", () => {
   rise();
 });
 
-  /* ===============================
-     🧹 BALAI
-  =============================== */
-  const broom = document.getElementById("broom");
-  const sweepBtn = document.getElementById("sweepBtn");
+ /* ===============================
+   🧹 BALAI – DESKTOP + MOBILE
+=============================== */
+const broom = document.getElementById("broom");
+const sweepBtn = document.getElementById("sweepBtn");
 
-  sweepBtn?.addEventListener("click", () => {
-    broom.style.display = "block";
-    let x = -300;
+function startSweep() {
+  if (!broom) return;
 
-    function sweep() {
-      x += 20;
-      broom.style.transform = `translateX(${x}px) rotate(${x / 28}deg)`;
+  broom.style.display = "block";
+  let x = -320;
 
-      document.querySelectorAll(".star").forEach(star => {
-        const r = star.getBoundingClientRect();
-        if (r.left < x + 260 && r.right > x) {
-          star.remove();
-        }
-      });
+  function sweep() {
+    x += 18;
+    broom.style.transform = `translateX(${x}px) rotate(${x / 28}deg)`;
 
-      if (x < window.innerWidth + 300) {
-        requestAnimationFrame(sweep);
-      } else {
-        broom.style.display = "none";
+    document.querySelectorAll(".star").forEach(star => {
+      const r = star.getBoundingClientRect();
+      if (r.left < x + 260 && r.right > x) {
+        star.remove();
       }
-    }
-    sweep();
-  });
+    });
 
+    if (x < window.innerWidth + 320) {
+      requestAnimationFrame(sweep);
+    } else {
+      broom.style.display = "none";
+    }
+  }
+
+  sweep();
+}
+
+/* desktop */
+sweepBtn?.addEventListener("click", startSweep);
+
+/* mobile */
+sweepBtn?.addEventListener("touchstart", e => {
+  e.preventDefault(); // 🔑 très important sur iOS
+  startSweep();
 });
