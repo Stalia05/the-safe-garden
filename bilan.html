@@ -1,281 +1,60 @@
-/* ===============================
-   RESET
-================================ */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-/* ===============================
-   BASE + FOND SAFE GARDEN
-================================ */
-body {
-  font-family: "Cormorant Infant", serif;
-  min-height: 100vh;
-  color: #2f3e34;
+  <title>The Safe Garden – Bilan personnalisé</title>
 
-  background: radial-gradient(circle at top,
-    #f6fbf7 0%,
-    #e7f0ea 60%,
-    #d9e6df 100%
-  );
-}
+  <!-- 🌿 Polices -->
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Infant:wght@400;500;600&family=Great+Vibes&display=swap" rel="stylesheet">
 
-/* ===============================
-   CONTENEUR PRINCIPAL
-================================ */
-.botanicode-container {
-  max-width: 900px;
-  margin: 80px auto;
-  padding: 40px 36px 60px;
+  <!-- 🎨 CSS -->
+  <link rel="stylesheet" href="bilan.css">
+</head>
 
-  background: rgba(255, 250, 240, 0.95);
-  border-radius: 36px;
+<body>
 
-  box-shadow:
-    0 30px 60px rgba(0,0,0,0.18);
+  <!-- 🔙 Retour accueil -->
+  <a href="accueil.html" class="back-home">
+    ← Retour à l’accueil
+  </a>
 
-  position: relative;
-}
+  <main class="garden">
 
-/* ===============================
-   TITRES
-================================ */
-.safe-garden-title {
-  font-family: "Great Vibes", cursive;
-  font-size: 3.6rem;
-  text-align: center;
-  color: #6f8b77;
-}
+    <!-- 🌿 TITRE -->
+    <header class="garden-title">
+      <h1 class="signature-title">The Safe Garden</h1>
+      <h2 class="signature-subtitle">Le bilan personnalisé</h2>
+    </header>
 
-.botanicode-title {
-  text-align: center;
-  font-size: 2.2rem;
-  margin-bottom: 30px;
-}
+    <!-- 🌱 INTRO -->
+    <section class="intro">
+      <p class="intro-text">
+        Il n’y a pas de bonnes ou de mauvaises réponses.<br>
+        Réponds avec ce qui te ressemble aujourd’hui,<br>
+        pas avec ce que tu devrais ressentir.
+      </p>
+    </section>
 
-/* ===============================
-   INTRO + RÈGLES
-================================ */
-.botanicode-intro {
-  text-align: center;
-  font-size: 1.1rem;
-  margin-bottom: 30px;
-}
+    <!-- 🌱 QUIZ -->
+    <section class="quiz">
 
-.botanicode-rules {
-  background: rgba(255,255,255,0.85);
-  padding: 24px;
-  border-radius: 22px;
-  margin-bottom: 40px;
-}
+      <div class="question">
+        <p class="question-text" id="questionText"></p>
+        <div class="answers" id="answers"></div>
+      </div>
 
-.botanicode-rules ul {
-  padding-left: 18px;
-  line-height: 1.7;
-}
+      <button class="soft-back" id="backBtn" type="button">
+        ↺ Revenir doucement (tu as le droit de te tromper)
+      </button>
 
-/* ===============================
-   PLATEAU EN BOIS (SANS IMAGE)
-================================ */
-.botanicode-board {
-  padding: 36px;
-  border-radius: 28px;
+    </section>
 
-  background:
-    linear-gradient(135deg, #e4c9a1, #d2b48c);
-  box-shadow:
-    inset 0 0 0 6px #caa678,
-    inset 0 0 0 14px #e9d5b3,
-    0 20px 40px rgba(0,0,0,0.25);
+  </main>
 
-  position: relative;
-}
+  <!-- 🧠 JS -->
+  <script src="bilan.js"></script>
 
-/* ===============================
-   CODE SECRET
-================================ */
-.secret-code {
-  display: flex;
-  justify-content: center;
-  gap: 16px;
-  margin-bottom: 36px;
-}
-
-.secret-code .slot {
-  background: radial-gradient(circle at top,
-    #ddd,
-    #bfae95
-  );
-}
-
-/* ===============================
-   ESSAIS
-================================ */
-.attempts {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.attempt-row {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
-
-/* ===============================
-   TROUS / CASES
-================================ */
-.slots {
-  display: flex;
-  gap: 14px;
-}
-
-.slot {
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-
-  background:
-    radial-gradient(circle at 30% 30%,
-      #f6f2ea,
-      #cbb89d
-    );
-
-  box-shadow:
-    inset 0 4px 6px rgba(0,0,0,0.35),
-    inset 0 -2px 3px rgba(255,255,255,0.6);
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  font-size: 1.6rem;
-  cursor: pointer;
-  user-select: none;
-}
-
-.slot.hidden {
-  filter: brightness(0.85);
-}
-
-/* ===============================
-   FEEDBACK
-================================ */
-.feedback {
-  display: grid;
-  grid-template-columns: repeat(5, 14px);
-  gap: 6px;
-}
-
-.feedback-dot {
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  background: #ddd;
-}
-
-.feedback-dot.correct {
-  background: #6f8b77;
-}
-
-.feedback-dot.present {
-  background: #c9a24d;
-}
-
-.feedback-dot.absent {
-  background: #bdbdbd;
-}
-
-/* ===============================
-   VALIDER
-================================ */
-.validate-btn {
-  padding: 8px 20px;
-  border-radius: 999px;
-  border: none;
-
-  background: linear-gradient(135deg, #c9a24d, #b58f3e);
-  color: #fff;
-
-  font-family: "Cormorant Infant", serif;
-  cursor: pointer;
-
-  box-shadow: 0 6px 14px rgba(0,0,0,0.25);
-}
-
-.validate-btn:hover {
-  transform: translateY(-1px);
-}
-
-/* ===============================
-   PALETTE DE SYMBOLES
-================================ */
-.symbol-palette {
-  margin-top: 40px;
-  display: flex;
-  justify-content: center;
-  gap: 18px;
-}
-
-.symbol {
-  width: 68px;
-  height: 68px;
-  border-radius: 50%;
-
-  background: #fff;
-  border: 2px solid #c9bfae;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  font-size: 2rem;
-  cursor: pointer;
-}
-
-.symbol.selected {
-  border-color: #6f8b77;
-  box-shadow: 0 0 0 4px rgba(111,139,119,0.35);
-}
-
-/* ===============================
-   MESSAGES
-================================ */
-.end-message,
-.win-message {
-  margin-top: 36px;
-  padding: 28px;
-  border-radius: 24px;
-  background: rgba(255,255,255,0.95);
-  text-align: center;
-}
-
-/* ===============================
-   ACTIONS
-================================ */
-.end-actions {
-  display: flex;
-  justify-content: center;
-  gap: 18px;
-  margin-top: 20px;
-}
-
-.retry-btn {
-  background: #6f8b77;
-  color: #fff;
-  border: none;
-  padding: 12px 26px;
-  border-radius: 20px;
-  cursor: pointer;
-}
-
-.back-btn {
-  text-decoration: none;
-  color: #4b6b5a;
-  padding: 12px 22px;
-  background: rgba(255,255,255,0.9);
-  border-radius: 20px;
-}
+</body>
+</html>
