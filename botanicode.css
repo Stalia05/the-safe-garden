@@ -1,0 +1,152 @@
+/* ===============================
+   BASE
+================================ */
+body {
+  margin: 0;
+  font-family: "Cormorant Infant", serif;
+  color: #2f3e34;
+  background-image: url("https://i.ibb.co/qFNK1Spg/A3-D9-E0-DD-D9-A4-4404-B935-B3-D0014-CD14-C.png");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  min-height: 100vh;
+}
+
+/* ===============================
+   CONTENEUR PRINCIPAL
+================================ */
+.botanicode-container {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 80px 20px 160px;
+  background: rgba(255, 250, 240, 0.78); /* voile crème */
+  backdrop-filter: blur(4px);
+  border-radius: 24px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+}
+
+/* ===============================
+   TITRES
+================================ */
+.safe-garden-title {
+  font-family: "Great Vibes", cursive;
+  font-size: 3.4rem;
+  text-align: center;
+  margin-bottom: 8px;
+  color: #6f8b77;
+}
+
+.botanicode-title {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 500;
+  margin-bottom: 24px;
+}
+
+/* ===============================
+   INTRO & RÈGLES
+================================ */
+.botanicode-intro {
+  text-align: center;
+  font-size: 1.1rem;
+  margin-bottom: 32px;
+}
+
+.botanicode-rules {
+  background: rgba(255, 255, 255, 0.7);
+  padding: 20px 24px;
+  border-radius: 18px;
+  margin-bottom: 40px;
+}
+
+.botanicode-rules h3 {
+  margin-top: 0;
+  font-weight: 600;
+}
+
+.botanicode-rules ul {
+  padding-left: 20px;
+  line-height: 1.7;
+}
+
+/* ===============================
+   PLATEAU DU JEU
+================================ */
+.botanicode-board {
+  background: rgba(255, 255, 255, 0.65);
+  padding: 30px 24px;
+  border-radius: 22px;
+}
+
+/* ===============================
+   CODE SECRET
+================================ */
+.secret-code {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  margin-bottom: 28px;
+}
+
+.slot {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: #f1ede4;
+  border: 2px solid #c9bfae;
+}
+
+.slot.hidden {
+  background: #d8d2c5;
+}
+
+/* ===============================
+   ESSAIS
+================================ */
+.attempts {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.attempt-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Slots de combinaison */
+.slots {
+  display: flex;
+  gap: 12px;
+}
+
+/* Indices */
+.feedback {
+  display: grid;
+  grid-template-columns: repeat(5, 12px);
+  gap: 6px;
+}
+
+.feedback-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #ddd;
+}
+
+/* ===============================
+   BOUTON RETOUR
+================================ */
+.back-home-fixed {
+  position: fixed;
+  bottom: 24px;
+  left: 24px;
+  text-decoration: none;
+  font-size: 0.95rem;
+  color: #4b6b5a;
+  background: rgba(255, 255, 255, 0.8);
+  padding: 10px 16px;
+  border-radius: 14px;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1);
+}
