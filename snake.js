@@ -1,36 +1,37 @@
-/* ===============================
-   BLOQUER LE SCROLL PENDANT LE JEU
-================================ */
-window.addEventListener(
-  "keydown",
-  e => {
-    if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", " "].includes(e.key)) {
-      e.preventDefault();
-    }
-  },
-  { passive: false }
-);
-
-document.addEventListener(
-  "touchmove",
-  e => {
-    e.preventDefault();
-  },
-  { passive: false }
-);
-
-/* ===============================
-   SNAKE NOKIA 3310 🌿
-================================ */
 document.addEventListener("DOMContentLoaded", () => {
   const canvas = document.getElementById("snakeGame");
   const scoreEl = document.getElementById("snakeScore");
-  if (!canvas || !scoreEl) return;
+  const wrapper = canvas?.closest(".snake-wrapper");
+
+  if (!canvas || !scoreEl || !wrapper) return;
 
   const ctx = canvas.getContext("2d");
 
   /* ===============================
-     CANVAS RESPONSIVE RECTANGLE
+     🔒 BLOQUER LE SCROLL UNIQUEMENT
+     QUAND ON INTERAGIT AVEC LE JEU
+  ================================ */
+  function preventScroll(e) {
+    e.preventDefault();
+  }
+
+  function lockScroll() {
+    document.addEventListener("touchmove", preventScroll, { passive: false });
+    document.addEventListener("wheel", preventScroll, { passive: false });
+  }
+
+  function unlockScroll() {
+    document.removeEventListener("touchmove", preventScroll);
+    document.removeEventListener("wheel", preventScroll);
+  }
+
+  /* activation ciblée */
+  wrapper.addEventListener("touchstart", lockScroll, { passive: true });
+  wrapper.addEventListener("touchend", unlockScroll);
+  wrapper.addEventListener("mouseleave", unlockScroll);
+
+  /* ===============================
+     CANVAS RESPONSIVE
   ================================ */
   const tileSize = 20;
 
@@ -63,7 +64,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     ];
 
-    dx = 1; // démarre doucement
+    dx = 1;
     dy = 0;
 
     respirations = 0;
@@ -92,17 +93,15 @@ document.addEventListener("DOMContentLoaded", () => {
     ctx.fillStyle = "#e7f0ea";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    /* 🍎 POMME ROUGE */
+    /* 🍎 pomme */
     const cx = food.x * tileSize + tileSize / 2;
     const cy = food.y * tileSize + tileSize / 2;
 
-    // corps pomme
     ctx.fillStyle = "#d84c4c";
     ctx.beginPath();
     ctx.arc(cx, cy, tileSize / 2.2, 0, Math.PI * 2);
     ctx.fill();
 
-    // tige verte
     ctx.strokeStyle = "#4b7a60";
     ctx.lineWidth = 3;
     ctx.beginPath();
@@ -110,7 +109,7 @@ document.addEventListener("DOMContentLoaded", () => {
     ctx.lineTo(cx, cy - tileSize / 1.3);
     ctx.stroke();
 
-    /* 🟩 SERPENT CARRÉ NOKIA */
+    /* 🟩 serpent */
     ctx.fillStyle = "#6f9f88";
     snake.forEach(part => {
       ctx.fillRect(
@@ -135,14 +134,12 @@ document.addEventListener("DOMContentLoaded", () => {
       respirations++;
       updateScore();
 
-      if (navigator.vibrate) {
-        navigator.vibrate(20);
-      }
+      if (navigator.vibrate) navigator.vibrate(20);
     } else {
       snake.pop();
     }
 
-    /* collision = reset zen */
+    /* collision = reset */
     if (
       head.x < 0 ||
       head.y < 0 ||
@@ -155,7 +152,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* ===============================
-     CLAVIER (ORDI)
+     CLAVIER (DESKTOP)
   ================================ */
   document.addEventListener("keydown", e => {
     if (e.key === "ArrowUp" && dy === 0) {
@@ -201,5 +198,5 @@ document.addEventListener("DOMContentLoaded", () => {
   /* ===============================
      LANCEMENT
   ================================ */
-  setInterval(draw, 140); // vitesse douce 🌿
+  setInterval(draw, 140);
 });
