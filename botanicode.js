@@ -1,24 +1,16 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-  /* ===============================
-     CONFIG
-  ================================ */
   const SYMBOLS = ["🌼", "🌸", "🌻", "🌱", "🍃", "🍀", "🍄", "🪨"];
   const CODE_LENGTH = 5;
   const MAX_ATTEMPTS = 10;
 
-  /* ===============================
-     DOM
-  ================================ */
-  const board = document.querySelector(".botanicode-board");
-  const attemptRows = Array.from(document.querySelectorAll(".attempt-row"));
+  const attemptRows = document.querySelectorAll(".attempt-row");
+  const secretSlots = document.querySelectorAll(".secret-code .slot");
   const endMessage = document.querySelector(".end-message");
   const winMessage = document.querySelector(".win-message");
   const retryBtns = document.querySelectorAll(".retry-btn");
+  const board = document.querySelector(".botanicode-board");
 
-  /* ===============================
-     STATE
-  ================================ */
   let secretCode = [];
   let currentAttempt = 0;
   let selectedSymbol = null;
@@ -46,7 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
 
-    document.querySelectorAll(".secret-code .slot").forEach(slot => {
+    secretSlots.forEach(slot => {
       slot.textContent = "";
       slot.classList.add("hidden");
     });
@@ -68,78 +60,56 @@ document.addEventListener("DOMContentLoaded", () => {
   palette.className = "symbol-palette";
 
   SYMBOLS.forEach(symbol => {
-    const el = document.createElement("div");
-    el.className = "symbol";
-    el.textContent = symbol;
+    const btn = document.createElement("div");
+    btn.className = "symbol";
+    btn.textContent = symbol;
 
-    el.addEventListener("click", () => {
+    btn.addEventListener("click", () => {
       if (gameOver) return;
       selectedSymbol = symbol;
       document.querySelectorAll(".symbol").forEach(s => s.classList.remove("selected"));
-      el.classList.add("selected");
+      btn.classList.add("selected");
     });
 
-    palette.appendChild(el);
+    palette.appendChild(btn);
   });
 
   board.appendChild(palette);
 
   /* ===============================
-     CLIC GAUCHE → PLACER
-  ================================ */
-  board.addEventListener("click", (e) => {
-    if (gameOver || !selectedSymbol) return;
-
-    const slot = e.target.classList.contains("slot")
-      ? e.target
-      : e.target.closest(".slot");
-
-    if (!slot) return;
-
-    const row = slot.closest(".attempt-row");
-    if (!row) return;
-
-    const rowIndex = attemptRows.indexOf(row);
-    if (rowIndex !== currentAttempt) return;
-
-    slot.textContent = selectedSymbol;
-    slot.dataset.symbol = selectedSymbol;
-  });
-
-  /* ===============================
-     CLIC DROIT → EFFACER
-  ================================ */
-  board.addEventListener("contextmenu", (e) => {
-    const slot = e.target.classList.contains("slot")
-      ? e.target
-      : e.target.closest(".slot");
-
-    if (!slot || gameOver) return;
-
-    e.preventDefault();
-
-    const row = slot.closest(".attempt-row");
-    if (!row) return;
-
-    const rowIndex = attemptRows.indexOf(row);
-    if (rowIndex !== currentAttempt) return;
-
-    slot.textContent = "";
-    slot.dataset.symbol = "";
-  });
-
-  /* ===============================
-     VALIDATION
+     CLIC SUR CASES (SIMPLE & SÛR)
   ================================ */
   attemptRows.forEach((row, rowIndex) => {
+    const slots = row.querySelectorAll(".slots .slot");
     const validateBtn = row.querySelector(".validate-btn");
 
+    slots.forEach(slot => {
+
+      slot.addEventListener("click", () => {
+        if (gameOver) return;
+        if (rowIndex !== currentAttempt) return;
+        if (!selectedSymbol) return;
+
+        slot.textContent = selectedSymbol;
+        slot.dataset.symbol = selectedSymbol;
+      });
+
+      slot.addEventListener("contextmenu", e => {
+        e.preventDefault();
+        if (gameOver) return;
+        if (rowIndex !== currentAttempt) return;
+
+        slot.textContent = "";
+        slot.dataset.symbol = "";
+      });
+
+    });
+
     validateBtn.addEventListener("click", () => {
-      if (gameOver || rowIndex !== currentAttempt) return;
+      if (gameOver) return;
+      if (rowIndex !== currentAttempt) return;
 
-      const slots = row.querySelectorAll(".slots .slot");
       const guess = [...slots].map(s => s.dataset.symbol);
-
       if (guess.includes("")) return;
 
       const feedback = getFeedback(guess);
@@ -198,9 +168,6 @@ document.addEventListener("DOMContentLoaded", () => {
     for (; i < dots.length; i++) dots[i].classList.add("absent");
   }
 
-  /* ===============================
-     ROWS
-  ================================ */
   function updateRows() {
     attemptRows.forEach((row, index) => {
       row.style.opacity = index === currentAttempt ? "1" : "0.3";
@@ -208,32 +175,24 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* ===============================
-     FIN DE JEU
+     FIN DE PARTIE
   ================================ */
   function endGame(victory) {
     gameOver = true;
-    revealSecret();
 
-    victory
-      ? winMessage && (winMessage.style.display = "block")
-      : (endMessage.style.display = "block");
-  }
-
-  function revealSecret() {
-    document.querySelectorAll(".secret-code .slot").forEach((slot, i) => {
+    secretSlots.forEach((slot, i) => {
       slot.textContent = secretCode[i];
       slot.classList.remove("hidden");
     });
+
+    if (victory && winMessage) {
+      winMessage.style.display = "block";
+    } else {
+      endMessage.style.display = "block";
+    }
   }
 
-  /* ===============================
-     RESSAYER
-  ================================ */
   retryBtns.forEach(btn => btn.addEventListener("click", initGame));
 
-  /* ===============================
-     START
-  ================================ */
   initGame();
-
 });
