@@ -30,7 +30,7 @@ body {
 }
 
 /* ===============================
-   🌿 DÉCOR FIXE (FOND)
+   🌿 DÉCOR FIXE (BAS)
 ================================ */
 .bottom-leaves {
   position: fixed;
@@ -43,7 +43,7 @@ body {
 }
 
 /* ===============================
-   🦋 PAPILLONS (STABLES)
+   🦋 PAPILLONS (PLACEMENT PROPRE)
 ================================ */
 .butterfly {
   position: fixed;
@@ -52,12 +52,12 @@ body {
   z-index: 1;
 }
 
-.b1 { width: 120px; top: 12%; left: 6%; }
-.b2 { width: 150px; top: 32%; right: 8%; }
-.b3 { width: 110px; top: 55%; left: 18%; }
+.b1 { width: 120px; top: 15%; left: 5%; }
+.b2 { width: 150px; top: 35%; right: 6%; }
+.b3 { width: 110px; top: 60%; left: 15%; }
 
 /* ===============================
-   ⭐ POUSSIÈRE D’ÉTOILES (PAGE SALE)
+   ⭐ POUSSIÈRE D’ÉTOILES (SALE & VISIBLE)
 ================================ */
 #starDustLayer {
   position: fixed;
@@ -66,37 +66,47 @@ body {
   z-index: 4;
 }
 
+/* vraies étoiles */
 .star {
   position: absolute;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: radial-gradient(
-    circle,
-    #ffd84d 0%,
-    #ffef9a 45%,
-    rgba(255, 215, 120, 0) 70%
+  width: 14px;
+  height: 14px;
+  background: #ffd84d;
+  clip-path: polygon(
+    50% 0%,
+    61% 35%,
+    98% 35%,
+    68% 57%,
+    79% 100%,
+    50% 72%,
+    21% 100%,
+    32% 57%,
+    2% 35%,
+    39% 35%
   );
   opacity: 0.95;
+  filter: drop-shadow(0 0 6px rgba(255, 215, 100, 0.8));
 }
 
-/* ⚠️ PAS D’ANIMATION → les étoiles RESTENT */
-
 /* ===============================
-   🧹 BALAI
+   🧹 BALAI (IMAGE PROPRE)
 ================================ */
 #broom {
   position: fixed;
-  bottom: 120px;
-  left: -240px;
-  width: 220px;
+  bottom: 140px;
+  left: -260px;
+  width: 240px;
   display: none;
-  z-index: 6;
+  z-index: 7;
 }
 
 #broom img {
   width: 100%;
   display: block;
+  border: none;
+  outline: none;
+  background: none;
+  box-shadow: none;
   transform-origin: left center;
 }
 
@@ -124,7 +134,6 @@ body {
 ================================ */
 .step {
   margin-bottom: 100px;
-  position: relative;
 }
 
 .step h2 {
@@ -139,7 +148,6 @@ body {
   font-weight: 600;
   line-height: 1.85;
   margin-bottom: 18px;
-  color: #263326;
 }
 
 /* ===============================
@@ -206,7 +214,7 @@ body {
 }
 
 /* ===============================
-   ☁️ EXPERIENCE NUAGE (VRAI NUAGE)
+   ☁️ EXPERIENCE NUAGE (ZONE PROPRE)
 ================================ */
 .experience-cloud {
   margin: 160px 0;
@@ -222,11 +230,18 @@ body {
   border-radius: 18px;
   border: none;
   font-size: 18px;
-  background: rgba(255,255,255,0.7);
+  background: rgba(255,255,255,0.75);
 }
 
-.cloud-btn {
+.cloud-controls {
   margin-top: 16px;
+  display: inline-flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.cloud-btn,
+.sweep-btn {
   padding: 10px 22px;
   border-radius: 20px;
   border: none;
@@ -236,10 +251,10 @@ body {
   cursor: pointer;
 }
 
-/* zone de montée */
+/* zone de montée PLUS HAUTE */
 .cloud-area {
   position: relative;
-  height: 360px;
+  height: 420px;
   overflow: visible;
 }
 
@@ -249,11 +264,11 @@ body {
   left: 50%;
   bottom: 0;
   transform: translateX(-50%);
-  padding: 26px 46px;
+  padding: 28px 52px;
   background: #fff;
-  border-radius: 80px;
+  border-radius: 90px;
   font-size: 18px;
-  box-shadow: 0 14px 30px rgba(0,0,0,0.15);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.15);
   pointer-events: none;
 }
 
@@ -266,17 +281,17 @@ body {
 }
 
 .cloud::before {
-  width: 70px;
-  height: 70px;
-  top: -32px;
-  left: 18px;
+  width: 80px;
+  height: 80px;
+  top: -40px;
+  left: 22px;
 }
 
 .cloud::after {
-  width: 90px;
-  height: 90px;
-  top: -44px;
-  right: 22px;
+  width: 100px;
+  height: 100px;
+  top: -52px;
+  right: 26px;
 }
 
 /* ===============================
