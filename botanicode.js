@@ -12,13 +12,15 @@ const MAX_ATTEMPTS = 10;
 // 🌿 Éléments DOM
 const attemptRows = document.querySelectorAll(".attempt-row");
 const endMessage = document.querySelector(".end-message");
-const retryBtn = document.querySelector(".retry-btn");
+const winMessage = document.querySelector(".win-message");
+const retryBtns = document.querySelectorAll(".retry-btn");
 const board = document.querySelector(".botanicode-board");
 
 // 🌱 État du jeu
 let secretCode = [];
 let currentAttempt = 0;
 let selectedSymbol = null;
+let gameOver = false;
 
 /* ===============================
    INITIALISATION
@@ -27,8 +29,9 @@ function initGame() {
   secretCode = generateSecretCode();
   currentAttempt = 0;
   selectedSymbol = null;
+  gameOver = false;
 
-  // Reset slots des essais
+  // Reset essais
   attemptRows.forEach((row, index) => {
     row.style.opacity = index === 0 ? "1" : "0.3";
     row.style.pointerEvents = index === 0 ? "auto" : "none";
@@ -50,6 +53,7 @@ function initGame() {
   });
 
   endMessage.style.display = "none";
+  winMessage.style.display = "none";
 }
 
 initGame();
@@ -75,6 +79,7 @@ SYMBOLS.forEach(symbol => {
   el.textContent = symbol;
 
   el.addEventListener("click", () => {
+    if (gameOver) return;
     selectedSymbol = symbol;
     document.querySelectorAll(".symbol").forEach(s => s.classList.remove("selected"));
     el.classList.add("selected");
@@ -92,36 +97,42 @@ attemptRows.forEach((row, rowIndex) => {
   const slots = row.querySelectorAll(".slots .slot");
   const validateBtn = row.querySelector(".validate-btn");
 
-  // Clic sur une case
+  // clic gauche → poser / remplacer
   slots.forEach(slot => {
     slot.addEventListener("click", () => {
-      if (rowIndex !== currentAttempt || !selectedSymbol) return;
-
+      if (gameOver || rowIndex !== currentAttempt || !selectedSymbol) return;
       slot.textContent = selectedSymbol;
       slot.dataset.symbol = selectedSymbol;
+    });
+
+    // clic droit → effacer
+    slot.addEventListener("contextmenu", e => {
+      e.preventDefault();
+      if (gameOver || rowIndex !== currentAttempt) return;
+      slot.textContent = "";
+      slot.dataset.symbol = "";
     });
   });
 
   // Bouton Valider
   validateBtn.addEventListener("click", () => {
-    if (rowIndex !== currentAttempt) return;
+    if (gameOver || rowIndex !== currentAttempt) return;
 
     const guess = [...slots].map(s => s.dataset.symbol);
-    if (guess.includes("")) return; // ligne incomplète
+    if (guess.includes("")) return;
 
     const feedback = getFeedback(guess);
     displayFeedback(row, feedback);
 
     if (feedback.correct === CODE_LENGTH) {
-      revealSecret();
+      endGame(true);
       return;
     }
 
     currentAttempt++;
 
     if (currentAttempt >= MAX_ATTEMPTS) {
-      revealSecret();
-      endMessage.style.display = "block";
+      endGame(false);
       return;
     }
 
@@ -139,7 +150,6 @@ function getFeedback(guess) {
   const codeCopy = [...secretCode];
   const guessCopy = [...guess];
 
-  // 🟢 Bien placé
   for (let i = 0; i < CODE_LENGTH; i++) {
     if (guessCopy[i] === codeCopy[i]) {
       correct++;
@@ -148,7 +158,6 @@ function getFeedback(guess) {
     }
   }
 
-  // 🟡 Présent mal placé
   guessCopy.forEach(symbol => {
     if (symbol && codeCopy.includes(symbol)) {
       present++;
@@ -161,11 +170,11 @@ function getFeedback(guess) {
 
 function displayFeedback(row, { correct, present }) {
   const dots = row.querySelectorAll(".feedback-dot");
-  let index = 0;
+  let i = 0;
 
-  for (; index < correct; index++) dots[index].classList.add("correct");
-  for (; index < correct + present; index++) dots[index].classList.add("present");
-  for (; index < dots.length; index++) dots[index].classList.add("absent");
+  for (; i < correct; i++) dots[i].classList.add("correct");
+  for (; i < correct + present; i++) dots[i].classList.add("present");
+  for (; i < dots.length; i++) dots[i].classList.add("absent");
 }
 
 /* ===============================
@@ -181,6 +190,19 @@ function enableNextRow() {
 /* ===============================
    FIN DE PARTIE
 ================================ */
+function endGame(victory) {
+  gameOver = true;
+  revealSecret();
+
+  attemptRows.forEach(row => row.style.pointerEvents = "none");
+
+  if (victory) {
+    winMessage.style.display = "block";
+  } else {
+    endMessage.style.display = "block";
+  }
+}
+
 function revealSecret() {
   const secretSlots = document.querySelectorAll(".secret-code .slot");
   secretSlots.forEach((slot, i) => {
@@ -192,4 +214,4 @@ function revealSecret() {
 /* ===============================
    RESSAYER
 ================================ */
-retryBtn.addEventListener("click", initGame);
+retryBtns.forEach(btn => btn.addEventListener("click", initGame));
