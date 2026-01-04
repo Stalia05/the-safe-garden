@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
+  console.log("🌿 Safe Garden JS chargé");
 
   /* ===============================
      🌸 RESPIRATION DES SECTIONS
@@ -15,18 +16,31 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   /* ===============================
-     🐱 CHAT – CARESSE + SONS
+     🐱 CHAT – CARESSE SANS CLIC
   =============================== */
   const chat = document.getElementById("chatImage");
   const bubble = document.getElementById("chatBubble");
   const purr = document.getElementById("purrSound");
   const meowStop = document.getElementById("meowStop");
 
-  let lastX = 0;
-  let lastY = 0;
-  let lastTime = 0;
+  let audioUnlocked = false;
+  let lastX = 0, lastY = 0, lastTime = 0;
+
+  function unlockAudio() {
+    if (!audioUnlocked) {
+      audioUnlocked = true;
+      if (purr) {
+        purr.volume = 0.25;
+        purr.play().catch(() => {});
+        purr.pause(); // juste pour débloquer
+      }
+    }
+  }
 
   function handlePet(x, y) {
+    unlockAudio();
+    if (!bubble || !purr) return;
+
     const now = Date.now();
     const dx = x - lastX;
     const dy = y - lastY;
@@ -38,7 +52,6 @@ document.addEventListener("DOMContentLoaded", () => {
     lastTime = now;
 
     if (purr.paused) {
-      purr.volume = 0.25;
       purr.play().catch(() => {});
     }
 
@@ -50,26 +63,35 @@ document.addEventListener("DOMContentLoaded", () => {
       bubble.textContent = "Pas trop fort…";
     } else {
       purr.pause();
-      meowStop.currentTime = 0;
-      meowStop.play().catch(() => {});
+      if (meowStop) {
+        meowStop.currentTime = 0;
+        meowStop.play().catch(() => {});
+      }
       bubble.textContent =
         "Si tu es dur·e avec toi-même, ça fait mal aussi…";
     }
   }
 
   if (chat) {
+    // 🖱️ ORDI
     chat.addEventListener("mousemove", e =>
       handlePet(e.clientX, e.clientY)
     );
 
+    // 📱 TÉLÉPHONE
     chat.addEventListener("touchmove", e => {
       const t = e.touches[0];
       handlePet(t.clientX, t.clientY);
     });
 
     chat.addEventListener("mouseleave", () => {
-      purr.pause();
-      bubble.textContent = "Je suis là.";
+      if (purr) purr.pause();
+      if (bubble) bubble.textContent = "Je suis là.";
+    });
+
+    chat.addEventListener("touchend", () => {
+      if (purr) purr.pause();
+      if (bubble) bubble.textContent = "Je suis là.";
     });
   }
 
@@ -90,16 +112,14 @@ document.addEventListener("DOMContentLoaded", () => {
     "La plante fleurit 🌸"
   ];
 
-  if (waterBtn && plant) {
+  if (plant && waterBtn && plantMessage) {
     waterBtn.addEventListener("click", () => {
       const now = Date.now();
-
       if (now - lastWater < 1200) {
         plantMessage.textContent =
           "On n’arrose pas une plante en la pressant 🤍";
         return;
       }
-
       lastWater = now;
 
       if (level < 3) {
@@ -125,48 +145,38 @@ document.addEventListener("DOMContentLoaded", () => {
   let autoSweepTimeout = null;
 
   function createStar(x, y) {
+    if (!starLayer) return;
     const star = document.createElement("span");
     star.className = "star";
     star.style.left = `${x}px`;
     star.style.top = `${y}px`;
     starLayer.appendChild(star);
-
-    setTimeout(() => {
-      star.remove();
-    }, 4500);
+    setTimeout(() => star.remove(), 4000);
   }
 
   function spreadDust(amount) {
     const w = window.innerWidth;
     const h = document.body.scrollHeight;
-
     for (let i = 0; i < amount; i++) {
-      createStar(
-        Math.random() * w,
-        Math.random() * h
-      );
+      createStar(Math.random() * w, Math.random() * h);
     }
   }
 
   function animateCloud(cloud) {
     let y = cloud.getBoundingClientRect().bottom;
-
     function rise() {
-      y -= 1.3;
+      y -= 1.2;
       cloud.style.transform = `translate(-50%, ${y}px)`;
-
       if (y > -200) {
         requestAnimationFrame(rise);
       } else {
         cloud.remove();
         dustLevel++;
         spreadDust(60 + dustLevel * 25);
-
         if (autoSweepTimeout) clearTimeout(autoSweepTimeout);
         autoSweepTimeout = setTimeout(autoSweep, 5500);
       }
     }
-
     rise();
   }
 
@@ -174,12 +184,10 @@ document.addEventListener("DOMContentLoaded", () => {
     cloudBtn.addEventListener("click", () => {
       const text = cloudInput.value.trim();
       if (!text) return;
-
       const cloud = document.createElement("div");
       cloud.className = "cloud";
       cloud.textContent = text;
       cloudArea.appendChild(cloud);
-
       cloudInput.value = "";
       animateCloud(cloud);
     });
@@ -190,7 +198,6 @@ document.addEventListener("DOMContentLoaded", () => {
   =============================== */
   const broom = document.getElementById("broom");
   const sweepBtn = document.getElementById("sweepBtn");
-
   const sweepSound = new Audio("sweep.mp3");
   sweepSound.volume = 0.35;
 
@@ -199,11 +206,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     broom.style.display = "block";
 
-    // 🎧 son
     sweepSound.currentTime = 0;
     sweepSound.play().catch(() => {});
-
-    // 📳 vibration légère (mobile)
     if (navigator.vibrate) {
       navigator.vibrate([30, 20, 30]);
     }
@@ -217,9 +221,7 @@ document.addEventListener("DOMContentLoaded", () => {
     );
 
     setTimeout(() => {
-      document.querySelectorAll(".star").forEach(star =>
-        star.remove()
-      );
+      document.querySelectorAll(".star").forEach(s => s.remove());
       dustLevel = 0;
       broom.style.display = "none";
     }, 2100);
@@ -228,5 +230,4 @@ document.addEventListener("DOMContentLoaded", () => {
   if (sweepBtn) {
     sweepBtn.addEventListener("click", autoSweep);
   }
-
 });
