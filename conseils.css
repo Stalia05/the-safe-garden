@@ -30,7 +30,7 @@ body {
 }
 
 /* ===============================
-   🌿 DÉCOR FIXE (BAS)
+   🌿 FEUILLES DE FOND (BAS)
 ================================ */
 .bottom-leaves {
   position: fixed;
@@ -43,7 +43,7 @@ body {
 }
 
 /* ===============================
-   🦋 PAPILLONS (PLACEMENT PROPRE)
+   🦋 PAPILLONS (PLACEMENT NATUREL)
 ================================ */
 .butterfly {
   position: fixed;
@@ -52,12 +52,12 @@ body {
   z-index: 1;
 }
 
-.b1 { width: 120px; top: 15%; left: 5%; }
-.b2 { width: 150px; top: 35%; right: 6%; }
-.b3 { width: 110px; top: 60%; left: 15%; }
+.b1 { width: 120px; top: 12%; left: 4%; }
+.b2 { width: 150px; top: 32%; right: 6%; }
+.b3 { width: 110px; top: 58%; left: 16%; }
 
 /* ===============================
-   ⭐ POUSSIÈRE D’ÉTOILES (SALE & VISIBLE)
+   ⭐ POUSSIÈRE D’ÉTOILES
 ================================ */
 #starDustLayer {
   position: fixed;
@@ -66,7 +66,7 @@ body {
   z-index: 4;
 }
 
-/* vraies étoiles */
+/* vraies étoiles scintillantes */
 .star {
   position: absolute;
   width: 14px;
@@ -84,16 +84,28 @@ body {
     2% 35%,
     39% 35%
   );
-  opacity: 0.95;
-  filter: drop-shadow(0 0 6px rgba(255, 215, 100, 0.8));
+  opacity: 0.9;
+  filter: drop-shadow(0 0 6px rgba(255, 215, 120, 0.9));
+  animation: sparkle 3.5s ease-in-out infinite;
+}
+
+@keyframes sparkle {
+  0%, 100% {
+    opacity: 0.7;
+    transform: scale(0.9);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
 }
 
 /* ===============================
-   🧹 BALAI (IMAGE PROPRE)
+   🧹 BALAI (TON IMAGE – PROPRE)
 ================================ */
 #broom {
   position: fixed;
-  bottom: 140px;
+  bottom: 120px;
   left: -260px;
   width: 240px;
   display: none;
@@ -103,9 +115,9 @@ body {
 #broom img {
   width: 100%;
   display: block;
+  background: none;
   border: none;
   outline: none;
-  background: none;
   box-shadow: none;
   transform-origin: left center;
 }
@@ -214,7 +226,7 @@ body {
 }
 
 /* ===============================
-   ☁️ EXPERIENCE NUAGE (ZONE PROPRE)
+   ☁️ EXPERIENCE NUAGE (ZONE CLEAN)
 ================================ */
 .experience-cloud {
   margin: 160px 0;
@@ -233,10 +245,11 @@ body {
   background: rgba(255,255,255,0.75);
 }
 
+/* boutons côte à côte */
 .cloud-controls {
-  margin-top: 16px;
+  margin-top: 18px;
   display: inline-flex;
-  gap: 12px;
+  gap: 14px;
   align-items: center;
 }
 
@@ -251,40 +264,41 @@ body {
   cursor: pointer;
 }
 
-/* zone de montée PLUS HAUTE */
+/* zone de montée haute */
 .cloud-area {
   position: relative;
-  height: 420px;
+  height: 440px;
   overflow: visible;
 }
 
-/* ☁️ vrai nuage */
+/* ☁️ vrai nuage lisible */
 .cloud {
   position: absolute;
   left: 50%;
   bottom: 0;
   transform: translateX(-50%);
-  padding: 28px 52px;
-  background: #fff;
+  padding: 28px 56px;
+  background: #ffffff;
   border-radius: 90px;
   font-size: 18px;
   box-shadow: 0 20px 40px rgba(0,0,0,0.15);
   pointer-events: none;
+  z-index: 2;
 }
 
 .cloud::before,
 .cloud::after {
   content: "";
   position: absolute;
-  background: #fff;
+  background: #ffffff;
   border-radius: 50%;
 }
 
 .cloud::before {
   width: 80px;
   height: 80px;
-  top: -40px;
-  left: 22px;
+  top: -38px;
+  left: 24px;
 }
 
 .cloud::after {
