@@ -41,7 +41,7 @@
         <li>🟢 Bon symbole, bonne place</li>
         <li>🟡 Bon symbole, mauvaise place</li>
         <li>⚪ Symbole absent</li>
-        <li>🌿 Il n’y a pas d’échec ici. Seulement des essais.</li>
+        <li>🌿 Ici, on n’échoue pas. On essaie.</li>
       </ul>
     </section>
 
@@ -60,14 +60,28 @@
       <!-- 🌿 ESSAIS -->
       <div class="attempts">
 
+        <!-- ESSAIS x10 -->
+        <!-- 👉 même structure pour chaque ligne -->
+
         <!-- ESSAI 1 -->
         <div class="attempt-row">
           <div class="slots">
-            <div class="slot"></div><div class="slot"></div><div class="slot"></div><div class="slot"></div><div class="slot"></div>
+            <div class="slot"></div>
+            <div class="slot"></div>
+            <div class="slot"></div>
+            <div class="slot"></div>
+            <div class="slot"></div>
           </div>
+
           <div class="feedback">
-            <div class="feedback-dot"></div><div class="feedback-dot"></div><div class="feedback-dot"></div><div class="feedback-dot"></div><div class="feedback-dot"></div>
+            <div class="feedback-dot"></div>
+            <div class="feedback-dot"></div>
+            <div class="feedback-dot"></div>
+            <div class="feedback-dot"></div>
+            <div class="feedback-dot"></div>
           </div>
+
+          <button class="erase-btn">⬅ Effacer</button>
           <button class="validate-btn">Valider</button>
         </div>
 
@@ -79,6 +93,7 @@
           <div class="feedback">
             <div class="feedback-dot"></div><div class="feedback-dot"></div><div class="feedback-dot"></div><div class="feedback-dot"></div><div class="feedback-dot"></div>
           </div>
+          <button class="erase-btn">⬅ Effacer</button>
           <button class="validate-btn">Valider</button>
         </div>
 
@@ -90,6 +105,7 @@
           <div class="feedback">
             <div class="feedback-dot"></div><div class="feedback-dot"></div><div class="feedback-dot"></div><div class="feedback-dot"></div><div class="feedback-dot"></div>
           </div>
+          <button class="erase-btn">⬅ Effacer</button>
           <button class="validate-btn">Valider</button>
         </div>
 
@@ -101,6 +117,7 @@
           <div class="feedback">
             <div class="feedback-dot"></div><div class="feedback-dot"></div><div class="feedback-dot"></div><div class="feedback-dot"></div><div class="feedback-dot"></div>
           </div>
+          <button class="erase-btn">⬅ Effacer</button>
           <button class="validate-btn">Valider</button>
         </div>
 
@@ -112,6 +129,7 @@
           <div class="feedback">
             <div class="feedback-dot"></div><div class="feedback-dot"></div><div class="feedback-dot"></div><div class="feedback-dot"></div><div class="feedback-dot"></div>
           </div>
+          <button class="erase-btn">⬅ Effacer</button>
           <button class="validate-btn">Valider</button>
         </div>
 
@@ -123,6 +141,7 @@
           <div class="feedback">
             <div class="feedback-dot"></div><div class="feedback-dot"></div><div class="feedback-dot"></div><div class="feedback-dot"></div><div class="feedback-dot"></div>
           </div>
+          <button class="erase-btn">⬅ Effacer</button>
           <button class="validate-btn">Valider</button>
         </div>
 
@@ -134,6 +153,7 @@
           <div class="feedback">
             <div class="feedback-dot"></div><div class="feedback-dot"></div><div class="feedback-dot"></div><div class="feedback-dot"></div><div class="feedback-dot"></div>
           </div>
+          <button class="erase-btn">⬅ Effacer</button>
           <button class="validate-btn">Valider</button>
         </div>
 
@@ -145,6 +165,7 @@
           <div class="feedback">
             <div class="feedback-dot"></div><div class="feedback-dot"></div><div class="feedback-dot"></div><div class="feedback-dot"></div><div class="feedback-dot"></div>
           </div>
+          <button class="erase-btn">⬅ Effacer</button>
           <button class="validate-btn">Valider</button>
         </div>
 
@@ -156,6 +177,7 @@
           <div class="feedback">
             <div class="feedback-dot"></div><div class="feedback-dot"></div><div class="feedback-dot"></div><div class="feedback-dot"></div><div class="feedback-dot"></div>
           </div>
+          <button class="erase-btn">⬅ Effacer</button>
           <button class="validate-btn">Valider</button>
         </div>
 
@@ -167,6 +189,7 @@
           <div class="feedback">
             <div class="feedback-dot"></div><div class="feedback-dot"></div><div class="feedback-dot"></div><div class="feedback-dot"></div><div class="feedback-dot"></div>
           </div>
+          <button class="erase-btn">⬅ Effacer</button>
           <button class="validate-btn">Valider</button>
         </div>
 
@@ -174,20 +197,9 @@
 
       <!-- 🌿 MESSAGE DE FIN -->
       <section class="end-message" style="display:none;">
-        <p class="end-text primary">
+        <p class="end-text">
           <strong>Oupsii 🌿</strong><br>
-          Tu n’as pas trouvé la réponse cette fois.  
-          Mais tu n’as pas abandonné.  
-          Changer de chemin ou réessayer,  
-          ce n’est pas un échec.  
-          L’échec, c’est seulement quand on abandonne complètement.
-        </p>
-
-        <p class="end-text secondary">
-          <strong>Oupsii 🌱</strong><br>
-          Tu as essayé.  
-          Recommencer ou changer de chemin,  
-          ce n’est pas un échec.  
+          Changer de chemin ou réessayer, ce n’est pas un échec.<br>
           L’échec, c’est seulement quand on abandonne complètement.
         </p>
 
