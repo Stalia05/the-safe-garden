@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-  console.log("🌿 Safe Garden – JS actif");
+  console.log("🌿 Safe Garden – JS final actif");
 
   /* ===============================
      🌸 RESPIRATION DES SECTIONS
@@ -11,12 +11,12 @@ document.addEventListener("DOMContentLoaded", () => {
         { transform: "scale(1.01)" },
         { transform: "scale(1)" }
       ],
-      { duration: 9000, iterations: Infinity }
+      { duration: 10000, iterations: Infinity }
     );
   });
 
   /* ===============================
-     🐱 CHAT – CARESSE DOUCE
+     🐱 CHAT – CARESSE APAISÉE
   =============================== */
   const chat = document.getElementById("chatImage");
   const bubble = document.getElementById("chatBubble");
@@ -26,12 +26,13 @@ document.addEventListener("DOMContentLoaded", () => {
   let lastX = 0, lastY = 0, lastTime = 0;
   let bubbleTimeout = null;
 
-  function setBubble(text) {
+  function showBubble(text, delay = 2600) {
+    if (!bubble) return;
     bubble.textContent = text;
     clearTimeout(bubbleTimeout);
     bubbleTimeout = setTimeout(() => {
       bubble.textContent = "Je suis là.";
-    }, 1800);
+    }, delay);
   }
 
   function handlePet(x, y) {
@@ -45,22 +46,24 @@ document.addEventListener("DOMContentLoaded", () => {
     lastY = y;
     lastTime = now;
 
-    if (purr.paused) {
-      purr.volume = 0.3;
+    if (purr && purr.paused) {
+      purr.volume = 0.25;
       purr.play().catch(() => {});
     }
 
     if (speed < 0.25) {
       purr.volume = 0.45;
-      setBubble("Voilà… doucement 🤍");
+      showBubble("Voilà… doucement 🤍");
     } else if (speed < 0.6) {
       purr.volume = 0.3;
-      setBubble("Pas trop fort…");
+      showBubble("Un peu plus lentement…");
     } else {
-      purr.pause();
-      meowStop.currentTime = 0;
-      meowStop.play().catch(() => {});
-      setBubble("Si tu es dur·e avec toi-même, ça fait mal aussi…");
+      if (purr) purr.pause();
+      if (meowStop) {
+        meowStop.currentTime = 0;
+        meowStop.play().catch(() => {});
+      }
+      showBubble("Trop vite… comme avec toi-même.", 3400);
     }
   }
 
@@ -72,8 +75,12 @@ document.addEventListener("DOMContentLoaded", () => {
       const t = e.touches[0];
       handlePet(t.clientX, t.clientY);
     });
-    chat.addEventListener("mouseleave", () => purr.pause());
-    chat.addEventListener("touchend", () => purr.pause());
+    chat.addEventListener("mouseleave", () => {
+      if (purr) purr.pause();
+    });
+    chat.addEventListener("touchend", () => {
+      if (purr) purr.pause();
+    });
   }
 
   /* ===============================
@@ -93,10 +100,10 @@ document.addEventListener("DOMContentLoaded", () => {
     "La plante fleurit 🌸"
   ];
 
-  if (plant && waterBtn) {
+  if (plant && waterBtn && plantMessage) {
     waterBtn.addEventListener("click", () => {
       const now = Date.now();
-      if (now - lastWater < 1200) {
+      if (now - lastWater < 1400) {
         plantMessage.textContent =
           "On n’arrose pas une plante en la pressant 🤍";
         return;
@@ -107,12 +114,15 @@ document.addEventListener("DOMContentLoaded", () => {
         level++;
         plant.className = `plant level-${level}`;
         plantMessage.textContent = plantTexts[level];
+      } else {
+        plantMessage.textContent =
+          "Elle est là. Tu peux juste la regarder.";
       }
     });
   }
 
   /* ===============================
-     ☁️ NUAGE → ÉTOILES
+     ☁️ NUAGE → POUSSIÈRE
   =============================== */
   const cloudBtn = document.getElementById("cloudBtn");
   const cloudInput = document.getElementById("cloudInput");
@@ -140,25 +150,27 @@ document.addEventListener("DOMContentLoaded", () => {
   function animateCloud(cloud) {
     let y = 0;
     function rise() {
-      y -= 1.5;
+      y -= 2.2; // monte PLUS HAUT
       cloud.style.transform = `translate(-50%, ${y}px)`;
-      if (y > -220) {
+      if (y > -420) {
         requestAnimationFrame(rise);
       } else {
         cloud.remove();
-        spreadDust(90);
+        spreadDust(120); // salit vraiment la page
       }
     }
     rise();
   }
 
-  if (cloudBtn) {
+  if (cloudBtn && cloudInput && cloudArea) {
     cloudBtn.addEventListener("click", () => {
-      if (!cloudInput.value.trim()) return;
+      const text = cloudInput.value.trim();
+      if (!text) return;
 
       const cloud = document.createElement("div");
       cloud.className = "cloud";
-      cloud.textContent = cloudInput.value;
+      cloud.textContent = text;
+
       cloudArea.appendChild(cloud);
       cloudInput.value = "";
 
@@ -167,22 +179,20 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* ===============================
-     🧹 BALAI QUI NETTOIE VRAIMENT
+     🧹 BALAI – NETTOYAGE RÉEL
   =============================== */
   const broom = document.getElementById("broom");
   const sweepBtn = document.getElementById("sweepBtn");
   const sweepSound = new Audio("sweep.mp3");
   sweepSound.volume = 0.35;
 
-  function sweepStep(x) {
-    broom.style.transform = `translateX(${x}px) rotate(${x / 25}deg)`;
-
+  function cleanStars(broomX) {
     document.querySelectorAll(".star").forEach(star => {
       const rect = star.getBoundingClientRect();
       if (
-        rect.left < x + 160 &&
-        rect.right > x &&
-        rect.top > window.innerHeight - 260
+        rect.left < broomX + 180 &&
+        rect.right > broomX &&
+        rect.bottom > window.innerHeight - 320
       ) {
         star.remove();
       }
@@ -190,15 +200,20 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function autoSweep() {
+    if (!broom) return;
+
     broom.style.display = "block";
     sweepSound.currentTime = 0;
     sweepSound.play().catch(() => {});
 
-    let x = -200;
+    let x = -260;
+
     function sweep() {
-      x += 14;
-      sweepStep(x);
-      if (x < window.innerWidth + 200) {
+      x += 10;
+      broom.style.transform = `translateX(${x}px) rotate(${x / 30}deg)`;
+      cleanStars(x);
+
+      if (x < window.innerWidth + 260) {
         requestAnimationFrame(sweep);
       } else {
         broom.style.display = "none";
