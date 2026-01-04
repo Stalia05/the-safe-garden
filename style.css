@@ -12,7 +12,7 @@
 }
 
 /* ===============================
-   RESET LÉGER
+   RESET
 ================================ */
 * {
   margin: 0;
@@ -34,8 +34,8 @@ body {
   color: var(--ink);
   line-height: 1.7;
 
-  overflow-x: hidden; /* OK */
-  /* ⚠️ PAS de overflow: hidden ici */
+  overflow-x: hidden; /* ok */
+  /* ❌ PAS de overflow hidden ici */
 }
 
 /* ===============================
@@ -74,57 +74,18 @@ body {
 }
 
 /* ===============================
-   🐍 SNAKE — WRAPPER
-   🔑 BLOQUE LE SCROLL UNIQUEMENT ICI
-================================ */
-.snake-wrapper {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  margin: 40px auto;
-
-  touch-action: none;            /* 🔑 clé mobile */
-  overscroll-behavior: contain;  /* stop rebond iOS */
-}
-
-/* ===============================
-   🐍 CANVAS SNAKE
-================================ */
-#snakeGame {
-  display: block;
-  max-width: 100%;
-  border-radius: 16px;
-
-  touch-action: none;            /* 🔑 double sécurité */
-}
-
-/* ===============================
-   SCORE
-================================ */
-#snakeScore {
-  text-align: center;
-  margin-top: 18px;
-  font-size: 1rem;
-  color: #4b6b5a;
-}
-
-/* ===============================
-   PAGE DE GARDE / CONTENU
+   🌿 CONTENU PRINCIPAL
 ================================ */
 .cover {
   position: relative;
   z-index: 1;
 
-  min-height: 100svh;
-  padding: 80px 20px;
+  min-height: 100svh; /* safe mobile */
+  padding: 80px 20px 100px;
 
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-
   text-align: center;
 }
 
@@ -134,7 +95,7 @@ body {
 .cover h1 {
   font-family: "Great Vibes", cursive;
   font-size: clamp(4rem, 8vw, 5.6rem);
-  margin-bottom: 30px;
+  margin-bottom: 24px;
   color: #2f5d46;
 }
 
@@ -145,20 +106,67 @@ body {
   max-width: 520px;
   font-size: 1.1rem;
   opacity: 0.85;
-  margin-bottom: 22px;
+  margin-bottom: 18px;
 }
 
 .cover-whisper {
   font-size: 0.95rem;
   font-style: italic;
   opacity: 0.6;
-  margin-bottom: 50px;
+  margin-bottom: 42px;
 }
 
 /* ===============================
-   BOUTON ENTRÉE
+   🐍 SNAKE — WRAPPER
+   🔑 bloque scroll UNIQUEMENT ici
+================================ */
+.snake-wrapper {
+  width: 100%;
+  max-width: 600px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  margin: 30px auto 18px;
+
+  touch-action: none;            /* 🔑 mobile */
+  overscroll-behavior: contain;  /* stop rebond iOS */
+}
+
+/* ===============================
+   🐍 CANVAS
+================================ */
+#snakeGame {
+  display: block;
+  width: 100%;
+  height: auto;
+
+  border-radius: 18px;
+
+  background: #e7f0ea;
+  box-shadow:
+    inset 0 0 0 3px rgba(111, 139, 119, 0.35),
+    0 18px 40px rgba(0,0,0,0.12);
+
+  touch-action: none; /* double sécurité */
+}
+
+/* ===============================
+   SCORE
+================================ */
+#snakeScore {
+  margin-top: 16px;
+  font-size: 1rem;
+  color: #4b6b5a;
+}
+
+/* ===============================
+   BOUTON RETOUR
 ================================ */
 .enter-btn {
+  margin-top: 36px;
+
   display: inline-block;
   padding: 14px 38px;
   border-radius: 999px;
