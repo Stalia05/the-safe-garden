@@ -1,9 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
-  console.log("🌿 Safe Garden – JS FINAL");
 
-  /* ===============================
-     🌱 PLANTE – LOGIQUE PROPRE
-  =============================== */
+  /* 🌱 PLANTE */
   const plant = document.querySelector(".plant");
   const waterBtn = document.getElementById("waterBtn");
   const plantMessage = document.getElementById("plantMessage");
@@ -11,141 +8,100 @@ document.addEventListener("DOMContentLoaded", () => {
   let level = 0;
   let lastWater = 0;
 
-  const plantTexts = [
+  const texts = [
     "La graine a juste besoin de temps.",
     "Quelque chose commence à pousser.",
     "Les feuilles prennent leur place.",
     "La plante est en fleurs 🌸"
   ];
 
-  if (plant && waterBtn) {
-    waterBtn.addEventListener("click", () => {
-      const now = Date.now();
-      if (now - lastWater < 1200) {
-        plantMessage.textContent =
-          "On n’arrose pas une plante en la pressant 🤍";
-        return;
-      }
-      lastWater = now;
+  waterBtn?.addEventListener("click", () => {
+    const now = Date.now();
+    if (now - lastWater < 1200) return;
+    lastWater = now;
 
-      if (level < 3) {
-        level++;
-        plant.className = `plant level-${level}`;
-        plantMessage.textContent = plantTexts[level];
-      }
-    });
-  }
+    if (level < 3) {
+      level++;
+      plant.className = `plant level-${level}`;
+      plantMessage.textContent = texts[level];
+    }
+  });
 
-  /* ===============================
-     ⭐ ÉTOILES – CHUTE + POSE
-  =============================== */
+  /* ⭐ ÉTOILES */
   const starLayer = document.getElementById("starDustLayer");
 
   function createStar(x, y) {
-    const star = document.createElement("span");
-    star.className = "star";
-    star.style.left = `${x}px`;
-    star.style.top = `${y}px`;
-    starLayer.appendChild(star);
+    const s = document.createElement("span");
+    s.className = "star";
+    s.style.left = `${x}px`;
+    s.style.top = `${y}px`;
+    starLayer.appendChild(s);
 
-    // chute douce
-    requestAnimationFrame(() => {
-      star.style.transform = "translateY(120px)";
-    });
+    let fall = Math.random() * 120 + 80;
+    s.animate(
+      [{ transform: "translateY(0)" }, { transform: `translateY(${fall}px)` }],
+      { duration: 2500, easing: "ease-out", fill: "forwards" }
+    );
   }
 
-  function explodeStars(originX, originY, amount = 350) {
-    const pageHeight = document.body.scrollHeight;
-    const pageWidth = window.innerWidth;
+  function explodeStars(cx, cy) {
+    const w = window.innerWidth;
+    const h = document.body.scrollHeight;
 
-    for (let i = 0; i < amount; i++) {
-      const x =
-        originX +
-        (Math.random() * 600 - 300);
-      const y =
-        originY +
-        (Math.random() * 600 - 300);
-
+    for (let i = 0; i < 700; i++) {
       setTimeout(() => {
         createStar(
-          Math.min(Math.max(x, 0), pageWidth),
-          Math.min(Math.max(y, 0), pageHeight)
+          Math.random() * w,
+          Math.random() * h
         );
-      }, i * 4);
+      }, i * 3);
     }
   }
 
-  /* ===============================
-     ☁️ NUAGE – MONTE + EXPLOSE
-  =============================== */
+  /* ☁️ NUAGE */
   const cloudBtn = document.getElementById("cloudBtn");
   const cloudInput = document.getElementById("cloudInput");
   const cloudArea = document.querySelector(".cloud-area");
 
-  function animateCloud(cloud) {
+  cloudBtn?.addEventListener("click", () => {
+    const text = cloudInput.value.trim();
+    if (!text) return;
+
+    const cloud = document.createElement("div");
+    cloud.className = "cloud";
+    cloud.textContent = text;
+    cloudArea.appendChild(cloud);
+    cloudInput.value = "";
+
     let y = 0;
-    const max = document.body.scrollHeight + 200;
-
     function rise() {
-      y -= 2.5;
+      y -= 3;
       cloud.style.transform = `translate(-50%, ${y}px)`;
-
-      if (Math.abs(y) < max) {
+      if (Math.abs(y) < window.innerHeight + 200) {
         requestAnimationFrame(rise);
       } else {
-        const rect = cloud.getBoundingClientRect();
+        const r = cloud.getBoundingClientRect();
         cloud.remove();
-        explodeStars(
-          rect.left + rect.width / 2,
-          rect.top
-        );
+        explodeStars(r.left + r.width / 2, r.top);
       }
     }
     rise();
-  }
+  });
 
-  if (cloudBtn) {
-    cloudBtn.addEventListener("click", () => {
-      const text = cloudInput.value.trim();
-      if (!text) return;
-
-      const cloud = document.createElement("div");
-      cloud.className = "cloud";
-      cloud.textContent = text; // ✅ TEXTE VISIBLE
-      cloudArea.appendChild(cloud);
-
-      cloudInput.value = "";
-      animateCloud(cloud);
-    });
-  }
-
-  /* ===============================
-     🧹 BALAI – NETTOYAGE TOTAL
-  =============================== */
+  /* 🧹 BALAI */
   const broom = document.getElementById("broom");
   const sweepBtn = document.getElementById("sweepBtn");
-  const sweepSound = new Audio("sweep.mp3");
-  sweepSound.volume = 0.35;
 
-  function autoSweep() {
+  sweepBtn?.addEventListener("click", () => {
     broom.style.display = "block";
-    sweepSound.currentTime = 0;
-    sweepSound.play().catch(() => {});
-
     let x = -300;
 
     function sweep() {
-      x += 18;
-      broom.style.transform = `translateX(${x}px) rotate(${x / 28}deg)`;
-
-      document.querySelectorAll(".star").forEach(star => {
-        const rect = star.getBoundingClientRect();
-        if (
-          rect.left < x + 260 &&
-          rect.right > x
-        ) {
-          star.remove();
-        }
+      x += 20;
+      broom.style.transform = `translateX(${x}px) rotate(${x / 30}deg)`;
+      document.querySelectorAll(".star").forEach(s => {
+        const r = s.getBoundingClientRect();
+        if (r.left < x + 260 && r.right > x) s.remove();
       });
 
       if (x < window.innerWidth + 300) {
@@ -155,9 +111,6 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
     sweep();
-  }
+  });
 
-  if (sweepBtn) {
-    sweepBtn.addEventListener("click", autoSweep);
-  }
 });
