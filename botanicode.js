@@ -2,34 +2,33 @@ document.addEventListener("DOMContentLoaded", () => {
 
   /* ===============================
      CONFIG
-  ================================ */
+  =============================== */
   const SYMBOLS = ["🌼", "🌸", "🌻", "🌱", "🍃", "🍀", "🍄", "🪨"];
   const CODE_LENGTH = 5;
   const MAX_ATTEMPTS = 10;
 
   /* ===============================
      DOM
-  ================================ */
+  =============================== */
   const board = document.querySelector(".botanicode-board");
   const attemptRows = document.querySelectorAll(".attempt-row");
   const secretSlots = document.querySelectorAll(".secret-code .slot");
   const endMessage = document.querySelector(".end-message");
-  const winMessage = document.querySelector(".win-message");
   const retryBtns = document.querySelectorAll(".retry-btn");
 
   /* ===============================
      ÉTAT
-  ================================ */
+  =============================== */
   let secretCode = [];
   let currentAttempt = 0;
   let gameOver = false;
 
   /* ===============================
      BOUTON EFFACER (UNIQUE)
-  ================================ */
+  =============================== */
   const eraseBtn = document.createElement("button");
   eraseBtn.className = "erase-btn";
-  eraseBtn.textContent = "↩ Effacer";
+  eraseBtn.textContent = "⬅ Effacer";
   eraseBtn.style.display = "none";
   board.appendChild(eraseBtn);
 
@@ -42,7 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const slots = row.querySelectorAll(".slots .slot");
     const filled = [...slots].filter(s => s.dataset.symbol);
 
-    if (filled.length === 0) return;
+    if (!filled.length) return;
 
     const last = filled[filled.length - 1];
     last.textContent = "";
@@ -50,8 +49,8 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   /* ===============================
-     INIT
-  ================================ */
+     INITIALISATION
+  =============================== */
   function initGame() {
     secretCode = generateSecretCode();
     currentAttempt = 0;
@@ -76,14 +75,12 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     endMessage.style.display = "none";
-    if (winMessage) winMessage.style.display = "none";
-
     moveEraseButton();
   }
 
   /* ===============================
      CODE SECRET
-  ================================ */
+  =============================== */
   function generateSecretCode() {
     return Array.from({ length: CODE_LENGTH }, () =>
       SYMBOLS[Math.floor(Math.random() * SYMBOLS.length)]
@@ -91,8 +88,8 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* ===============================
-     PALETTE → PLACEMENT AUTO
-  ================================ */
+     PALETTE DE SYMBOLES
+  =============================== */
   const palette = document.createElement("div");
   palette.className = "symbol-palette";
 
@@ -124,14 +121,13 @@ document.addEventListener("DOMContentLoaded", () => {
   board.appendChild(palette);
 
   /* ===============================
-     VALIDATION
-  ================================ */
+     VALIDATION DES ESSAIS
+  =============================== */
   attemptRows.forEach((row, rowIndex) => {
     const validateBtn = row.querySelector(".validate-btn");
 
     validateBtn.addEventListener("click", () => {
-      if (gameOver) return;
-      if (rowIndex !== currentAttempt) return;
+      if (gameOver || rowIndex !== currentAttempt) return;
 
       const slots = row.querySelectorAll(".slots .slot");
       const guess = [...slots].map(s => s.dataset.symbol);
@@ -159,7 +155,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   /* ===============================
      FEEDBACK
-  ================================ */
+  =============================== */
   function getFeedback(guess) {
     let correct = 0;
     let present = 0;
@@ -196,7 +192,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   /* ===============================
      POSITION DU BOUTON EFFACER
-  ================================ */
+  =============================== */
   function moveEraseButton() {
     if (gameOver || currentAttempt >= MAX_ATTEMPTS) {
       eraseBtn.style.display = "none";
@@ -211,8 +207,8 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* ===============================
-     FIN
-  ================================ */
+     FIN DE PARTIE
+  =============================== */
   function endGame(victory) {
     gameOver = true;
     eraseBtn.style.display = "none";
@@ -222,11 +218,7 @@ document.addEventListener("DOMContentLoaded", () => {
       slot.classList.remove("hidden");
     });
 
-    if (victory && winMessage) {
-      winMessage.style.display = "block";
-    } else {
-      endMessage.style.display = "block";
-    }
+    endMessage.style.display = "block";
   }
 
   retryBtns.forEach(btn => btn.addEventListener("click", initGame));
