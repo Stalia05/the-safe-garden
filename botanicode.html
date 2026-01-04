@@ -1,1 +1,132 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>The Safe Garden – Botanicode</title>
 
+  <!-- 🌿 Polices Safe Garden -->
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Infant:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <!-- 🌿 CSS du jeu -->
+  <link rel="stylesheet" href="botanicode.css">
+</head>
+
+<body>
+
+  <!-- ✨ DÉCOR -->
+  <div class="star-field"></div>
+
+  <!-- 🌿 CONTENEUR PRINCIPAL -->
+  <main class="botanicode-container">
+
+    <!-- 🌸 TITRES -->
+    <header class="botanicode-header">
+      <h1 class="safe-garden-title">The Safe Garden</h1>
+      <h2 class="botanicode-title">🌿 Botanicode</h2>
+    </header>
+
+    <!-- 🌱 INTRO -->
+    <p class="botanicode-intro">
+      Un code botanique est caché dans le jardin.<br>
+      Observe, déduis, ajuste.
+    </p>
+
+    <!-- 📜 RÈGLES -->
+    <section class="botanicode-rules">
+      <h3>Règles du jeu</h3>
+      <ul>
+        <li>🌸 8 symboles botaniques sont disponibles</li>
+        <li>🌱 Le code secret contient 5 symboles</li>
+        <li>🧠 Tu as 10 essais pour le décrypter</li>
+        <li>🟢 Bon symbole, bonne place</li>
+        <li>🟡 Bon symbole, mauvaise place</li>
+        <li>⚪ Symbole absent</li>
+        <li>🌿 Il n’y a pas d’échec ici. Seulement des essais.</li>
+      </ul>
+    </section>
+
+    <!-- 🧠 PLATEAU DU JEU -->
+    <section class="botanicode-board">
+
+      <!-- 🌼 CODE SECRET (MASQUÉ) -->
+      <div class="secret-code">
+        <div class="slot hidden"></div>
+        <div class="slot hidden"></div>
+        <div class="slot hidden"></div>
+        <div class="slot hidden"></div>
+        <div class="slot hidden"></div>
+      </div>
+
+      <!-- 🌿 ESSAIS -->
+      <div class="attempts">
+
+        <!-- Essai 1 -->
+        <div class="attempt-row">
+          <div class="slots">
+            <div class="slot"></div>
+            <div class="slot"></div>
+            <div class="slot"></div>
+            <div class="slot"></div>
+            <div class="slot"></div>
+          </div>
+          <div class="feedback">
+            <div class="feedback-dot"></div>
+            <div class="feedback-dot"></div>
+            <div class="feedback-dot"></div>
+            <div class="feedback-dot"></div>
+            <div class="feedback-dot"></div>
+          </div>
+        </div>
+
+        <!-- Essai 2 -->
+        <div class="attempt-row">
+          <div class="slots">
+            <div class="slot"></div>
+            <div class="slot"></div>
+            <div class="slot"></div>
+            <div class="slot"></div>
+            <div class="slot"></div>
+          </div>
+          <div class="feedback">
+            <div class="feedback-dot"></div>
+            <div class="feedback-dot"></div>
+            <div class="feedback-dot"></div>
+            <div class="feedback-dot"></div>
+            <div class="feedback-dot"></div>
+          </div>
+        </div>
+
+        <!-- Essai 3 -->
+        <div class="attempt-row">
+          <div class="slots">
+            <div class="slot"></div>
+            <div class="slot"></div>
+            <div class="slot"></div>
+            <div class="slot"></div>
+            <div class="slot"></div>
+          </div>
+          <div class="feedback">
+            <div class="feedback-dot"></div>
+            <div class="feedback-dot"></div>
+            <div class="feedback-dot"></div>
+            <div class="feedback-dot"></div>
+            <div class="feedback-dot"></div>
+          </div>
+        </div>
+
+        <!-- Essai 4 à 10 : même structure -->
+        <!-- (on dupliquera ou générera en JS plus tard) -->
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- 🌿 RETOUR -->
+  <a href="mini-jeux.html" class="back-home-fixed">
+    ← Retour aux mini-jeux
+  </a>
+
+</body>
+</html>
