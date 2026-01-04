@@ -41,20 +41,23 @@ document.addEventListener("DOMContentLoaded", () => {
      ⭐ ÉTOILES – TOMBE + SE POSENT
   =============================== */
   const starLayer = document.getElementById("starDustLayer");
+function explodeStars(originX, originY, amount = 200) {
+  const pageHeight = document.body.scrollHeight;
+  const pageWidth = window.innerWidth;
 
-  function dropStar(x) {
+  for (let i = 0; i < amount; i++) {
     const star = document.createElement("span");
     star.className = "star";
+
+    const x = Math.random() * pageWidth;
+    const y = Math.random() * pageHeight;
+
     star.style.left = `${x}px`;
-    star.style.top = `-20px`;
+    star.style.top = `${y}px`;
+
     starLayer.appendChild(star);
-
-    let y = -20;
-    const stopY = window.innerHeight - 40 - Math.random() * 120;
-
-    function fall() {
-      y += 3;
-      star.style.top = `${y}px`;
+  }
+}
 
       if (y < stopY) {
         requestAnimationFrame(fall);
@@ -81,28 +84,24 @@ document.addEventListener("DOMContentLoaded", () => {
   const cloudInput = document.getElementById("cloudInput");
   const cloudArea = document.querySelector(".cloud-area");
 
-  function explodeCloud(cloud) {
-    const rect = cloud.getBoundingClientRect();
+  function animateCloud(cloud) {
+  let y = 0;
 
-    cloud.animate(
-      [
-        { transform: "translate(-50%, 0) scale(1)" },
-        { transform: "translate(-50%, -10px) scale(1.15)" },
-        { transform: "translate(-50%, -20px) scale(0.8)" }
-      ],
-      { duration: 500, easing: "ease-out" }
-    );
+  function rise() {
+    y -= 2.2;
+    cloud.style.transform = `translate(-50%, ${y}px)`;
 
-    rainStars(120, rect.left + rect.width / 2);
-
-    setTimeout(() => cloud.remove(), 450);
+    if (Math.abs(y) < document.body.scrollHeight) {
+      requestAnimationFrame(rise);
+    } else {
+      const rect = cloud.getBoundingClientRect();
+      cloud.remove();
+      explodeStars(rect.left + rect.width / 2, rect.top);
+    }
   }
 
-  function animateCloud(cloud) {
-    let y = 0;
-    const max = -window.innerHeight - 80;
-
-    function rise() {
+  rise();
+}
       y -= 2;
       cloud.style.transform = `translate(-50%, ${y}px)`;
 
