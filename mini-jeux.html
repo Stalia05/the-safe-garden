@@ -2,13 +2,13 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>The Safe Garden – Botanicode</title>
+  <title>The Safe Garden – Mini-jeux</title>
 
   <!-- 🌿 Polices Safe Garden -->
   <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Infant:wght@400;500;600&display=swap" rel="stylesheet">
 
-  <!-- 🌿 CSS du jeu -->
-  <link rel="stylesheet" href="botanicode.css">
+  <!-- 🌿 CSS -->
+  <link rel="stylesheet" href="mini-jeux.css">
 </head>
 
 <body>
@@ -16,41 +16,59 @@
   <!-- ✨ DÉCOR -->
   <div class="star-field"></div>
 
-  <!-- 🌿 BOTANICODE -->
-  <main class="game-container">
+  <!-- 🌿 SECTION MINI-JEUX -->
+  <main class="mini-games">
 
     <!-- 🌸 TITRES -->
-    <header class="game-header">
-      <h1 class="safe-garden-title">The Safe Garden</h1>
-      <h2 class="game-title">🌿 Botanicode</h2>
-    </header>
+    <h1 class="safe-garden-title">The Safe Garden</h1>
+    <h2 class="mini-subtitle">Mini-jeux</h2>
 
     <!-- 🌱 INTRO -->
-    <p class="game-intro">
-      Un code est caché dans le jardin.<br>
-      Observe, déduis, ajuste.
+    <p class="subtitle">
+      Des petits espaces pour respirer.<br>
+      Pas pour performer.
     </p>
 
-    <p class="game-note">
-      🌱 Il n’y a pas d’échec ici. Seulement des essais.
+    <p class="tea">
+      ☕ Prends un thé. Tu es en sécurité ici.
     </p>
 
-    <!-- 🧠 ZONE DU JEU (LOGIQUE PLUS TARD) -->
-    <section class="botanicode-board">
-      <!--
-        Ici viendront :
-        - la combinaison à proposer
-        - les symboles
-        - les indices
-        - les essais
-      -->
-    </section>
+    <!-- 🎴 GRILLE DE JEUX -->
+    <div class="games-grid">
+
+      <a href="cueillir.html" class="game-card">
+        <h3>🍂 Cueillir une pensée</h3>
+        <p>Un clic → une phrase douce</p>
+      </a>
+
+      <a href="respiration.html" class="game-card">
+        <h3>✨ Respiration</h3>
+        <p>30 secondes pour redescendre</p>
+      </a>
+
+      <a href="ancrage.html" class="game-card">
+        <h3>🌱 Ancrage 3-3</h3>
+        <p>Revenir au présent</p>
+      </a>
+
+      <a href="snake.html" class="game-card">
+        <h3>🐍 Snake doux</h3>
+        <p>Juste pour se changer les idées</p>
+      </a>
+
+      <!-- 🧠 NOUVEAU JEU -->
+      <a href="botanicode.html" class="game-card">
+        <h3>🌿 Botanicode</h3>
+        <p>Décrypte le code du jardin</p>
+      </a>
+
+    </div>
 
   </main>
 
-  <!-- 🌿 RETOUR -->
-  <a href="mini-jeux.html" class="back-home-fixed">
-    ← Retour aux mini-jeux
+  <!-- 🌿 RETOUR ACCUEIL -->
+  <a href="accueil.html" class="back-home-fixed">
+    ← Revenir à l’accueil
   </a>
 
 </body>
