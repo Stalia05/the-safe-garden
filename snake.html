@@ -1,81 +1,54 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-  >
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <title>The Safe Garden – Snake</title>
 
-  <!-- 🌿 POLICES SAFE GARDEN -->
-  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Infant:wght@400;500;600&display=swap" rel="stylesheet">
+  <!-- 🌿 Polices -->
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 
-  <!-- 🌿 CSS SNAKE -->
+  <!-- 🌿 CSS -->
   <link rel="stylesheet" href="snake.css">
 </head>
 
 <body>
 
-  <!-- 🌿 RETOUR MINI-JEUX -->
-  <a href="mini-jeux.html" class="back-mini-games">
-    ← Retour aux mini-jeux
-  </a>
+  <!-- ⭐ Fond étoilé -->
+  <div class="star-field"></div>
 
-  <!-- 🌿 PAGE SNAKE -->
-  <main class="snake-page">
+  <!-- 🌿 CONTENU -->
+  <main class="cover">
 
-    <!-- 🌿 TITRES -->
-    <header class="garden-title">
-      <h1 class="signature-title">The Safe Garden</h1>
-      <h2 class="signature-subtitle">Snake</h2>
-    </header>
+    <h1>The Safe Garden</h1>
 
-    <!-- 🌱 INTRO -->
-    <section class="care-intro">
-      <p>
-        Un jeu simple pour décrocher un peu.<br>
-        Pas de score à battre.<br>
-        Juste bouger, respirer.
-      </p>
-    </section>
+    <p class="cover-text">
+      Respire.<br>
+      Guide le serpent doucement.<br>
+      Ici, on ne perd pas.
+    </p>
 
-    <!-- 🌿 SCORE ZEN (HORS DU CANVAS) -->
-    <div id="snakeScore" class="snake-score">
-      🌿 Score : 0
+    <p class="cover-whisper">
+      Chaque mouvement est une respiration.
+    </p>
+
+    <!-- 🐍 JEU SNAKE -->
+    <div class="snake-wrapper">
+      <canvas id="snakeGame"></canvas>
     </div>
 
-    <!-- 🐍 ZONE DE JEU (ANTI-SCROLL) -->
-    <section class="snake-container">
-      <div class="snake-frame">
-        <canvas id="snakeGame"></canvas>
-      </div>
-    </section>
+    <!-- 🌿 SCORE -->
+    <p id="snakeScore">🌿 respirations : 0</p>
 
-    <!-- 📖 RÈGLES -->
-    <section class="snake-rules">
-      <h3>Comment jouer</h3>
-
-      <p>
-        <b>Sur ordinateur :</b><br>
-        Flèches du clavier ⬅️ ⬆️ ⬇️ ➡️
-      </p>
-
-      <p>
-        <b>Sur téléphone :</b><br>
-        Glisse ton doigt dans la direction souhaitée.
-      </p>
-
-      <p>
-        Si tu perds, ce n’est pas grave.<br>
-        Ici, on joue pour respirer.
-      </p>
-    </section>
+    <!-- 🌱 RETOUR -->
+    <a href="mini-jeux.html" class="enter-btn">
+      ← Retour au jardin
+    </a>
 
   </main>
 
-  <!-- 🌿 JS SNAKE -->
+  <!-- 🌿 JS -->
   <script src="snake.js"></script>
 
 </body>
