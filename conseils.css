@@ -147,19 +147,19 @@ body {
 }
 
 /* ===============================
-   🐱 EXPERIENCE CHAT
+   🐱 EXPERIENCE CHAT (CARESSABLE)
 ================================ */
 .experience-chat {
   margin: 140px 0;
   display: flex;
   justify-content: center;
   position: relative;
-  z-index: 6; /* au-dessus des étoiles */
+  z-index: 6;
 }
 
 .chat-container {
   position: relative;
-  width: 180px; /* taille NORMALE */
+  width: 180px;
 }
 
 .chat {
@@ -201,7 +201,7 @@ body {
   height: 120px;
   background: #7a5c42;
   border-radius: 0 0 40px 40px;
-  overflow: hidden; /* TOUT SE PASSE DEDANS */
+  overflow: hidden;
 }
 
 .plant-stem {
@@ -239,7 +239,6 @@ body {
   pointer-events: none;
 }
 
-/* niveaux */
 .plant.level-1 .plant-stem { height: 35px; }
 
 .plant.level-2 .plant-stem { height: 65px; }
@@ -249,6 +248,26 @@ body {
 .plant.level-3 .flower {
   opacity: 1;
   transform: translateX(-50%) scale(1);
+}
+
+/* bouton arroser cohérent */
+.water-btn {
+  margin-top: 16px;
+  padding: 10px 26px;
+  border-radius: 30px;
+  border: none;
+  background: #5f8f73;
+  color: white;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 8px 18px rgba(0,0,0,0.12);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.water-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 26px rgba(0,0,0,0.18);
 }
 
 /* ===============================
@@ -268,7 +287,7 @@ body {
   border-radius: 24px;
   border: none;
   font-size: 17px;
-  font-family: "Cormorant Infant", serif;
+  font-family: inherit;
   background: rgba(255,255,255,0.85);
   box-shadow: 0 12px 30px rgba(0,0,0,0.08);
   resize: none;
@@ -312,16 +331,13 @@ body {
   transform: translateX(-50%);
   padding: 22px 48px;
   max-width: 520px;
-
-  background: rgba(255, 255, 255, 0.88); /* ⬅️ plus léger */
-  backdrop-filter: blur(4px);           /* ⬅️ doux, pas sale */
-
+  background: rgba(255,255,255,0.88);
+  backdrop-filter: blur(4px);
   border-radius: 120px;
   font-size: 18px;
   line-height: 1.6;
+  color: #2f3e34;
   text-align: center;
-  color: #2f3e34;                        /* ⬅️ texte bien lisible */
-
   box-shadow: 0 18px 36px rgba(0,0,0,0.12);
   z-index: 3;
   pointer-events: none;
