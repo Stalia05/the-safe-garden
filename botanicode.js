@@ -79,17 +79,20 @@ document.addEventListener("DOMContentLoaded", () => {
      CLIC SUR CASES (SANS pointer-events)
   ================================ */
   board.addEventListener("click", (e) => {
-    const slot = e.target.closest(".slots .slot");
-    if (!slot || gameOver || !selectedSymbol) return;
+  const slot = e.target.classList.contains("slot")
+    ? e.target
+    : e.target.closest(".slot");
 
-    const row = slot.closest(".attempt-row");
-    const rowIndex = [...attemptRows].indexOf(row);
+  if (!slot || gameOver || !selectedSymbol) return;
 
-    if (rowIndex !== currentAttempt) return;
+  const row = slot.closest(".attempt-row");
+  const rowIndex = [...attemptRows].indexOf(row);
 
-    slot.textContent = selectedSymbol;
-    slot.dataset.symbol = selectedSymbol;
-  });
+  if (rowIndex !== currentAttempt) return;
+
+  slot.textContent = selectedSymbol;
+  slot.dataset.symbol = selectedSymbol;
+});
 
   board.addEventListener("contextmenu", (e) => {
     const slot = e.target.closest(".slots .slot");
