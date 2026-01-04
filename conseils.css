@@ -103,7 +103,83 @@ body {
 }
 
 /* ===============================
-   🌱 PLANTE (COHÉRENTE)
+   TITRE
+================================ */
+.garden-title {
+  text-align: center;
+  margin-bottom: 140px;
+}
+
+.garden-title h1 {
+  font-family: "Italianno", cursive;
+  font-size: clamp(3.5rem, 8vw, 5.5rem);
+  color: #2f5d46;
+}
+
+.garden-title p {
+  font-size: 18px;
+  opacity: 0.75;
+}
+
+/* ===============================
+   SECTIONS TEXTE
+================================ */
+.step {
+  margin-bottom: 100px;
+}
+
+.step h2 {
+  font-family: "Italianno", cursive;
+  font-size: 42px;
+  color: #355a43;
+  margin-bottom: 22px;
+}
+
+.step p {
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.85;
+  margin-bottom: 18px;
+}
+
+/* ===============================
+   🐱 EXPERIENCE CHAT (TAILLE NORMALE)
+================================ */
+.experience-chat {
+  margin: 140px 0;
+  display: flex;
+  justify-content: center;
+  z-index: 2;
+}
+
+.chat-container {
+  position: relative;
+  width: 220px;
+}
+
+.chat {
+  width: 100%;
+  cursor: pointer;
+  user-select: none;
+  pointer-events: auto;
+}
+
+.chat-bubble {
+  position: absolute;
+  top: -60px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255,255,255,0.95);
+  padding: 10px 18px;
+  border-radius: 20px;
+  font-weight: 600;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 5;
+}
+
+/* ===============================
+   🌱 EXPERIENCE PLANTE (DANS LE POT)
 ================================ */
 .experience-plant {
   text-align: center;
@@ -113,6 +189,7 @@ body {
 .plant {
   width: 90px;
   margin: 0 auto;
+  position: relative;
 }
 
 .plant-pot {
@@ -121,14 +198,7 @@ body {
   height: 120px;
   background: #7a5c42;
   border-radius: 0 0 40px 40px;
-  overflow: hidden; /* 🔑 TOUT SE FAIT DEDANS */
-}
-
-.plant-inner {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  height: 100%;
+  overflow: hidden;
 }
 
 .plant-stem {
@@ -150,16 +220,16 @@ body {
   background: #6fae88;
   border-radius: 20px;
   opacity: 0;
-  transition: opacity 0.6s ease;
+  transition: all 0.8s ease;
 }
 
 .leaf.left {
-  left: 10px;
+  left: 6px;
   transform: rotate(-25deg);
 }
 
 .leaf.right {
-  right: 10px;
+  right: 6px;
   transform: rotate(25deg);
 }
 
@@ -176,7 +246,10 @@ body {
 .plant.level-1 .plant-stem { height: 35px; }
 
 .plant.level-2 .plant-stem { height: 65px; }
-.plant.level-2 .leaf { opacity: 1; top: 40px; }
+.plant.level-2 .leaf {
+  opacity: 1;
+  top: 38px;
+}
 
 .plant.level-3 .plant-stem { height: 90px; }
 .plant.level-3 .flower {
@@ -185,16 +258,17 @@ body {
 }
 
 /* ===============================
-   ☁️ NUAGE
+   ☁️ EXPERIENCE NUAGE
 ================================ */
 .experience-cloud {
   margin: 160px 0;
   text-align: center;
+  position: relative;
 }
 
 .cloud-area {
   position: relative;
-  height: 500px;
+  height: 520px;
 }
 
 .cloud {
@@ -202,7 +276,7 @@ body {
   left: 50%;
   bottom: 0;
   transform: translateX(-50%);
-  padding: 26px 64px;
+  padding: 28px 70px;
   background: #fff;
   border-radius: 120px;
   font-size: 18px;
@@ -210,6 +284,10 @@ body {
   text-align: center;
   box-shadow: 0 20px 40px rgba(0,0,0,0.15);
   z-index: 3;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .cloud::before,
@@ -218,6 +296,7 @@ body {
   position: absolute;
   background: #fff;
   border-radius: 50%;
+  z-index: 1;
 }
 
 .cloud::before {
@@ -232,4 +311,37 @@ body {
   height: 110px;
   top: -55px;
   right: 20px;
+}
+
+/* texte au-dessus du nuage */
+.cloud span,
+.cloud p {
+  position: relative;
+  z-index: 5;
+}
+
+/* explosion */
+.cloud.exploding {
+  opacity: 0;
+  transform: translateX(-50%) scale(0.7);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+/* ===============================
+   NAVIGATION
+================================ */
+.garden-nav {
+  margin-top: 120px;
+  padding: 30px 20px;
+  display: flex;
+  justify-content: space-between;
+  background: rgba(231, 240, 234, 0.95);
+  border-top: 1px solid rgba(60, 100, 80, 0.3);
+}
+
+.nav-link {
+  font-size: 20px;
+  font-weight: 600;
+  color: #2f5d46;
+  text-decoration: none;
 }
