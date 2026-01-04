@@ -298,8 +298,7 @@ Moins de décisions à prendre.
 Moins de sollicitations.
 Et plus d’espaces simples où tu peux avancer sans avoir à tout comprendre tout de suite.
 `,
-
-  hypersensibilite: hypersensibilite: `
+ hypersensibilite: `
 Tu ressens les choses plus intensément que beaucoup de personnes.
 Les émotions, les ambiances, les paroles, les regards
 ne te traversent pas simplement : ils te marquent.
@@ -554,7 +553,7 @@ Et surtout, la continuité.
 Ce n’est pas l’intensité qui stabilise,
 mais la répétition de petits gestes qui te soutiennent.
 `,
-
+};
 // ==================
 // ÉTAT
 // ==================
