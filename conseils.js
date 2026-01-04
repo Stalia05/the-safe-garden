@@ -1,8 +1,8 @@
 document.addEventListener("DOMContentLoaded", () => {
-  console.log("🌿 Safe Garden – JS corrigé");
+  console.log("🌿 Safe Garden – JS STABLE");
 
   /* ===============================
-     🌱 PLANTE – CROISSANCE RÉELLE
+     🌱 PLANTE – CROISSANCE PROPRE
   =============================== */
   const plant = document.querySelector(".plant");
   const waterBtn = document.getElementById("waterBtn");
@@ -26,91 +26,64 @@ document.addEventListener("DOMContentLoaded", () => {
           "On n’arrose pas une plante en la pressant 🤍";
         return;
       }
+
       lastWater = now;
 
       if (level < 3) {
         level++;
-        plant.classList.remove("level-0", "level-1", "level-2", "level-3");
-        plant.classList.add(`level-${level}`);
+        plant.className = `plant level-${level}`;
         plantMessage.textContent = plantTexts[level];
       }
     });
   }
 
   /* ===============================
-     ⭐ ÉTOILES – TOMBE + SE POSENT
+     ⭐ ÉTOILES – CHUTE & DÉPÔT
   =============================== */
   const starLayer = document.getElementById("starDustLayer");
-function explodeStars(originX, originY, amount = 200) {
-  const pageHeight = document.body.scrollHeight;
-  const pageWidth = window.innerWidth;
 
-  for (let i = 0; i < amount; i++) {
+  function createStar(x, y) {
     const star = document.createElement("span");
     star.className = "star";
-
-    const x = Math.random() * pageWidth;
-    const y = Math.random() * pageHeight;
-
     star.style.left = `${x}px`;
     star.style.top = `${y}px`;
-
     starLayer.appendChild(star);
   }
-}
 
-      if (y < stopY) {
-        requestAnimationFrame(fall);
-      }
-    }
-    fall();
-  }
+  function explodeStars(amount = 300) {
+    const w = window.innerWidth;
+    const h = document.body.scrollHeight;
 
-  function rainStars(amount, originX = null) {
     for (let i = 0; i < amount; i++) {
-      setTimeout(() => {
-        const x = originX !== null
-          ? originX + (Math.random() * 240 - 120)
-          : Math.random() * window.innerWidth;
-        dropStar(x);
-      }, i * 15);
+      const x = Math.random() * w;
+      const y = Math.random() * h;
+      createStar(x, y);
     }
   }
 
   /* ===============================
-     ☁️ NUAGE – MONTE + EXPLOSE
+     ☁️ NUAGE – MONTE & EXPLOSE
   =============================== */
   const cloudBtn = document.getElementById("cloudBtn");
   const cloudInput = document.getElementById("cloudInput");
   const cloudArea = document.querySelector(".cloud-area");
 
   function animateCloud(cloud) {
-  let y = 0;
+    let y = 0;
+    const limit = document.body.scrollHeight;
 
-  function rise() {
-    y -= 2.2;
-    cloud.style.transform = `translate(-50%, ${y}px)`;
-
-    if (Math.abs(y) < document.body.scrollHeight) {
-      requestAnimationFrame(rise);
-    } else {
-      const rect = cloud.getBoundingClientRect();
-      cloud.remove();
-      explodeStars(rect.left + rect.width / 2, rect.top);
-    }
-  }
-
-  rise();
-}
-      y -= 2;
+    function rise() {
+      y -= 3;
       cloud.style.transform = `translate(-50%, ${y}px)`;
 
-      if (y > max) {
+      if (Math.abs(y) < limit) {
         requestAnimationFrame(rise);
       } else {
-        explodeCloud(cloud);
+        cloud.remove();
+        explodeStars();
       }
     }
+
     rise();
   }
 
@@ -121,10 +94,14 @@ function explodeStars(originX, originY, amount = 200) {
 
       const cloud = document.createElement("div");
       cloud.className = "cloud";
-      cloud.textContent = text; // 🔴 LE MOT EST BIEN LÀ
-      cloudArea.appendChild(cloud);
 
+      const span = document.createElement("span");
+      span.textContent = text;
+      cloud.appendChild(span);
+
+      cloudArea.appendChild(cloud);
       cloudInput.value = "";
+
       animateCloud(cloud);
     });
   }
@@ -145,16 +122,12 @@ function explodeStars(originX, originY, amount = 200) {
     let x = -300;
 
     function sweep() {
-      x += 16;
-      broom.style.transform = `translateX(${x}px) rotate(${x / 30}deg)`;
+      x += 18;
+      broom.style.transform = `translateX(${x}px) rotate(${x / 28}deg)`;
 
       document.querySelectorAll(".star").forEach(star => {
         const rect = star.getBoundingClientRect();
-        if (
-          rect.left < x + 240 &&
-          rect.right > x &&
-          rect.top > window.innerHeight - 420
-        ) {
+        if (rect.left < x + 260 && rect.right > x) {
           star.remove();
         }
       });
@@ -165,6 +138,7 @@ function explodeStars(originX, originY, amount = 200) {
         broom.style.display = "none";
       }
     }
+
     sweep();
   }
 
