@@ -365,3 +365,17 @@ body {
     font-size: 3rem;
   }
 }
+/* ===============================
+   FIX INTERACTION PALETTE
+================================ */
+.symbol-palette {
+  position: relative;
+  z-index: 10;
+}
+
+.symbol {
+  position: relative;
+  z-index: 11;
+  pointer-events: auto;
+  cursor: pointer;
+}
