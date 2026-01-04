@@ -1,6 +1,8 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-  /* 🌱 PLANTE */
+  /* ===============================
+     🌱 PLANTE – COHÉRENTE AVEC CSS
+  =============================== */
   const plant = document.querySelector(".plant");
   const waterBtn = document.getElementById("waterBtn");
   const plantMessage = document.getElementById("plantMessage");
@@ -27,38 +29,50 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  /* ⭐ ÉTOILES */
+  /* ===============================
+     ⭐ ÉTOILES – TOMBE + SE POSENT
+  =============================== */
   const starLayer = document.getElementById("starDustLayer");
 
   function createStar(x, y) {
-    const s = document.createElement("span");
-    s.className = "star";
-    s.style.left = `${x}px`;
-    s.style.top = `${y}px`;
-    starLayer.appendChild(s);
+    const star = document.createElement("span");
+    star.className = "star";
+    star.style.left = `${x}px`;
+    star.style.top = `${y}px`;
+    starLayer.appendChild(star);
 
-    let fall = Math.random() * 120 + 80;
-    s.animate(
-      [{ transform: "translateY(0)" }, { transform: `translateY(${fall}px)` }],
-      { duration: 2500, easing: "ease-out", fill: "forwards" }
+    const fall = Math.random() * 160 + 120;
+
+    star.animate(
+      [
+        { transform: "translateY(0)", opacity: 1 },
+        { transform: `translateY(${fall}px)`, opacity: 1 }
+      ],
+      {
+        duration: 3000,
+        easing: "ease-out",
+        fill: "forwards"
+      }
     );
   }
 
-  function explodeStars(cx, cy) {
-    const w = window.innerWidth;
-    const h = document.body.scrollHeight;
+  function explodeStars(originX, originY, amount = 900) {
+    const pageWidth = window.innerWidth;
+    const pageHeight = document.body.scrollHeight;
 
-    for (let i = 0; i < 700; i++) {
+    for (let i = 0; i < amount; i++) {
       setTimeout(() => {
         createStar(
-          Math.random() * w,
-          Math.random() * h
+          Math.random() * pageWidth,
+          Math.random() * pageHeight
         );
-      }, i * 3);
+      }, i * 2);
     }
   }
 
-  /* ☁️ NUAGE */
+  /* ===============================
+     ☁️ NUAGE – MONTE + EXPLOSE
+  =============================== */
   const cloudBtn = document.getElementById("cloudBtn");
   const cloudInput = document.getElementById("cloudInput");
   const cloudArea = document.querySelector(".cloud-area");
@@ -69,47 +83,67 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const cloud = document.createElement("div");
     cloud.className = "cloud";
-    cloud.textContent = text;
+    cloud.innerHTML = `<span>${text}</span>`; // 🔑 TEXTE AU-DESSUS
     cloudArea.appendChild(cloud);
     cloudInput.value = "";
 
     let y = 0;
+    const limit = document.body.scrollHeight + 300;
+
     function rise() {
       y -= 3;
       cloud.style.transform = `translate(-50%, ${y}px)`;
-      if (Math.abs(y) < window.innerHeight + 200) {
+
+      if (Math.abs(y) < limit) {
         requestAnimationFrame(rise);
       } else {
-        const r = cloud.getBoundingClientRect();
-        cloud.remove();
-        explodeStars(r.left + r.width / 2, r.top);
+        const rect = cloud.getBoundingClientRect();
+        cloud.classList.add("exploding");
+
+        setTimeout(() => {
+          cloud.remove();
+          explodeStars(
+            rect.left + rect.width / 2,
+            rect.top
+          );
+        }, 400);
       }
     }
+
     rise();
   });
 
-  /* 🧹 BALAI */
+  /* ===============================
+     🧹 BALAI – NETTOYAGE TOTAL
+  =============================== */
   const broom = document.getElementById("broom");
   const sweepBtn = document.getElementById("sweepBtn");
 
   sweepBtn?.addEventListener("click", () => {
     broom.style.display = "block";
-    let x = -300;
+    let x = -320;
 
     function sweep() {
-      x += 20;
-      broom.style.transform = `translateX(${x}px) rotate(${x / 30}deg)`;
-      document.querySelectorAll(".star").forEach(s => {
-        const r = s.getBoundingClientRect();
-        if (r.left < x + 260 && r.right > x) s.remove();
+      x += 22;
+      broom.style.transform = `translateX(${x}px) rotate(${x / 28}deg)`;
+
+      document.querySelectorAll(".star").forEach(star => {
+        const rect = star.getBoundingClientRect();
+        if (
+          rect.left < x + 280 &&
+          rect.right > x
+        ) {
+          star.remove();
+        }
       });
 
-      if (x < window.innerWidth + 300) {
+      if (x < window.innerWidth + 320) {
         requestAnimationFrame(sweep);
       } else {
         broom.style.display = "none";
       }
     }
+
     sweep();
   });
 
