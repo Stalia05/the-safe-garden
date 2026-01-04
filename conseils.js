@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   /* ===============================
-     🐱 CHAT – CARESSE DOUCE (LISIBLE)
+     🐱 CHAT – CARESSE DOUCE
   =============================== */
   const chat = document.getElementById("chatImage");
   const bubble = document.getElementById("chatBubble");
@@ -24,15 +24,14 @@ document.addEventListener("DOMContentLoaded", () => {
   const meowStop = document.getElementById("meowStop");
 
   let lastX = 0, lastY = 0, lastTime = 0;
-  let bubbleTimeout = null;
+  let bubbleTimeout;
 
   function setBubble(text) {
-    if (!bubble) return;
     bubble.textContent = text;
     clearTimeout(bubbleTimeout);
     bubbleTimeout = setTimeout(() => {
       bubble.textContent = "Je suis là.";
-    }, 2500); // ⬅️ plus lisible
+    }, 2200);
   }
 
   function handlePet(x, y) {
@@ -46,48 +45,37 @@ document.addEventListener("DOMContentLoaded", () => {
     lastY = y;
     lastTime = now;
 
-    if (purr && purr.paused) {
-      purr.volume = 0.35;
+    if (purr.paused) {
+      purr.volume = 0.3;
       purr.play().catch(() => {});
     }
 
-    if (speed < 0.2) {
+    if (speed < 0.25) {
       purr.volume = 0.45;
       setBubble("Voilà… doucement 🤍");
-    } else if (speed < 0.45) {
+    } else if (speed < 0.6) {
       purr.volume = 0.3;
       setBubble("Pas trop fort…");
     } else {
-      if (purr) purr.pause();
-      if (meowStop) {
-        meowStop.currentTime = 0;
-        meowStop.play().catch(() => {});
-      }
+      purr.pause();
+      meowStop.currentTime = 0;
+      meowStop.play().catch(() => {});
       setBubble("Si tu es dur·e avec toi-même, ça fait mal aussi…");
     }
   }
 
   if (chat) {
-    chat.addEventListener("mousemove", e =>
-      handlePet(e.clientX, e.clientY)
-    );
-
+    chat.addEventListener("mousemove", e => handlePet(e.clientX, e.clientY));
     chat.addEventListener("touchmove", e => {
       const t = e.touches[0];
       handlePet(t.clientX, t.clientY);
     });
-
-    chat.addEventListener("mouseleave", () => {
-      if (purr) purr.pause();
-    });
-
-    chat.addEventListener("touchend", () => {
-      if (purr) purr.pause();
-    });
+    chat.addEventListener("mouseleave", () => purr.pause());
+    chat.addEventListener("touchend", () => purr.pause());
   }
 
   /* ===============================
-     🌱 PLANTE AVEC POT (OK)
+     🌱 PLANTE – FLEUR UNIQUEMENT À LA FIN
   =============================== */
   const plant = document.querySelector(".plant");
   const waterBtn = document.getElementById("waterBtn");
@@ -100,10 +88,10 @@ document.addEventListener("DOMContentLoaded", () => {
     "La graine a juste besoin de temps.",
     "Quelque chose commence à pousser.",
     "Les feuilles prennent leur place.",
-    "La plante fleurit 🌸"
+    "La plante est en fleurs 🌸"
   ];
 
-  if (plant && waterBtn && plantMessage) {
+  if (plant && waterBtn) {
     waterBtn.addEventListener("click", () => {
       const now = Date.now();
       if (now - lastWater < 1200) {
@@ -122,52 +110,32 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* ===============================
-     ⭐ ÉTOILES – TOMBENT & RESTENT
+     ⭐ ÉTOILES QUI SE POSENT
   =============================== */
   const starLayer = document.getElementById("starDustLayer");
 
   function createStar(x, y) {
-    if (!starLayer) return;
-
     const star = document.createElement("span");
     star.className = "star";
     star.style.left = `${x}px`;
     star.style.top = `${y}px`;
-
-    star.vy = 0.4 + Math.random() * 0.6;
-    star.stopped = false;
-
     starLayer.appendChild(star);
-
-    function fall() {
-      if (star.stopped) return;
-
-      const top = parseFloat(star.style.top);
-      const ground = document.body.scrollHeight - 160;
-
-      if (top < ground) {
-        star.style.top = `${top + star.vy}px`;
-        requestAnimationFrame(fall);
-      } else {
-        star.stopped = true; // ⭐ reste au sol
-      }
-    }
-
-    fall();
-    return star;
   }
 
-  function spreadDust(amount) {
+  function spreadStars(amount) {
+    const w = window.innerWidth;
+    const h = document.body.scrollHeight;
+
     for (let i = 0; i < amount; i++) {
       createStar(
-        Math.random() * window.innerWidth,
-        Math.random() * 80
+        Math.random() * w,
+        Math.random() * h
       );
     }
   }
 
   /* ===============================
-     ☁️ NUAGE – APPARAÎT DIRECT & MONTE HAUT
+     ☁️ NUAGE → ÉTOILES
   =============================== */
   const cloudBtn = document.getElementById("cloudBtn");
   const cloudInput = document.getElementById("cloudInput");
@@ -175,20 +143,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function animateCloud(cloud) {
     let y = 0;
+
     function rise() {
       y -= 1.6;
       cloud.style.transform = `translate(-50%, ${y}px)`;
-      if (y > -420) {
+
+      if (y > -340) {
         requestAnimationFrame(rise);
       } else {
         cloud.remove();
-        spreadDust(80);
+        spreadStars(90);
       }
     }
+
     rise();
   }
 
-  if (cloudBtn && cloudInput && cloudArea) {
+  if (cloudBtn) {
     cloudBtn.addEventListener("click", () => {
       const text = cloudInput.value.trim();
       if (!text) return;
@@ -196,7 +167,6 @@ document.addEventListener("DOMContentLoaded", () => {
       const cloud = document.createElement("div");
       cloud.className = "cloud";
       cloud.textContent = text;
-
       cloudArea.appendChild(cloud);
       cloudInput.value = "";
 
@@ -212,13 +182,15 @@ document.addEventListener("DOMContentLoaded", () => {
   const sweepSound = new Audio("sweep.mp3");
   sweepSound.volume = 0.35;
 
-  function cleanStars(broomX) {
+  function sweepStep(x) {
+    broom.style.transform = `translateX(${x}px) rotate(${x / 30}deg)`;
+
     document.querySelectorAll(".star").forEach(star => {
       const rect = star.getBoundingClientRect();
       if (
-        rect.left < broomX + 220 &&
-        rect.right > broomX &&
-        rect.bottom > window.innerHeight - 200
+        rect.left < x + 180 &&
+        rect.right > x &&
+        rect.bottom > window.innerHeight - 320
       ) {
         star.remove();
       }
@@ -226,26 +198,20 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function autoSweep() {
-    if (!broom) return;
-
     broom.style.display = "block";
     sweepSound.currentTime = 0;
     sweepSound.play().catch(() => {});
 
-    let x = -240;
-
+    let x = -260;
     function sweep() {
-      x += 16;
-      broom.style.transform = `translateX(${x}px) rotate(${x / 35}deg)`;
-      cleanStars(x);
-
-      if (x < window.innerWidth + 240) {
+      x += 14;
+      sweepStep(x);
+      if (x < window.innerWidth + 260) {
         requestAnimationFrame(sweep);
       } else {
         broom.style.display = "none";
       }
     }
-
     sweep();
   }
 
