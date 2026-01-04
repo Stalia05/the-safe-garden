@@ -1,8 +1,8 @@
 document.addEventListener("DOMContentLoaded", () => {
-  console.log("🌿 Safe Garden – JS STABLE");
+  console.log("🌿 Safe Garden – JS FINAL");
 
   /* ===============================
-     🌱 PLANTE – CROISSANCE PROPRE
+     🌱 PLANTE – LOGIQUE PROPRE
   =============================== */
   const plant = document.querySelector(".plant");
   const waterBtn = document.getElementById("waterBtn");
@@ -26,7 +26,6 @@ document.addEventListener("DOMContentLoaded", () => {
           "On n’arrose pas une plante en la pressant 🤍";
         return;
       }
-
       lastWater = now;
 
       if (level < 3) {
@@ -38,7 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* ===============================
-     ⭐ ÉTOILES – CHUTE & DÉPÔT
+     ⭐ ÉTOILES – CHUTE + POSE
   =============================== */
   const starLayer = document.getElementById("starDustLayer");
 
@@ -48,21 +47,36 @@ document.addEventListener("DOMContentLoaded", () => {
     star.style.left = `${x}px`;
     star.style.top = `${y}px`;
     starLayer.appendChild(star);
+
+    // chute douce
+    requestAnimationFrame(() => {
+      star.style.transform = "translateY(120px)";
+    });
   }
 
-  function explodeStars(amount = 300) {
-    const w = window.innerWidth;
-    const h = document.body.scrollHeight;
+  function explodeStars(originX, originY, amount = 350) {
+    const pageHeight = document.body.scrollHeight;
+    const pageWidth = window.innerWidth;
 
     for (let i = 0; i < amount; i++) {
-      const x = Math.random() * w;
-      const y = Math.random() * h;
-      createStar(x, y);
+      const x =
+        originX +
+        (Math.random() * 600 - 300);
+      const y =
+        originY +
+        (Math.random() * 600 - 300);
+
+      setTimeout(() => {
+        createStar(
+          Math.min(Math.max(x, 0), pageWidth),
+          Math.min(Math.max(y, 0), pageHeight)
+        );
+      }, i * 4);
     }
   }
 
   /* ===============================
-     ☁️ NUAGE – MONTE & EXPLOSE
+     ☁️ NUAGE – MONTE + EXPLOSE
   =============================== */
   const cloudBtn = document.getElementById("cloudBtn");
   const cloudInput = document.getElementById("cloudInput");
@@ -70,20 +84,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function animateCloud(cloud) {
     let y = 0;
-    const limit = document.body.scrollHeight;
+    const max = document.body.scrollHeight + 200;
 
     function rise() {
-      y -= 3;
+      y -= 2.5;
       cloud.style.transform = `translate(-50%, ${y}px)`;
 
-      if (Math.abs(y) < limit) {
+      if (Math.abs(y) < max) {
         requestAnimationFrame(rise);
       } else {
+        const rect = cloud.getBoundingClientRect();
         cloud.remove();
-        explodeStars();
+        explodeStars(
+          rect.left + rect.width / 2,
+          rect.top
+        );
       }
     }
-
     rise();
   }
 
@@ -94,14 +111,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const cloud = document.createElement("div");
       cloud.className = "cloud";
-
-      const span = document.createElement("span");
-      span.textContent = text;
-      cloud.appendChild(span);
-
+      cloud.textContent = text; // ✅ TEXTE VISIBLE
       cloudArea.appendChild(cloud);
-      cloudInput.value = "";
 
+      cloudInput.value = "";
       animateCloud(cloud);
     });
   }
@@ -127,7 +140,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
       document.querySelectorAll(".star").forEach(star => {
         const rect = star.getBoundingClientRect();
-        if (rect.left < x + 260 && rect.right > x) {
+        if (
+          rect.left < x + 260 &&
+          rect.right > x
+        ) {
           star.remove();
         }
       });
@@ -138,7 +154,6 @@ document.addEventListener("DOMContentLoaded", () => {
         broom.style.display = "none";
       }
     }
-
     sweep();
   }
 
