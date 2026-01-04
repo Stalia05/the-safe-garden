@@ -120,38 +120,46 @@ document.addEventListener("DOMContentLoaded", () => {
       );
     }
   }
+ /* ===============================
+   ☁️ NUAGE – MONTE & EXPLOSE (CORRIGÉ)
+=============================== */
+const cloudBtn = document.getElementById("cloudBtn");
+const cloudInput = document.getElementById("cloudInput");
+const cloudArea = document.querySelector(".cloud-area");
 
-  /* ===============================
-     ☁️ NUAGE – MONTE & EXPLOSE
-  =============================== */
-  const cloudBtn = document.getElementById("cloudBtn");
-  const cloudInput = document.getElementById("cloudInput");
-  const cloudArea = document.querySelector(".cloud-area");
+cloudBtn?.addEventListener("click", () => {
+  const text = cloudInput.value.trim();
+  if (!text) return;
 
-  cloudBtn?.addEventListener("click", () => {
-    const text = cloudInput.value.trim();
-    if (!text) return;
+  // ☁️ conteneur nuage
+  const cloud = document.createElement("div");
+  cloud.className = "cloud";
 
-    const cloud = document.createElement("div");
-    cloud.className = "cloud";
-    cloud.textContent = text;
-    cloudArea.appendChild(cloud);
-    cloudInput.value = "";
+  // 🔒 contenu texte PROTÉGÉ
+  const content = document.createElement("div");
+  content.className = "cloud-content";
+  content.textContent = text;
 
-    let y = 0;
-    function rise() {
-      y -= 3;
-      cloud.style.transform = `translate(-50%, ${y}px)`;
+  cloud.appendChild(content);
+  cloudArea.appendChild(cloud);
+  cloudInput.value = "";
 
-      if (Math.abs(y) < window.innerHeight + 100) {
-        requestAnimationFrame(rise);
-      } else {
-        cloud.remove();
-        explodeStars(); // ⭐ IMMÉDIAT
-      }
+  let y = 0;
+
+  function rise() {
+    y -= 3;
+    cloud.style.transform = `translate(-50%, ${y}px)`;
+
+    if (Math.abs(y) < window.innerHeight + 120) {
+      requestAnimationFrame(rise);
+    } else {
+      cloud.remove();
+      explodeStars(); // ⭐ explosion immédiate
     }
-    rise();
-  });
+  }
+
+  rise();
+});
 
   /* ===============================
      🧹 BALAI
