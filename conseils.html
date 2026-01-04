@@ -477,29 +477,38 @@ c’est même la plus importante.
     tu pourras passer à l’étape suivante.
   </p>
 </section>
-    <!-- ☁️ EXPÉRIENCE NUAGE -->
-    <section class="experience-cloud">
-      <p class="cloud-intro">
-        Tu peux déposer ici ce qui pèse un peu trop.
-      </p>
+  <!-- ☁️ EXPÉRIENCE NUAGE -->
+<section class="experience-cloud">
 
-      <textarea
-        id="cloudInput"
-        class="cloud-input"
-        placeholder="Un mot, une pensée, une émotion…"
-      ></textarea>
+  <!-- 🔑 CONTENU FIXE : texte + input + boutons -->
+  <div class="cloud-content">
+    <p class="cloud-intro">
+      Tu peux déposer ici ce qui pèse un peu trop.
+    </p>
 
+    <textarea
+      id="cloudInput"
+      class="cloud-input"
+      placeholder="Un mot, une pensée, une émotion…"
+    ></textarea>
+
+    <div class="cloud-controls">
       <button id="cloudBtn" class="cloud-btn">
         Déposer sur le nuage
       </button>
 
-  <button id="sweepBtn" class="sweep-btn">
-    Balayer les pensées
-  </button>
-</div>
+      <button id="sweepBtn" class="sweep-btn">
+        Balayer les pensées
+      </button>
+    </div>
+  </div>
 
-      <div class="cloud-area"></div>
-    </section>
+  <!-- ☁️ ZONE DU NUAGE ANIMÉ -->
+  <div class="cloud-area">
+    <!-- le nuage est injecté ici par le JS -->
+  </div>
+
+</section>
 
     <!-- 🌱 CONCLUSION -->
     <section class="step no-frame">
