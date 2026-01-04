@@ -589,66 +589,11 @@ même les jours où ça ne ressemble pas à grand-chose.
 
   </main>
 
-  /* ===============================
-   🌿 NAVIGATION ABSOLUTE
-================================ */
-.garden-nav {
-  position: absolute;
-  bottom: 40px;
-  left: 0;
-  width: 100%;
-
-  display: flex;
-  justify-content: space-between;
-  padding: 0 28px;
-
-  z-index: 10;
-}
-
-/* liens */
-.nav-link {
-  font-family: "Cormorant Infant", serif;
-  font-size: 16px;
-  font-weight: 600;
-
-  text-decoration: none;
-  color: #2f5d46;
-
-  background: rgba(255, 255, 255, 0.75);
-  padding: 10px 18px;
-  border-radius: 22px;
-
-  box-shadow: 0 8px 20px rgba(0,0,0,0.12);
-  backdrop-filter: blur(4px);
-
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-/* hover doux */
-.nav-link:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 26px rgba(0,0,0,0.18);
-}
-
-/* positions sémantiques (optionnel mais clean) */
-.nav-link.left {
-  align-self: flex-start;
-}
-
-.nav-link.right {
-  align-self: flex-end;
-}
-
-/* 📱 MOBILE — recentrage léger */
-@media (max-width: 520px) {
-  .garden-nav {
-    flex-direction: column;
-    align-items: center;
-    gap: 14px;
-    bottom: 28px;
-  }
-}
-
+  <!-- 🌿 NAVIGATION -->
+  <nav class="garden-nav">
+    <a href="accueil.html" class="nav-link left">← Retour à l’accueil</a>
+    <a href="bilan.html" class="nav-link right">Bilan personnalisé →</a>
+  </nav>
   <!-- JS -->
   <script src="conseils.js"></script>
 
