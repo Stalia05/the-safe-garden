@@ -43,7 +43,7 @@ body {
 }
 
 /* ===============================
-   🦋 PAPILLONS (PLACEMENT NATUREL)
+   🦋 PAPILLONS
 ================================ */
 .butterfly {
   position: fixed;
@@ -66,7 +66,7 @@ body {
   z-index: 4;
 }
 
-/* vraies étoiles scintillantes */
+/* vraies étoiles */
 .star {
   position: absolute;
   width: 14px;
@@ -101,7 +101,7 @@ body {
 }
 
 /* ===============================
-   🧹 BALAI (TON IMAGE – PROPRE)
+   🧹 BALAI (IMAGE CLEAN)
 ================================ */
 #broom {
   position: fixed;
@@ -204,6 +204,7 @@ body {
 }
 
 .plant {
+  position: relative;
   display: inline-block;
 }
 
@@ -223,10 +224,21 @@ body {
   height: 26px;
   background: #4f7f5f;
   border-radius: 10px;
+  transition: height 0.6s ease;
+}
+
+/* 🌸 fleur INVISIBLE au départ */
+.flower {
+  position: absolute;
+  top: -36px;
+  left: 50%;
+  transform: translateX(-50%) scale(0);
+  opacity: 0;
+  transition: all 0.8s ease;
 }
 
 /* ===============================
-   ☁️ EXPERIENCE NUAGE (ZONE CLEAN)
+   ☁️ EXPERIENCE NUAGE
 ================================ */
 .experience-cloud {
   margin: 160px 0;
@@ -264,10 +276,10 @@ body {
   cursor: pointer;
 }
 
-/* zone de montée haute */
+/* zone de montée HAUTE */
 .cloud-area {
   position: relative;
-  height: 440px;
+  height: 460px;
   overflow: visible;
 }
 
@@ -277,10 +289,12 @@ body {
   left: 50%;
   bottom: 0;
   transform: translateX(-50%);
-  padding: 28px 56px;
+  padding: 24px 64px;
   background: #ffffff;
   border-radius: 90px;
   font-size: 18px;
+  line-height: 1.4;
+  text-align: center;
   box-shadow: 0 20px 40px rgba(0,0,0,0.15);
   pointer-events: none;
   z-index: 2;
