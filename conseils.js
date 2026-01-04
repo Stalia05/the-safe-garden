@@ -1,8 +1,8 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-  /* ===============================
-     🐱 CHAT – CARESSE
-  =============================== */
+  /* =================================================
+     🐱 CHAT – CARESSE (DESKTOP + MOBILE)
+  ================================================= */
   const chat = document.getElementById("chatImage");
   const bubble = document.getElementById("chatBubble");
   const purr = document.getElementById("purrSound");
@@ -13,8 +13,8 @@ document.addEventListener("DOMContentLoaded", () => {
   function showBubble(text) {
     if (!bubble) return;
     bubble.textContent = text;
-    clearTimeout(bubble._timeout);
-    bubble._timeout = setTimeout(() => {
+    clearTimeout(bubble._t);
+    bubble._t = setTimeout(() => {
       bubble.textContent = "Je suis là.";
     }, 2200);
   }
@@ -53,14 +53,15 @@ document.addEventListener("DOMContentLoaded", () => {
     chat.addEventListener("touchmove", e => {
       const t = e.touches[0];
       pet(t.clientX, t.clientY);
-    });
+    }, { passive: true });
+
     chat.addEventListener("mouseleave", () => purr?.pause());
     chat.addEventListener("touchend", () => purr?.pause());
   }
 
-  /* ===============================
-     🌱 PLANTE
-  =============================== */
+  /* =================================================
+     🌱 PLANTE – CROISSANCE
+  ================================================= */
   const plant = document.querySelector(".plant");
   const waterBtn = document.getElementById("waterBtn");
   const plantMessage = document.getElementById("plantMessage");
@@ -87,12 +88,14 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  /* ===============================
-     ⭐ ÉTOILES
-  =============================== */
+  /* =================================================
+     ⭐ ÉTOILES – IMMÉDIATES & FLUIDES
+  ================================================= */
   const starLayer = document.getElementById("starDustLayer");
 
   function createStar(x, y) {
+    if (!starLayer) return;
+
     const star = document.createElement("span");
     star.className = "star";
     star.style.left = `${x}px`;
@@ -100,16 +103,19 @@ document.addEventListener("DOMContentLoaded", () => {
     starLayer.appendChild(star);
 
     const fall = Math.random() * 120 + 60;
+
     star.animate(
       [
-        { transform: "translateY(0)", opacity: 0 },
-        { transform: `translateY(${fall}px)`, opacity: 1 }
+        { transform: "translate3d(0,0,0)", opacity: 0 },
+        { transform: `translate3d(0,${fall}px,0)`, opacity: 1 }
       ],
-      { duration: 1200, easing: "ease-out", fill: "forwards" }
+      { duration: 1000, easing: "ease-out", fill: "forwards" }
     );
   }
 
-  function explodeStars(amount = 600) {
+  function explodeStars() {
+    const isMobile = window.innerWidth < 768;
+    const amount = isMobile ? 220 : 600;
     const w = window.innerWidth;
     const h = document.body.scrollHeight;
 
@@ -118,16 +124,16 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  /* ===============================
-     ☁️ NUAGE
-  =============================== */
+  /* =================================================
+     ☁️ NUAGE – TEXTE VISIBLE + EXPLOSION
+  ================================================= */
   const cloudBtn = document.getElementById("cloudBtn");
   const cloudInput = document.getElementById("cloudInput");
   const cloudArea = document.querySelector(".cloud-area");
 
   cloudBtn?.addEventListener("click", () => {
     const text = cloudInput.value.trim();
-    if (!text) return;
+    if (!text || !cloudArea) return;
 
     const cloud = document.createElement("div");
     cloud.className = "cloud";
@@ -141,9 +147,10 @@ document.addEventListener("DOMContentLoaded", () => {
     cloudInput.value = "";
 
     let y = 0;
+
     function rise() {
       y -= 3;
-      cloud.style.transform = `translate(-50%, ${y}px)`;
+      cloud.style.transform = `translate3d(-50%, ${y}px, 0)`;
 
       if (Math.abs(y) < window.innerHeight + 120) {
         requestAnimationFrame(rise);
@@ -152,43 +159,61 @@ document.addEventListener("DOMContentLoaded", () => {
         explodeStars();
       }
     }
-    rise();
+
+    requestAnimationFrame(rise);
   });
 
-  /* ===============================
-     🧹 BALAI – DESKTOP + MOBILE
-  =============================== */
+  /* =================================================
+     🧹 BALAI – DESKTOP + MOBILE (STABLE)
+  ================================================= */
   const broom = document.getElementById("broom");
   const sweepBtn = document.getElementById("sweepBtn");
 
+  let sweeping = false;
+
   function startSweep() {
-    if (!broom) return;
+    if (!broom || sweeping) return;
+    sweeping = true;
 
     broom.style.display = "block";
+    broom.style.willChange = "transform";
+
     let x = -320;
 
     function sweep() {
-      x += 18;
-      broom.style.transform = `translateX(${x}px) rotate(${x / 28}deg)`;
+      x += 16;
+      broom.style.transform =
+        `translate3d(${x}px, 0, 0) rotate(${x / 28}deg)`;
 
       document.querySelectorAll(".star").forEach(star => {
         const r = star.getBoundingClientRect();
-        if (r.left < x + 260 && r.right > x) star.remove();
+        if (r.left < x + 260 && r.right > x) {
+          star.remove();
+        }
       });
 
       if (x < window.innerWidth + 320) {
         requestAnimationFrame(sweep);
       } else {
         broom.style.display = "none";
+        sweeping = false;
       }
     }
-    sweep();
+
+    requestAnimationFrame(sweep);
   }
 
+  /* desktop */
   sweepBtn?.addEventListener("click", startSweep);
+
+  /* mobile */
   sweepBtn?.addEventListener("touchstart", e => {
     e.preventDefault();
     startSweep();
+  }, { passive: false });
+
+  sweepBtn?.addEventListener("touchend", e => {
+    e.preventDefault();
   });
 
-}); // ✅ 🔑 FERMETURE MANQUANTE
+});
