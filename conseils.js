@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-  console.log("🌿 Safe Garden – JS complet chargé");
+  console.log("🌿 Safe Garden – JS actif");
 
   /* ===============================
      🌸 RESPIRATION DES SECTIONS
@@ -16,83 +16,52 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   /* ===============================
-     🐱 CHAT – CARESSE DOUCE & LISIBLE
+     🐱 CHAT – CARESSE DOUCE
   =============================== */
   const chat = document.getElementById("chatImage");
   const bubble = document.getElementById("chatBubble");
   const purr = document.getElementById("purrSound");
   const meowStop = document.getElementById("meowStop");
 
-  let lastX = null, lastY = null, lastT = null;
-  let audioUnlocked = false;
-
-  let currentMessage = "";
-  let lastMessageTime = 0;
-  const MESSAGE_DELAY = 1400;
-
-  function unlockAudio() {
-    if (audioUnlocked || !purr) return;
-    audioUnlocked = true;
-    purr.volume = 0;
-    purr.play().then(() => purr.pause()).catch(() => {});
-  }
+  let lastX = 0, lastY = 0, lastTime = 0;
+  let bubbleTimeout = null;
 
   function setBubble(text) {
-    const now = Date.now();
-    if (text === currentMessage) return;
-    if (now - lastMessageTime < MESSAGE_DELAY) return;
-
-    currentMessage = text;
-    lastMessageTime = now;
     bubble.textContent = text;
+    clearTimeout(bubbleTimeout);
+    bubbleTimeout = setTimeout(() => {
+      bubble.textContent = "Je suis là.";
+    }, 1800);
   }
 
-  function reactToPet(speed) {
-    if (!bubble || !purr) return;
+  function handlePet(x, y) {
+    const now = Date.now();
+    const dx = x - lastX;
+    const dy = y - lastY;
+    const dt = now - lastTime || 1;
+    const speed = Math.sqrt(dx * dx + dy * dy) / dt;
+
+    lastX = x;
+    lastY = y;
+    lastTime = now;
+
+    if (purr.paused) {
+      purr.volume = 0.3;
+      purr.play().catch(() => {});
+    }
 
     if (speed < 0.25) {
       purr.volume = 0.45;
       setBubble("Voilà… doucement 🤍");
-    } 
-    else if (speed < 0.6) {
+    } else if (speed < 0.6) {
       purr.volume = 0.3;
       setBubble("Pas trop fort…");
-    } 
-    else {
+    } else {
       purr.pause();
-      if (meowStop) {
-        meowStop.currentTime = 0;
-        meowStop.play().catch(() => {});
-      }
+      meowStop.currentTime = 0;
+      meowStop.play().catch(() => {});
       setBubble("Si tu es dur·e avec toi-même, ça fait mal aussi…");
-      return;
     }
-
-    if (purr.paused) purr.play().catch(() => {});
-  }
-
-  function handlePet(x, y) {
-    unlockAudio();
-    const now = performance.now();
-
-    if (lastX === null) {
-      lastX = x; lastY = y; lastT = now;
-      return;
-    }
-
-    const dx = x - lastX;
-    const dy = y - lastY;
-    const dt = now - lastT || 1;
-    const speed = Math.sqrt(dx * dx + dy * dy) / dt;
-
-    lastX = x; lastY = y; lastT = now;
-    reactToPet(speed);
-  }
-
-  function stopPet() {
-    if (purr) purr.pause();
-    setBubble("Je suis là.");
-    lastX = lastY = lastT = null;
   }
 
   if (chat) {
@@ -103,12 +72,12 @@ document.addEventListener("DOMContentLoaded", () => {
       const t = e.touches[0];
       handlePet(t.clientX, t.clientY);
     });
-    chat.addEventListener("mouseleave", stopPet);
-    chat.addEventListener("touchend", stopPet);
+    chat.addEventListener("mouseleave", () => purr.pause());
+    chat.addEventListener("touchend", () => purr.pause());
   }
 
   /* ===============================
-     🌱 PLANTE VIVANTE (FIABLE)
+     🌱 PLANTE
   =============================== */
   const plant = document.querySelector(".plant");
   const waterBtn = document.getElementById("waterBtn");
@@ -124,9 +93,7 @@ document.addEventListener("DOMContentLoaded", () => {
     "La plante fleurit 🌸"
   ];
 
-  if (plant && waterBtn && plantMessage) {
-    plant.classList.add("level-0");
-
+  if (plant && waterBtn) {
     waterBtn.addEventListener("click", () => {
       const now = Date.now();
       if (now - lastWater < 1200) {
@@ -134,29 +101,23 @@ document.addEventListener("DOMContentLoaded", () => {
           "On n’arrose pas une plante en la pressant 🤍";
         return;
       }
-
       lastWater = now;
 
       if (level < 3) {
         level++;
         plant.className = `plant level-${level}`;
         plantMessage.textContent = plantTexts[level];
-      } else {
-        plantMessage.textContent =
-          "La plante est en fleurs. Tu peux juste l’observer.";
       }
     });
   }
 
   /* ===============================
-     ⭐ POUSSIÈRE D’ÉTOILES (VISIBLE)
+     ☁️ NUAGE → ÉTOILES
   =============================== */
+  const cloudBtn = document.getElementById("cloudBtn");
+  const cloudInput = document.getElementById("cloudInput");
+  const cloudArea = document.querySelector(".cloud-area");
   const starLayer = document.getElementById("starDustLayer");
-  let dustLevel = Number(localStorage.getItem("dustLevel")) || 0;
-
-  function saveDust() {
-    localStorage.setItem("dustLevel", dustLevel);
-  }
 
   function createStar(x, y) {
     const star = document.createElement("span");
@@ -164,105 +125,86 @@ document.addEventListener("DOMContentLoaded", () => {
     star.style.left = `${x}px`;
     star.style.top = `${y}px`;
     starLayer.appendChild(star);
-
-    setTimeout(() => star.remove(), 4500);
+    return star;
   }
 
   function spreadDust(amount) {
-    const w = window.innerWidth;
-    const h = document.body.scrollHeight;
-
     for (let i = 0; i < amount; i++) {
       createStar(
-        Math.random() * w,
-        Math.random() * h
+        Math.random() * window.innerWidth,
+        Math.random() * window.innerHeight
       );
     }
   }
 
-  if (dustLevel > 0) {
-    spreadDust(40 + dustLevel * 20);
-  }
-
-  /* ===============================
-     ☁️ NUAGE – APPARITION IMMÉDIATE
-  =============================== */
-  const cloudBtn = document.getElementById("cloudBtn");
-  const cloudInput = document.getElementById("cloudInput");
-  const cloudArea = document.querySelector(".cloud-area");
-
   function animateCloud(cloud) {
     let y = 0;
-
     function rise() {
-      y += 1.6;
-      cloud.style.transform = `translate(-50%, -${y}px)`;
-
-      if (y < window.innerHeight + 200) {
+      y -= 1.5;
+      cloud.style.transform = `translate(-50%, ${y}px)`;
+      if (y > -220) {
         requestAnimationFrame(rise);
       } else {
         cloud.remove();
-        dustLevel++;
-        saveDust();
-        spreadDust(100 + dustLevel * 30);
+        spreadDust(90);
       }
     }
-
     rise();
   }
 
-  if (cloudBtn && cloudInput && cloudArea) {
+  if (cloudBtn) {
     cloudBtn.addEventListener("click", () => {
-      const text = cloudInput.value.trim();
-      if (!text) return;
+      if (!cloudInput.value.trim()) return;
 
-      // ☁️ création instantanée
       const cloud = document.createElement("div");
       cloud.className = "cloud";
-      cloud.textContent = text;
+      cloud.textContent = cloudInput.value;
       cloudArea.appendChild(cloud);
-
       cloudInput.value = "";
 
-      // animation lancée juste après apparition
-      requestAnimationFrame(() => animateCloud(cloud));
+      animateCloud(cloud);
     });
   }
 
   /* ===============================
-     🧹 BALAI – NETTOYAGE GLOBAL
+     🧹 BALAI QUI NETTOIE VRAIMENT
   =============================== */
   const broom = document.getElementById("broom");
   const sweepBtn = document.getElementById("sweepBtn");
   const sweepSound = new Audio("sweep.mp3");
   sweepSound.volume = 0.35;
 
+  function sweepStep(x) {
+    broom.style.transform = `translateX(${x}px) rotate(${x / 25}deg)`;
+
+    document.querySelectorAll(".star").forEach(star => {
+      const rect = star.getBoundingClientRect();
+      if (
+        rect.left < x + 160 &&
+        rect.right > x &&
+        rect.top > window.innerHeight - 260
+      ) {
+        star.remove();
+      }
+    });
+  }
+
   function autoSweep() {
-    if (!broom) return;
-
     broom.style.display = "block";
-
     sweepSound.currentTime = 0;
     sweepSound.play().catch(() => {});
 
-    if (navigator.vibrate) {
-      navigator.vibrate([30, 20, 30]);
+    let x = -200;
+    function sweep() {
+      x += 14;
+      sweepStep(x);
+      if (x < window.innerWidth + 200) {
+        requestAnimationFrame(sweep);
+      } else {
+        broom.style.display = "none";
+      }
     }
-
-    broom.animate(
-      [
-        { transform: "translateX(-160%) rotate(-12deg)" },
-        { transform: "translateX(120%) rotate(8deg)" }
-      ],
-      { duration: 2400, easing: "ease-in-out" }
-    );
-
-    setTimeout(() => {
-      document.querySelectorAll(".star").forEach(s => s.remove());
-      dustLevel = 0;
-      saveDust();
-      broom.style.display = "none";
-    }, 2300);
+    sweep();
   }
 
   if (sweepBtn) {
